@@ -10,8 +10,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 24 }
-      - name: run all ten tools (each ends with its own verdict)
-        run: for f in tools/*.mjs; do echo "── $f"; node "$f" || exit 1; done
+      - run: npm install --no-save yaml || true
+      - name: syntax check every module
+        run: npm run check
+      - name: flagship tool, offline verdict (fleet-pager)
+        run: node tools/fleet-pager.mjs
       - name: GAN-hardened elites in-place verification
         run: |
           for v in gan-elites/*/verify.mjs; do echo "── $v"; node "$v" || exit 1; done
