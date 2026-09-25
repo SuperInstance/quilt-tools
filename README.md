@@ -4,6 +4,23 @@ Ten working tool prototypes built on the [Quilt](https://github.com/SuperInstanc
 reactive spreadsheet engine — plus a **springboard lab** for JEV/MothQuantum
 experiments.
 
+## Zero-shot (30 seconds)
+
+```bash
+git clone https://github.com/SuperInstance/quilt-tools && cd quilt-tools
+npm install
+node tools/fleet-pager.mjs   # expect: 7/7 checks green
+npm run check                # expect: syntax OK
+```
+
+No engine build needed — the @quilt/core dist is vendored.
+
+Run all ten self-checks:
+
+```bash
+for f in tools/*.mjs; do node $f >/dev/null 2>&1 && echo "${f##*/}: green" || echo "${f##*/}: FAIL"; done
+```
+
 ## Status: Phase 1 — scaffold ✅
 
 All 10 tools run offline (SysOne heuristics, no network) and self-check:
