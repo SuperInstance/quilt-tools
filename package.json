@@ -1,0 +1,15 @@
+{
+  "name": "@superinstance/quilt-tools",
+  "version": "0.1.0",
+  "type": "module",
+  "private": false,
+  "description": "Ten working Quilt tool prototypes on the vendored @quilt/core dist — plus a springboard lab for JEV/MothQuantum experiments.",
+  "scripts": {
+    "check": "for f in src/toolkit.mjs tools/*.mjs; do node --check \"$f\" || exit 1; done && echo 'syntax OK'",
+    "tools": "node tools/fleet-pager.mjs"
+  },
+  "dependencies": {
+    "yaml": "^2.9.1"
+  },
+  "license": "MIT"
+}
