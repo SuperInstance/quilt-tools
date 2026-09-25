@@ -45,15 +45,34 @@ check('seed: all edges booked', seedBooked === 5 && seed.rows.length === 5, `${s
   check('seed: tampered claim -> verify fails at that row', bad.ok === false && bad.brokenAt === 2, bad.ok ? 'TAMPER ACCEPTED' : `caught row ${bad.brokenAt}: prev_hash ${bad.got} != ${bad.expected}`);
 }
 
-// Pin 3 — the VIEW: ranked distribution; PENDING edges all weigh epsilon.
+// Pin 3 — the VIEW: ranked distribution; the VERIFIED edge (20x an epsilon)
+// dominates quilt-show, the rest keep PENDING whispers.
 {
   const v = seed.view();
   check('seed: view ranks all three repos', v.length === 3, v.map(x => `${x.repo}=${x.share.toFixed(3)}`).join(' '));
   const shares = v.map(x => x.share);
   check('seed: view shares sum to 1', Math.abs(shares.reduce((a, b) => a + b, 0) - 1) < 1e-9, `Σ=${shares.reduce((a, b) => a + b, 0)}`);
-  check('seed: all weight is PENDING weight (0.05/edge)', v.every(x => Math.abs(x.weight - 5 * PENDING_WEIGHT) < 1e-9 || Math.abs(x.weight - 2 * PENDING_WEIGHT) < 1e-9 || Math.abs(x.weight - PENDING_WEIGHT) < 1e-9), v.map(x => x.weight).join(','));
+  const byRepo = Object.fromEntries(v.map(x => [x.repo, x.weight]));
+  check('seed: view mass — qs = VERIFIED + PENDING, qa = 2×PENDING, qt = 1×PENDING',
+    Math.abs(byRepo['quilt-show'] - (VERIFIED_WEIGHT + PENDING_WEIGHT)) < 1e-9 &&
+    Math.abs(byRepo['quilt-arcade'] - 2 * PENDING_WEIGHT) < 1e-9 &&
+    Math.abs(byRepo['quilt-tools'] - PENDING_WEIGHT) < 1e-9,
+    JSON.stringify(byRepo));
   const sorted = [...v].sort((a, b) => b.share - a.share);
   check('seed: view is sorted by share desc', JSON.stringify(v) === JSON.stringify(sorted), 'sorted');
+  check('seed: quilt-show leads on the VERIFIED edge', v[0].repo === 'quilt-show' && v[0].weight === VERIFIED_WEIGHT + PENDING_WEIGHT,
+    `${v[0].repo} ${(v[0].share * 100).toFixed(1)}%`);
+}
+
+// Pin 3b — the currency event (FAIL-first: on main tip the S2 edge is PENDING
+// with no receipt — this pin trips; the seed update on this branch earns it).
+{
+  const row = seed.rows.find(r => r.op === 'LINK' && r.from === 'qt-s2-driftwatch' && r.to === 'qs-ep2');
+  check('seed: S2→E2 edge is VERIFIED with receipt in the to-node\'s repo',
+    row.weight === 'VERIFIED' && row.receipt === 'SuperInstance/quilt-show#1' && row.provenance === 'SuperInstance/quilt-tools#3',
+    row ? `weight=${row.weight} receipt=${row.receipt}` : 'edge not found');
+  const wrongRepo = seed.rows.some(r => r.op === 'LINK' && r.weight === 'VERIFIED' && !r.receipt.split('#')[0].endsWith('/' + seed.nodes.get(r.to).repo));
+  check('seed: every VERIFIED receipt targets its to-node\'s repo', !wrongRepo, 'weight law held');
 }
 
 // Pin 4 — provenance live audit: every cited PR must actually be merged.
@@ -66,15 +85,19 @@ check('seed: all edges booked', seedBooked === 5 && seed.rows.length === 5, `${s
   } catch { ghOK = false; }
   if (LIVE && ghOK) {
     for (const row of seed.rows) {
-      if (!row.provenance) continue;
-      checked++;
-      const [repo, num] = row.provenance.split('#');
-      try {
-        const state = execFileSync('gh', ['pr', 'view', num, '-R', repo, '--json', 'state', '-q', '.state'], { stdio: 'pipe' }).toString().trim();
-        if (state !== 'MERGED') unmerged.push(`${row.provenance}=${state}`);
-      } catch { unmerged.push(`${row.provenance}=404`); }
+      const prs = [];
+      if (row.provenance) prs.push(['provenance', row.provenance]);
+      if (row.receipt) prs.push(['receipt', row.receipt]);
+      for (const [kind, pr] of prs) {
+        checked++;
+        const [repo, num] = pr.split('#');
+        try {
+          const state = execFileSync('gh', ['pr', 'view', num, '-R', repo, '--json', 'state', '-q', '.state'], { stdio: 'pipe' }).toString().trim();
+          if (state !== 'MERGED') unmerged.push(`${row.from}->${row.to} ${kind} ${pr}=${state}`);
+        } catch { unmerged.push(`${row.from}->${row.to} ${kind} ${pr}=404`); }
+      }
     }
-    check('seed: live audit — all provenance PRs merged', unmerged.length === 0, unmerged.join(' ') || `${checked} receipts audited live`);
+    check('seed: live audit — all provenance + receipt PRs merged', unmerged.length === 0, unmerged.join(' ') || `${checked} receipts audited live`);
   } else {
     console.log(`  ${'·'} provenance live audit SKIPPED (gh=${ghOK}, --live=${LIVE}) — labeled, not silent`);
   }
@@ -164,8 +187,8 @@ function fixture() {
 }
 
 panel('referral-graph v1 — the mesh answers as a distribution', [
-  kv('nodes', '7 (3 repos)'), kv('edges', '5, all PENDING at seed'),
-  kv('currency', '0 VERIFIED — cross-use unmeasured yet'),
+  kv('nodes', '7 (3 repos)'), kv('edges', '5 — 1 VERIFIED · 4 PENDING'),
+  kv('currency', '1 VERIFIED (quilt-show#1 cites S2) — empty-currency state broken'),
   kv('view', seed.view().map(x => `${x.repo} ${(x.share * 100).toFixed(1)}%`).join(' · ')),
 ]);
 done();
