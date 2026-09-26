@@ -142,3 +142,21 @@ do not conflate it with the currency.
   receipt `SuperInstance/fleet-murmur#2` — booked in the direction the
   substrate enforces (receipt targets the to-node's repo), the honest
   correction of the pulse note's citation-order prose.
+- **Sixth edge VERIFIED 2026-09-27 (dawn) — the scar becomes load-bearing in
+   a third instrument** — the 06:56 pulse's discovery-class org scan caught
+   **moth-waveform PR #1** ("Phase 2: duck-sensitivity receipts — which duck
+   carries the regime?", MERGED 2026-09-26T21:06:24Z, merge `dc1a142`)
+   citing fleet-murmur's vacuity scar **by name, at code level**:
+   `sensitivity.py` — "a gate that passes without a live floor measurement
+   passes vacuously (fleet-murmur scar)". The no-op health gate exists
+   because fleet-murmur#2's transport-honesty contract proved a black-hole
+   transport can score 100% coverage. Weight law met: edge
+   `fm-honesty-receipts → mw-floor-gate` is **VERIFIED=1.0**, receipt
+   `SuperInstance/moth-waveform#1`. HONESTY: the README Receipts-doctrine
+   list (pong-quilt, hermit, quilt-doctor, quality-gate-stream,
+   fleet-murmur) is recorded in the claim as lineage, not the currency
+   anchor — only the load-bearing code-level citation mints. The view now
+   carries eight repos: **quilt-show 16.9% · fleet-murmur 16.1% ·
+   git-agent 16.1% · moth-waveform 16.1% · pong-quilt 16.1% · quilt-cowboy
+   16.1%** · quilt-arcade 1.6% · quilt-tools 0.8% — and fleet-murmur earns
+   its first OUTGOING currency (all prior fm mass was incoming).
