@@ -97,3 +97,15 @@ do not conflate it with the currency.
   the graph's own artifact cannot mint its currency, anti-Goodhart guard
   pinned as Pin 10). Candidates surface with their PR; a human verifies the
   citation is load-bearing, then the seed flips — this tool never books.
+- **Third candidate booked PENDING 2026-09-26** — the 11:11 pulse's org
+  review flagged git-agent PR #1 ("quilt_emit: vessel lifecycle events →
+  quilt 5-opcode WAL", MERGED 00:27:18Z, merge `6bc099a`). The merged code
+  implements AI-Writings/algebra.md's five-opcode spine (BIND/LINK/EFFECT/
+  VIEW/TICK, hash-chained fnv1a WAL) — but cites the doctrine without
+  naming the source repo, so the weight law keeps edge
+  `aw-quint-opcode → ga-quilt-emit` at **PENDING** (provenance
+  `SuperInstance/git-agent#1`, live-audit merged). Upgrade path: an
+  in-repo citation naming `algebra.md`. git-agent enters the VIEW for the
+  first time (PENDING mass). Honest-provenance discipline: a merged PR
+  citing the *idea* but not the *source* is speculation with good
+  provenance, not currency.

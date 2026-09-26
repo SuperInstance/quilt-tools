@@ -16,6 +16,15 @@
 // receipt SuperInstance/quilt-show#1. The other four edges stay PENDING.
 // The empty-currency state (Finding #1) is broken; the view now moves.
 //
+// UPDATE 2026-09-26 (later): a third repo pair enters the sheet — the
+// candidate surfaced by the 11:11 pulse's org review (queue file). git-agent
+// PR #1 ("quilt_emit: vessel lifecycle events -> quilt 5-opcode WAL",
+// MERGED 2026-09-26T00:27:18Z, merge 6bc099a) implements the five-opcode WAL
+// spine whose canonical source is AI-Writings/algebra.md ("The Five
+// Opcodes"). HONESTY: the merged code cites the DOCTRINE ("the fleet's
+// quilt kernel speaks five opcodes") but never names the source repo, so
+// the weight law is NOT met — booked PENDING with provenance, upgrade path
+// = a follow-up citation naming algebra.md in-repo. Never self-upgrade.
 // UPDATE 2026-09-26 (pm): the SECOND edge earned currency, breaking the
 // single-edge monopoly. pong-quilt PR #28 ("R21: receipted quantum-coin
 // champion tiebreak (cites quilt-quant coin-toss-v1)") MERGED
@@ -35,6 +44,7 @@
 
 export const SEED = {
   name: 'referral-graph-v1',
+  repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'git-agent', 'AI-Writings'],
   repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt'],
 
   nodes: [
@@ -52,6 +62,10 @@ export const SEED = {
       summary: 'NEGATIVE_SPACE.md: declined patches and divergences documented as first-class constitution' },
     { id: 'qa-plugins', repo: 'quilt-arcade', kind: 'plugin-system',
       summary: 'Modular plugins: every game a two-file plugin (module + manifest), receipt-rendered run_all' },
+    { id: 'aw-quint-opcode', repo: 'AI-Writings', kind: 'canon',
+      summary: 'algebra.md "The Five Opcodes": BIND/LINK/EFFECT/VIEW/TICK (+FORGET) — the fleet WAL spine, 5 laws, canonical semantics' },
+    { id: 'ga-quilt-emit', repo: 'git-agent', kind: 'agent-integration',
+      summary: 'quilt_emit.py: vessel lifecycle events -> fnv1a hash-chained 5-opcode JSONL WAL; first quilt-native fleet agent' },
     { id: 'quant-coin-toss', repo: 'quilt-quant', kind: 'lab',
       summary: 'coin-toss-v1: the moth-quantum engine — receipted quantum coin, every flip journaled' },
     { id: 'qq-quantum-tiebreak', repo: 'pong-quilt', kind: 'experiment',
@@ -102,6 +116,13 @@ export const SEED = {
       weight: 'PENDING',
       provenance: null,
       falsification_condition: 'a watcher demo that cannot be re-expressed as a two-file plugin without losing behavior',
+    },
+    {
+      from: 'aw-quint-opcode', to: 'ga-quilt-emit',
+      claim: 'AI-Writings/algebra.md defines the five-opcode spine and its laws (BIND idempotent; algebra.md says do not add opcodes); git-agent#1 (MERGED 2026-09-26T00:27:18Z, merge 6bc099a) built quilt_emit.py — vessel events mapped one-to-one to BIND/LINK/EFFECT/VIEW/TICK lines in a hash-chained WAL — on exactly that spine. The citation is DOCTRINAL only ("the fleet quilt kernel speaks five opcodes"), the source repo is never named in the merged code, so the weight law keeps this PENDING; upgrade path = an in-repo citation naming algebra.md.',
+      weight: 'PENDING',
+      provenance: 'SuperInstance/git-agent#1',
+      falsification_condition: 'git-agent quilt_emit.py shipping an opcode mapping that contradicts algebra.md semantics (e.g. VIEW given mutation semantics, or a 6th opcode added) with no algebra reference anywhere in the repo',
     },
   ],
 };
