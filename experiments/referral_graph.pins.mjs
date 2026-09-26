@@ -19,7 +19,8 @@ setTool('referral-graph-pins');
 const LIVE = process.argv.includes('--live');
 
 // ── SEED graph ──────────────────────────────────────────────────────────────
-const seed = new ReferralGraph({ name: 'referral-graph-v1', repos: ['quilt-tools', 'quilt-show', 'quilt-arcade'] });
+const QUANT_REPOS = ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt'];
+const seed = new ReferralGraph({ name: 'referral-graph-v1', repos: QUANT_REPOS });
 for (const n of (await import('./referral_graph.seed.mjs')).SEED.nodes) seed.addNode(n);
 let seedBooked = 0;
 for (const e of (await import('./referral_graph.seed.mjs')).SEED.edges) { seed.book(e); seedBooked++; }
@@ -55,15 +56,41 @@ check('seed: all edges booked', seedBooked === 6 && seed.rows.length === 6, `${s
   check('seed: view shares sum to 1', Math.abs(shares.reduce((a, b) => a + b, 0) - 1) < 1e-9, `Σ=${shares.reduce((a, b) => a + b, 0)}`);
   const byRepo = Object.fromEntries(v.map(x => [x.repo, x.weight]));
   check('seed: view mass — qs = VERIFIED + PENDING, qa = 2×PENDING, qt = PENDING, git-agent = PENDING',
+// Pin 3 — the VIEW: ranked distribution; two VERIFIED edges (20x an
+// epsilon) dominate quilt-show and pong-quilt, the rest keep PENDING whispers.
+{
+  const v = seed.view();
+  check('seed: view ranks all four mass-carrying repos', v.length === 4, v.map(x => `${x.repo}=${x.share.toFixed(3)}`).join(' '));
+  const shares = v.map(x => x.share);
+  check('seed: view shares sum to 1', Math.abs(shares.reduce((a, b) => a + b, 0) - 1) < 1e-9, `Σ=${shares.reduce((a, b) => a + b, 0)}`);
+  const byRepo = Object.fromEntries(v.map(x => [x.repo, x.weight]));
+  check('seed: view mass — qs = VERIFIED + PENDING, pq = VERIFIED, qa = 2×PENDING, qt = 1×PENDING',
     Math.abs(byRepo['quilt-show'] - (VERIFIED_WEIGHT + PENDING_WEIGHT)) < 1e-9 &&
+    Math.abs(byRepo['pong-quilt'] - VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['quilt-arcade'] - 2 * PENDING_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['quilt-tools'] - PENDING_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['git-agent'] - PENDING_WEIGHT) < 1e-9,
     JSON.stringify(byRepo));
-  const sorted = [...v].sort((a, b) => b.share - a.share);
+  const sorted = [...v].sort((a, b) => b.share - a.share || a.repo.localeCompare(b.repo));
   check('seed: view is sorted by share desc', JSON.stringify(v) === JSON.stringify(sorted), 'sorted');
-  check('seed: quilt-show leads on the VERIFIED edge', v[0].repo === 'quilt-show' && v[0].weight === VERIFIED_WEIGHT + PENDING_WEIGHT,
-    `${v[0].repo} ${(v[0].share * 100).toFixed(1)}%`);
+  check('seed: quilt-show still leads, pong-quilt second on the quantum-coin edge',
+    v[0].repo === 'quilt-show' && v[0].weight === VERIFIED_WEIGHT + PENDING_WEIGHT &&
+    v[1].repo === 'pong-quilt' && v[1].weight === VERIFIED_WEIGHT,
+    `${v[0].repo} ${(v[0].share * 100).toFixed(1)}% · ${v[1].repo} ${(v[1].share * 100).toFixed(1)}%`);
+}
+
+// Pin 3c — the SECOND currency event (FAIL-first: on main tip the quantum-coin
+// edge does not exist — this pin trips; the seed update on this branch earns
+// it). Single-edge monopoly broken.
+{
+  const row = seed.rows.find(r => r.op === 'LINK' && r.from === 'quant-coin-toss' && r.to === 'qq-quantum-tiebreak');
+  check('seed: quantum-coin edge is VERIFIED with receipt in the to-node\'s repo',
+    row.weight === 'VERIFIED' && row.receipt === 'SuperInstance/pong-quilt#28',
+    row ? `weight=${row.weight} receipt=${row.receipt}` : 'edge not found');
+  const verified = seed.rows.filter(r => r.op === 'LINK' && r.weight === 'VERIFIED');
+  check('seed: exactly two VERIFIED edges — the monopoly is broken',
+    verified.length === 2 && new Set(verified.map(r => r.to)).size === 2,
+    verified.map(r => `${r.from}->${r.to}`).join(' '));
 }
 
 // Pin 3b — the currency event (FAIL-first: on main tip the S2 edge is PENDING
@@ -124,10 +151,10 @@ check('seed: all edges booked', seedBooked === 6 && seed.rows.length === 6, `${s
 // Pin 5 — falsification probe on the real graph: the declared kill condition
 // kills, and the kill is booked as a REFUSED row; surviving evidence books EFFECT.
 {
-  const g2 = new ReferralGraph({ name: 'probe-copy' });
+  const g2 = new ReferralGraph({ name: 'probe-copy', repos: QUANT_REPOS });
   for (const n of (await import('./referral_graph.seed.mjs')).SEED.nodes) g2.addNode(n);
   for (const e of (await import('./referral_graph.seed.mjs')).SEED.edges) g2.book(e);
-  const edge = g2.rows[0];
+  const edge = g2.rows.find(r => r.op === 'LINK' && r.from === 'qt-s2-driftwatch' && r.to === 'qs-ep2');
   const survive = g2.probe(edge.from, edge.to, 'unrelated observation: readme typo');
   check('seed: off-condition probe books EFFECT, no kill', survive.hit === false && survive.row.op === 'EFFECT', survive.row.claim);
   const kill = g2.probe(edge.from, edge.to, edge.falsification_condition);
@@ -254,6 +281,8 @@ function fixture() {
 panel('referral-graph v1 — the mesh answers as a distribution', [
   kv('nodes', '9 (5 repos)'), kv('edges', '6 — 1 VERIFIED · 5 PENDING'),
   kv('currency', '1 VERIFIED (quilt-show#1 cites S2) — empty-currency state broken; git-agent enters on PENDING'),
+  kv('nodes', '9 (5 repos)'), kv('edges', '6 — 2 VERIFIED · 4 PENDING'),
+  kv('currency', '2 VERIFIED (quilt-show#1 cites S2 · pong-quilt#28 cites coin-toss-v1) — monopoly broken'),
   kv('view', seed.view().map(x => `${x.repo} ${(x.share * 100).toFixed(1)}%`).join(' · ')),
 ]);
 done();

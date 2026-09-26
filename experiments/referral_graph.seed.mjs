@@ -25,6 +25,15 @@
 // quilt kernel speaks five opcodes") but never names the source repo, so
 // the weight law is NOT met — booked PENDING with provenance, upgrade path
 // = a follow-up citation naming algebra.md in-repo. Never self-upgrade.
+// UPDATE 2026-09-26 (pm): the SECOND edge earned currency, breaking the
+// single-edge monopoly. pong-quilt PR #28 ("R21: receipted quantum-coin
+// champion tiebreak (cites quilt-quant coin-toss-v1)") MERGED
+// 2026-09-26T05:27:42Z (merge b14791f) — a merged PR in the to-node's repo
+// citing quilt-quant's live coin-toss-v1 engine (core.js VERIFIED_CLAIMS
+// 'quantum-tiebreak' entry + tools/prerun.js seeded-mock citation, both live
+// on main). Edge quant-coin-toss -> qq-quantum-tiebreak is VERIFIED=1.0 with
+// receipt SuperInstance/pong-quilt#28. Two new nodes/repos enter the sheet:
+// quilt-quant (from-side technique) and pong-quilt (to-side consumer).
 //
 // Weight law: PENDING = 0.05 (speculation is cheap) / VERIFIED = 1.0 (a
 // merged PR in the to-node's repo cites the from-technique).
@@ -36,6 +45,7 @@
 export const SEED = {
   name: 'referral-graph-v1',
   repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'git-agent', 'AI-Writings'],
+  repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt'],
 
   nodes: [
     { id: 'qt-api-lab', repo: 'quilt-tools', kind: 'lab',
@@ -56,9 +66,21 @@ export const SEED = {
       summary: 'algebra.md "The Five Opcodes": BIND/LINK/EFFECT/VIEW/TICK (+FORGET) — the fleet WAL spine, 5 laws, canonical semantics' },
     { id: 'ga-quilt-emit', repo: 'git-agent', kind: 'agent-integration',
       summary: 'quilt_emit.py: vessel lifecycle events -> fnv1a hash-chained 5-opcode JSONL WAL; first quilt-native fleet agent' },
+    { id: 'quant-coin-toss', repo: 'quilt-quant', kind: 'lab',
+      summary: 'coin-toss-v1: the moth-quantum engine — receipted quantum coin, every flip journaled' },
+    { id: 'qq-quantum-tiebreak', repo: 'pong-quilt', kind: 'experiment',
+      summary: 'R21 champion selection: equal-fitness ties broken by a receipted quantum coin via the makeEvaluator onTie seam' },
   ],
 
   edges: [
+    {
+      from: 'quant-coin-toss', to: 'qq-quantum-tiebreak',
+      claim: 'A champion-selection tie is a verdict: silent index order is an unwitnessed collapse. pong-quilt\'s R21 wires the makeEvaluator onTie seam to quilt-quant\'s coin-toss-v1 (seeded mock of the live engine, citation verified against quilt-quant lab/play.mjs, every flip journaled — R22 symmetrized the journal). CURRENCY EARNED 2026-09-26: pong-quilt PR #28 (merged 2026-09-26T05:27:42Z, merge b14791f) carries the coin-toss-v1 citation in-repo (core.js VERIFIED_CLAIMS \'quantum-tiebreak\' entry + tools/prerun.js).',
+      weight: 'VERIFIED',
+      provenance: null, // quilt-quant ships direct-pushed (zero PRs) — the finding lives in lab/play.mjs itself
+      receipt: 'SuperInstance/pong-quilt#28',
+      falsification_condition: 'a replayed prerun where equal-fitness champions are ordered by array index with no coin flip journaled',
+    },
     {
       from: 'qt-s2-driftwatch', to: 'qs-ep2',
       claim: 'S2 measured the exact wall behind E2\'s thesis: shape-beats-threshold cannot be asserted in a prompt — the episode\'s "demonstrate, don\'t assert" now has an api-lab receipt map under it. CURRENCY EARNED 2026-09-26: quilt-show PR #1 (merged 2026-09-25T19:14:08Z, merge a2f82a35) carries this citation in-repo (docs/E3-VERIFICATION.md referral-edge record + episode-3/sim.mjs header); quilt-show PR #3 (ep4-instruments, merged 21:30Z) re-cites it.',
