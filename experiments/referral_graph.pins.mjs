@@ -25,7 +25,7 @@ for (const n of (await import('./referral_graph.seed.mjs')).SEED.nodes) seed.add
 let seedBooked = 0;
 for (const e of (await import('./referral_graph.seed.mjs')).SEED.edges) { seed.book(e); seedBooked++; }
 
-check('seed: all edges booked', seedBooked === 6 && seed.rows.length === 6, `${seedBooked} edges`);
+check('seed: all edges booked', seedBooked === 7 && seed.rows.length === 7, `${seedBooked} edges`);
 
 // Pin 1 — missing required field is a loud REFUSAL, never a silent drop.
 {
@@ -46,37 +46,32 @@ check('seed: all edges booked', seedBooked === 6 && seed.rows.length === 6, `${s
   check('seed: tampered claim -> verify fails at that row', bad.ok === false && bad.brokenAt === 2, bad.ok ? 'TAMPER ACCEPTED' : `caught row ${bad.brokenAt}: prev_hash ${bad.got} != ${bad.expected}`);
 }
 
-// Pin 3 — the VIEW: ranked distribution; the VERIFIED edge (20x an epsilon)
-// dominates quilt-show, the rest keep PENDING whispers. git-agent enters the
-// view on the 2026-09-26 PENDING opcode edge (its first currency of any kind).
+// Pin 3 — the VIEW: ranked distribution; three VERIFIED edges (20x an
+// epsilon) dominate quilt-show, pong-quilt and git-agent; the rest keep
+// PENDING whispers.
+// (main-repair note: the #11 conflict resolution had duplicated this block
+// and left a dangling check() call — the file did not parse on main tip.
+// Removed here; the currency flip below is what this PR is for.)
 {
   const v = seed.view();
-  check('seed: view ranks all four repos', v.length === 4, v.map(x => `${x.repo}=${x.share.toFixed(3)}`).join(' '));
+  check('seed: view ranks all five mass-carrying repos', v.length === 5, v.map(x => `${x.repo}=${x.share.toFixed(3)}`).join(' '));
   const shares = v.map(x => x.share);
   check('seed: view shares sum to 1', Math.abs(shares.reduce((a, b) => a + b, 0) - 1) < 1e-9, `Σ=${shares.reduce((a, b) => a + b, 0)}`);
   const byRepo = Object.fromEntries(v.map(x => [x.repo, x.weight]));
-  check('seed: view mass — qs = VERIFIED + PENDING, qa = 2×PENDING, qt = PENDING, git-agent = PENDING',
-// Pin 3 — the VIEW: ranked distribution; two VERIFIED edges (20x an
-// epsilon) dominate quilt-show and pong-quilt, the rest keep PENDING whispers.
-{
-  const v = seed.view();
-  check('seed: view ranks all four mass-carrying repos', v.length === 4, v.map(x => `${x.repo}=${x.share.toFixed(3)}`).join(' '));
-  const shares = v.map(x => x.share);
-  check('seed: view shares sum to 1', Math.abs(shares.reduce((a, b) => a + b, 0) - 1) < 1e-9, `Σ=${shares.reduce((a, b) => a + b, 0)}`);
-  const byRepo = Object.fromEntries(v.map(x => [x.repo, x.weight]));
-  check('seed: view mass — qs = VERIFIED + PENDING, pq = VERIFIED, qa = 2×PENDING, qt = 1×PENDING',
+  check('seed: view mass — qs = VERIFIED + PENDING, pq = VERIFIED, ga = VERIFIED, qa = 2×PENDING, qt = 1×PENDING',
     Math.abs(byRepo['quilt-show'] - (VERIFIED_WEIGHT + PENDING_WEIGHT)) < 1e-9 &&
     Math.abs(byRepo['pong-quilt'] - VERIFIED_WEIGHT) < 1e-9 &&
+    Math.abs(byRepo['git-agent'] - VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['quilt-arcade'] - 2 * PENDING_WEIGHT) < 1e-9 &&
-    Math.abs(byRepo['quilt-tools'] - PENDING_WEIGHT) < 1e-9 &&
-    Math.abs(byRepo['git-agent'] - PENDING_WEIGHT) < 1e-9,
+    Math.abs(byRepo['quilt-tools'] - PENDING_WEIGHT) < 1e-9,
     JSON.stringify(byRepo));
   const sorted = [...v].sort((a, b) => b.share - a.share || a.repo.localeCompare(b.repo));
   check('seed: view is sorted by share desc', JSON.stringify(v) === JSON.stringify(sorted), 'sorted');
-  check('seed: quilt-show still leads, pong-quilt second on the quantum-coin edge',
+  check('seed: quilt-show still leads; pq/ga tie at VERIFIED broken by name (git-agent 2nd)',
     v[0].repo === 'quilt-show' && v[0].weight === VERIFIED_WEIGHT + PENDING_WEIGHT &&
-    v[1].repo === 'pong-quilt' && v[1].weight === VERIFIED_WEIGHT,
-    `${v[0].repo} ${(v[0].share * 100).toFixed(1)}% · ${v[1].repo} ${(v[1].share * 100).toFixed(1)}%`);
+    v[1].repo === 'git-agent' && v[1].weight === VERIFIED_WEIGHT &&
+    v[2].repo === 'pong-quilt' && v[2].weight === VERIFIED_WEIGHT,
+    `${v[0].repo} ${(v[0].share * 100).toFixed(1)}% · ${v[1].repo} ${(v[1].share * 100).toFixed(1)}% · ${v[2].repo} ${(v[2].share * 100).toFixed(1)}%`);
 }
 
 // Pin 3c — the SECOND currency event (FAIL-first: on main tip the quantum-coin
@@ -88,8 +83,8 @@ check('seed: all edges booked', seedBooked === 6 && seed.rows.length === 6, `${s
     row.weight === 'VERIFIED' && row.receipt === 'SuperInstance/pong-quilt#28',
     row ? `weight=${row.weight} receipt=${row.receipt}` : 'edge not found');
   const verified = seed.rows.filter(r => r.op === 'LINK' && r.weight === 'VERIFIED');
-  check('seed: exactly two VERIFIED edges — the monopoly is broken',
-    verified.length === 2 && new Set(verified.map(r => r.to)).size === 2,
+  check('seed: exactly three VERIFIED edges — monopoly broken, doctrine edge completes the arc',
+    verified.length === 3 && new Set(verified.map(r => r.to)).size === 3,
     verified.map(r => `${r.from}->${r.to}`).join(' '));
 }
 
@@ -104,17 +99,19 @@ check('seed: all edges booked', seedBooked === 6 && seed.rows.length === 6, `${s
   check('seed: every VERIFIED receipt targets its to-node\'s repo', !wrongRepo, 'weight law held');
 }
 
-// Pin 3c — the git-agent candidate edge (2026-09-26): booked PENDING with
-// provenance, never VERIFIED — the merged PR cites the doctrine but never
-// names the source repo, and the weight law is not negotiable (FAIL-first:
-// on main tip this edge does not exist).
+// Pin 3d — the THIRD currency event: the git-agent opcode edge. FAIL-first:
+// on main tip this edge is PENDING with no receipt (the currency pins trip).
+// git-agent#4 (merged 2026-09-26T09:11:41Z, merge 8d6c31a) lands the in-repo
+// algebra.md citation — the exact upgrade path booked when the edge was
+// PENDING. Never self-upgraded: the merge in the TARGET repo did the earning.
 {
   const row = seed.rows.find(r => r.op === 'LINK' && r.from === 'aw-quint-opcode' && r.to === 'ga-quilt-emit');
-  check('seed: aw→ga edge is PENDING with git-agent#1 provenance',
-    row?.weight === 'PENDING' && row?.provenance === 'SuperInstance/git-agent#1' && row?.receipt == null,
-    row ? `weight=${row.weight} provenance=${row.provenance} receipt=${row.receipt}` : 'edge not found');
-  check('seed: aw→ga carries NO receipt (VERIFIED would need a merged PR citing algebra.md by name)',
-    row?.receipt == null, row?.receipt ?? 'no receipt — correct');
+  check('seed: aw→ga edge is VERIFIED with git-agent#4 receipt in the to-node\'s repo',
+    row?.weight === 'VERIFIED' && row?.receipt === 'SuperInstance/git-agent#4' && row?.provenance === 'SuperInstance/git-agent#1',
+    row ? `weight=${row.weight} receipt=${row.receipt}` : 'edge not found');
+  check('seed: aw→ga claim records the currency event and the booked upgrade path',
+    row?.claim.includes('CURRENCY EARNED 2026-09-26') && row?.claim.includes('8d6c31a'),
+    row ? 'claim carries the merge receipt' : 'edge not found');
   const aw = seed.nodes.get('aw-quint-opcode'), ga = seed.nodes.get('ga-quilt-emit');
   check('seed: both endpoints exist in their own repos',
     aw?.repo === 'AI-Writings' && ga?.repo === 'git-agent', `${aw?.repo} -> ${ga?.repo}`);
@@ -279,10 +276,8 @@ function fixture() {
 }
 
 panel('referral-graph v1 — the mesh answers as a distribution', [
-  kv('nodes', '9 (5 repos)'), kv('edges', '6 — 1 VERIFIED · 5 PENDING'),
-  kv('currency', '1 VERIFIED (quilt-show#1 cites S2) — empty-currency state broken; git-agent enters on PENDING'),
-  kv('nodes', '9 (5 repos)'), kv('edges', '6 — 2 VERIFIED · 4 PENDING'),
-  kv('currency', '2 VERIFIED (quilt-show#1 cites S2 · pong-quilt#28 cites coin-toss-v1) — monopoly broken'),
+  kv('nodes', '9 (5 repos)'), kv('edges', '6 — 3 VERIFIED · 3 PENDING'),
+  kv('currency', '3 VERIFIED (show#1 cites S2 · pong#28 cites coin-toss-v1 · git-agent#4 cites algebra.md) — doctrine→code→citation→currency arc complete'),
   kv('view', seed.view().map(x => `${x.repo} ${(x.share * 100).toFixed(1)}%`).join(' · ')),
 ]);
 done();
