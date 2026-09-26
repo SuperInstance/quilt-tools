@@ -160,3 +160,31 @@ do not conflate it with the currency.
    git-agent 16.1% · moth-waveform 16.1% · pong-quilt 16.1% · quilt-cowboy
    16.1%** · quilt-arcade 1.6% · quilt-tools 0.8% — and fleet-murmur earns
    its first OUTGOING currency (all prior fm mass was incoming).
+- **Seventh edge VERIFIED 2026-09-27 (morning) — the pre-booked interop lane
+   lands, and fleet-murmur becomes the first double-mass repo** — the 05:24
+   pulse opened this lane with the direction pre-booked ("on merge books
+   edge qgs→fm, target repo=fm — NOT fm→qgs as the pulse note guessed"):
+   **fleet-murmur PR #3** ("qgs adapter: live-verify seam against real
+   quality-gate-stream (stale-API fix)", MERGED 2026-09-26T23:08:45Z, merge
+   `8df75c6`) rewrites `tools/quality_gate_adapter.py` against the live
+   quality-gate-stream API — the pre-merge adapter called a stale API and
+   raised TypeError/AttributeError against the real package, so the fix and
+   the citation shipped in the same PR — and names
+   **SuperInstance/quality-gate-stream BY NAME in-repo at three anchored
+   sites**: the adapter module docstring ("Cross-repo seam
+   (cross-pollination receipt): SuperInstance/quality-gate-stream"),
+   `VERIFIED_CLAIMS.md` VC10, and `tests/test_qgs_adapter_glue.py` (4 live
+   pins run the real package; labeled skips when uninstalled, never fake
+   green; an always-on pin asserts the citation string survives in source).
+   Two sibling repos built the two halves of the review-honesty doctrine
+   the same day (fleet-murmur#2 seam / quality-gate-stream#2 strict mode);
+   this merge pins them against dialect drift — the exporter-in-consumer /
+   live-verify-in-producer shape of the R26 wal-export → quilt-doctor seam.
+   Weight law met: edge `qgs-strict-gate → fm-qgs-adapter` is
+   **VERIFIED=1.0**, receipt `SuperInstance/fleet-murmur#3`. The view now:
+   **fleet-murmur 27.8%** (first repo carrying TWO VERIFIED inbound edges)
+   · quilt-show 14.6% · git-agent 13.9% · moth-waveform 13.9% · pong-quilt
+   13.9% · quilt-cowboy 13.9% · quilt-arcade 1.4% · quilt-tools 0.7%.
+   HONESTY: quality-gate-stream earns currency as a from-node only;
+   from-node-only repos (quilt-quant, AI-Writings, quality-gate-stream)
+   carry no view mass — the view measures where doctrine LANDS.

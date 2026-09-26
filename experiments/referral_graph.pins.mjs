@@ -25,7 +25,7 @@ for (const n of (await import('./referral_graph.seed.mjs')).SEED.nodes) seed.add
 let seedBooked = 0;
 for (const e of (await import('./referral_graph.seed.mjs')).SEED.edges) { seed.book(e); seedBooked++; }
 
-check('seed: all edges booked', seedBooked === 10 && seed.rows.length === 10, `${seedBooked} edges`);
+check('seed: all edges booked', seedBooked === 11 && seed.rows.length === 11, `${seedBooked} edges`);
 
 // Pin 1 — missing required field is a loud REFUSAL, never a silent drop.
 {
@@ -46,9 +46,12 @@ check('seed: all edges booked', seedBooked === 10 && seed.rows.length === 10, `$
   check('seed: tampered claim -> verify fails at that row', bad.ok === false && bad.brokenAt === 2, bad.ok ? 'TAMPER ACCEPTED' : `caught row ${bad.brokenAt}: prev_hash ${bad.got} != ${bad.expected}`);
 }
 
-// Pin 3 — the VIEW: ranked distribution; six VERIFIED edges (20x an
-// epsilon) dominate quilt-show, fleet-murmur, git-agent, pong-quilt,
-// quilt-cowboy and moth-waveform; the rest keep PENDING whispers.
+// Pin 3 — the VIEW: ranked distribution; seven VERIFIED edges (20x an
+// epsilon) — fleet-murmur now carries TWO inbound (pq-session-wal + the
+// qgs-strict-gate adapter) and leads outright; quilt-show, git-agent,
+// moth-waveform, pong-quilt and quilt-cowboy hold single VERIFIED mass.
+// (From-node-only repos — quilt-quant, AI-Writings, quality-gate-stream —
+// earn no view mass; mass is measured where doctrine LANDS.)
 // (main-repair note: the #11 conflict resolution had duplicated this block
 // and left a dangling check() call — the file did not parse on main tip.
 // Removed here; the currency flip below is what this PR is for.)
@@ -58,21 +61,22 @@ check('seed: all edges booked', seedBooked === 10 && seed.rows.length === 10, `$
   const shares = v.map(x => x.share);
   check('seed: view shares sum to 1', Math.abs(shares.reduce((a, b) => a + b, 0) - 1) < 1e-9, `Σ=${shares.reduce((a, b) => a + b, 0)}`);
   const byRepo = Object.fromEntries(v.map(x => [x.repo, x.weight]));
-  check('seed: view mass — qs = VERIFIED + PENDING, fm = VERIFIED, ga = VERIFIED, pq = VERIFIED, qb = VERIFIED, mw = VERIFIED, qa = 2×PENDING, qt = 1×PENDING',
+  check('seed: view mass — fm = 2×VERIFIED, qs = VERIFIED + PENDING, ga/pq/qb/mw = VERIFIED, qa = 2×PENDING, qt = 1×PENDING (from-node-only repos: no view mass)',
+    Math.abs(byRepo['fleet-murmur'] - 2 * VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['quilt-show'] - (VERIFIED_WEIGHT + PENDING_WEIGHT)) < 1e-9 &&
-    Math.abs(byRepo['fleet-murmur'] - VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['git-agent'] - VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['pong-quilt'] - VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['quilt-cowboy'] - VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['moth-waveform'] - VERIFIED_WEIGHT) < 1e-9 &&
+    !('quality-gate-stream' in byRepo) &&
     Math.abs(byRepo['quilt-arcade'] - 2 * PENDING_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['quilt-tools'] - PENDING_WEIGHT) < 1e-9,
     JSON.stringify(byRepo));
   const sorted = [...v].sort((a, b) => b.share - a.share || a.repo.localeCompare(b.repo));
   check('seed: view is sorted by share desc', JSON.stringify(v) === JSON.stringify(sorted), 'sorted');
-  check('seed: quilt-show still leads; the five VERIFIED-only repos tie, broken by name (fleet-murmur first)',
-    v[0].repo === 'quilt-show' && v[0].weight === VERIFIED_WEIGHT + PENDING_WEIGHT &&
-    v[1].repo === 'fleet-murmur' && v[1].weight === VERIFIED_WEIGHT &&
+  check('seed: fleet-murmur leads with double mass; then quilt-show; the four single-VERIFIED repos tie, broken by name (git-agent first)',
+    v[0].repo === 'fleet-murmur' && v[0].weight === 2 * VERIFIED_WEIGHT &&
+    v[1].repo === 'quilt-show' && v[1].weight === VERIFIED_WEIGHT + PENDING_WEIGHT &&
     v[2].repo === 'git-agent' && v[2].weight === VERIFIED_WEIGHT &&
     v[3].repo === 'moth-waveform' && v[3].weight === VERIFIED_WEIGHT &&
     v[4].repo === 'pong-quilt' && v[4].weight === VERIFIED_WEIGHT &&
@@ -89,8 +93,8 @@ check('seed: all edges booked', seedBooked === 10 && seed.rows.length === 10, `$
     row.weight === 'VERIFIED' && row.receipt === 'SuperInstance/pong-quilt#28',
     row ? `weight=${row.weight} receipt=${row.receipt}` : 'edge not found');
   const verified = seed.rows.filter(r => r.op === 'LINK' && r.weight === 'VERIFIED');
-  check('seed: exactly six VERIFIED edges — monopoly broken, doctrine arc complete, jev-quilt and pong-quilt currency both flow outward',
-    verified.length === 6 && new Set(verified.map(r => r.to)).size === 6,
+  check('seed: exactly seven VERIFIED edges — monopoly broken, doctrine arc complete, jev-quilt/pong-quilt/fleet-murmur currency all flow outward, and fleet-murmur anchors double inbound mass',
+    verified.length === 7 && new Set(verified.map(r => r.to)).size === 7,
     verified.map(r => `${r.from}->${r.to}`).join(' '));
 }
 
@@ -208,6 +212,36 @@ check('seed: all edges booked', seedBooked === 10 && seed.rows.length === 10, `$
   const fromFm = seed.rows.filter(r => r.op === 'LINK' && seed.nodes.get(r.from)?.repo === 'fleet-murmur');
   check('seed: this is fleet-murmur\'s only outgoing edge — first fleet-murmur outward currency',
     fromFm.length === 1 && fromFm[0].to === 'mw-floor-gate', `${fromFm.length} fleet-murmur outgoing`);
+}
+
+// Pin 3h — the SEVENTH currency event: the quality-gate interop lane
+// pre-booked at 05:24 ("on merge books edge qgs→fm, target repo=fm — not
+// fm→qgs as the pulse note guessed"). FAIL-first: on main tip this edge
+// does not exist (the currency pins trip). fleet-murmur#3 (merged
+// 2026-09-26T23:08:45Z, merge 8df75c6) lands the quality_gate_adapter
+// rewritten against the live quality-gate-stream API, naming
+// SuperInstance/quality-gate-stream BY NAME in-repo at three anchored sites
+// (adapter docstring, VERIFIED_CLAIMS.md VC10, tests/test_qgs_adapter_glue.py
+// — live pins run the real package, labeled skips when uninstalled).
+{
+  const row = seed.rows.find(r => r.op === 'LINK' && r.from === 'qgs-strict-gate' && r.to === 'fm-qgs-adapter');
+  check('seed: qgs→fm edge is VERIFIED with fleet-murmur#3 receipt in the to-node\'s repo',
+    row?.weight === 'VERIFIED' && row?.receipt === 'SuperInstance/fleet-murmur#3',
+    row ? `weight=${row.weight} receipt=${row.receipt}` : 'edge not found');
+  check('seed: qgs→fm claim records the currency event and the merge sha',
+    row?.claim.includes('CURRENCY EARNED 2026-09-26') && row?.claim.includes('8df75c6'),
+    row ? 'claim carries the merge receipt' : 'edge not found');
+  check('seed: qgs→fm declares a falsification condition (kill switch)',
+    typeof row?.falsification_condition === 'string' && row.falsification_condition.length > 20,
+    row?.falsification_condition ?? 'none');
+  const qgs = seed.nodes.get('qgs-strict-gate'), fmq = seed.nodes.get('fm-qgs-adapter');
+  check('seed: both endpoints exist in their own repos',
+    qgs?.repo === 'quality-gate-stream' && fmq?.repo === 'fleet-murmur', `${qgs?.repo} -> ${fmq?.repo}`);
+  check('seed: receipt target is the to-node\'s repo (weight law, substrate-enforced)',
+    row?.receipt.split('#')[0] === `SuperInstance/${fmq?.repo}`, row?.receipt);
+  const toFm = seed.rows.filter(r => r.op === 'LINK' && seed.nodes.get(r.to)?.repo === 'fleet-murmur');
+  check('seed: fleet-murmur carries two VERIFIED inbound edges — first double-mass repo',
+    toFm.length === 2 && toFm.every(r => r.weight === 'VERIFIED'), toFm.map(r => `${r.from}->${r.to}`).join(' '));
 }
 
 // Pin 4 — provenance live audit: every cited PR must actually be merged.
@@ -369,8 +403,8 @@ function fixture() {
 }
 
 panel('referral-graph v1 — the mesh answers as a distribution', [
-  kv('nodes', '14 (9 repos)'), kv('edges', '10 — 6 VERIFIED · 4 PENDING'),
-  kv('currency', '6 VERIFIED (show#1 cites S2 · pong#28 cites coin-toss-v1 · git-agent#4 cites algebra.md · cowboy#1 cites jev-quilt · fleet-murmur#2 cites pong-quilt · moth-waveform#1 cites the fm vacuity scar) — doctrine flows outward six ways; jev-quilt, pong-quilt AND fleet-murmur earn first outgoing edges; to-nodes born after seeding: fleet-murmur, moth-waveform'),
+  kv('nodes', '16 (10 repos)'), kv('edges', '11 — 7 VERIFIED · 4 PENDING'),
+  kv('currency', '7 VERIFIED (show#1 cites S2 · pong#28 cites coin-toss-v1 · git-agent#4 cites algebra.md · cowboy#1 cites jev-quilt · fleet-murmur#2 cites pong-quilt · moth-waveform#1 cites the fm vacuity scar · fleet-murmur#3 cites quality-gate-stream) — doctrine flows outward seven ways; jev-quilt, pong-quilt AND fleet-murmur earn outgoing edges; fleet-murmur is the first repo carrying two VERIFIED inbound edges (double view mass, 27.8%); quality-gate-stream earns currency as a from-node (from-node-only repos carry no view mass — mass is measured where doctrine lands); to-nodes born after seeding: fleet-murmur, moth-waveform'),
   kv('view', seed.view().map(x => `${x.repo} ${(x.share * 100).toFixed(1)}%`).join(' · ')),
 ]);
 done();
