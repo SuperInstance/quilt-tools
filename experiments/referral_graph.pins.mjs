@@ -24,7 +24,7 @@ for (const n of (await import('./referral_graph.seed.mjs')).SEED.nodes) seed.add
 let seedBooked = 0;
 for (const e of (await import('./referral_graph.seed.mjs')).SEED.edges) { seed.book(e); seedBooked++; }
 
-check('seed: all edges booked', seedBooked === 5 && seed.rows.length === 5, `${seedBooked} edges`);
+check('seed: all edges booked', seedBooked === 6 && seed.rows.length === 6, `${seedBooked} edges`);
 
 // Pin 1 — missing required field is a loud REFUSAL, never a silent drop.
 {
@@ -46,17 +46,19 @@ check('seed: all edges booked', seedBooked === 5 && seed.rows.length === 5, `${s
 }
 
 // Pin 3 — the VIEW: ranked distribution; the VERIFIED edge (20x an epsilon)
-// dominates quilt-show, the rest keep PENDING whispers.
+// dominates quilt-show, the rest keep PENDING whispers. git-agent enters the
+// view on the 2026-09-26 PENDING opcode edge (its first currency of any kind).
 {
   const v = seed.view();
-  check('seed: view ranks all three repos', v.length === 3, v.map(x => `${x.repo}=${x.share.toFixed(3)}`).join(' '));
+  check('seed: view ranks all four repos', v.length === 4, v.map(x => `${x.repo}=${x.share.toFixed(3)}`).join(' '));
   const shares = v.map(x => x.share);
   check('seed: view shares sum to 1', Math.abs(shares.reduce((a, b) => a + b, 0) - 1) < 1e-9, `Σ=${shares.reduce((a, b) => a + b, 0)}`);
   const byRepo = Object.fromEntries(v.map(x => [x.repo, x.weight]));
-  check('seed: view mass — qs = VERIFIED + PENDING, qa = 2×PENDING, qt = 1×PENDING',
+  check('seed: view mass — qs = VERIFIED + PENDING, qa = 2×PENDING, qt = PENDING, git-agent = PENDING',
     Math.abs(byRepo['quilt-show'] - (VERIFIED_WEIGHT + PENDING_WEIGHT)) < 1e-9 &&
     Math.abs(byRepo['quilt-arcade'] - 2 * PENDING_WEIGHT) < 1e-9 &&
-    Math.abs(byRepo['quilt-tools'] - PENDING_WEIGHT) < 1e-9,
+    Math.abs(byRepo['quilt-tools'] - PENDING_WEIGHT) < 1e-9 &&
+    Math.abs(byRepo['git-agent'] - PENDING_WEIGHT) < 1e-9,
     JSON.stringify(byRepo));
   const sorted = [...v].sort((a, b) => b.share - a.share);
   check('seed: view is sorted by share desc', JSON.stringify(v) === JSON.stringify(sorted), 'sorted');
@@ -73,6 +75,22 @@ check('seed: all edges booked', seedBooked === 5 && seed.rows.length === 5, `${s
     row ? `weight=${row.weight} receipt=${row.receipt}` : 'edge not found');
   const wrongRepo = seed.rows.some(r => r.op === 'LINK' && r.weight === 'VERIFIED' && !r.receipt.split('#')[0].endsWith('/' + seed.nodes.get(r.to).repo));
   check('seed: every VERIFIED receipt targets its to-node\'s repo', !wrongRepo, 'weight law held');
+}
+
+// Pin 3c — the git-agent candidate edge (2026-09-26): booked PENDING with
+// provenance, never VERIFIED — the merged PR cites the doctrine but never
+// names the source repo, and the weight law is not negotiable (FAIL-first:
+// on main tip this edge does not exist).
+{
+  const row = seed.rows.find(r => r.op === 'LINK' && r.from === 'aw-quint-opcode' && r.to === 'ga-quilt-emit');
+  check('seed: aw→ga edge is PENDING with git-agent#1 provenance',
+    row?.weight === 'PENDING' && row?.provenance === 'SuperInstance/git-agent#1' && row?.receipt == null,
+    row ? `weight=${row.weight} provenance=${row.provenance} receipt=${row.receipt}` : 'edge not found');
+  check('seed: aw→ga carries NO receipt (VERIFIED would need a merged PR citing algebra.md by name)',
+    row?.receipt == null, row?.receipt ?? 'no receipt — correct');
+  const aw = seed.nodes.get('aw-quint-opcode'), ga = seed.nodes.get('ga-quilt-emit');
+  check('seed: both endpoints exist in their own repos',
+    aw?.repo === 'AI-Writings' && ga?.repo === 'git-agent', `${aw?.repo} -> ${ga?.repo}`);
 }
 
 // Pin 4 — provenance live audit: every cited PR must actually be merged.
@@ -234,8 +252,8 @@ function fixture() {
 }
 
 panel('referral-graph v1 — the mesh answers as a distribution', [
-  kv('nodes', '7 (3 repos)'), kv('edges', '5 — 1 VERIFIED · 4 PENDING'),
-  kv('currency', '1 VERIFIED (quilt-show#1 cites S2) — empty-currency state broken'),
+  kv('nodes', '9 (5 repos)'), kv('edges', '6 — 1 VERIFIED · 5 PENDING'),
+  kv('currency', '1 VERIFIED (quilt-show#1 cites S2) — empty-currency state broken; git-agent enters on PENDING'),
   kv('view', seed.view().map(x => `${x.repo} ${(x.share * 100).toFixed(1)}%`).join(' · ')),
 ]);
 done();
