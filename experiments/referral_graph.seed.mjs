@@ -78,6 +78,30 @@
 // receipt-repo rule is the constitution — the merge in the citing repo
 // earns currency FOR the cited technique flowing INTO that repo.
 //
+// UPDATE 2026-09-27 (morning): the SEVENTH edge earned currency — booked
+// from the exact lane the 05:24 pulse opened ("on merge books edge qgs→fm,
+// target repo=fm — not fm→qgs as the pulse note guessed"). fleet-murmur
+// PR #3 ("qgs adapter: live-verify seam against real quality-gate-stream
+// (stale-API fix)", MERGED 2026-09-26T23:08:45Z, merge 8df75c6) rewrites
+// tools/quality_gate_adapter.py against the live quality-gate-stream API
+// (CustomCheck(name, fn), evaluate() -> GateResult.outcome, strict=True
+// default — the pre-merge adapter called a stale API and raised TypeError /
+// AttributeError against the real package) and names
+// SuperInstance/quality-gate-stream BY NAME in-repo at three anchored sites:
+// the adapter module docstring ("Cross-repo seam (cross-pollination
+// receipt): SuperInstance/quality-gate-stream"), VERIFIED_CLAIMS.md VC10,
+// and tests/test_qgs_adapter_glue.py (live pins import the real package,
+// abstain as labeled skips when uninstalled, never fake green; an always-on
+// pin asserts the citation string is present in the adapter source). Two
+// sibling repos built the two halves of the review-honesty doctrine the
+// same day (fleet-murmur#2 quality-gate seam / quality-gate-stream#2 strict
+// mode); this merge pins them against dialect drift — the same
+// exporter-in-consumer / live-verify-in-producer shape as the R26
+// wal-export -> quilt-doctor seam. HONESTY on direction: the citing merge
+// is in fleet-murmur, so the edge books qgs-strict-gate -> fm-qgs-adapter
+// (currency flows INTO the citing repo), exactly as pre-booked.
+// fleet-murmur becomes the first repo carrying TWO VERIFIED inbound edges.
+//
 // Weight law: PENDING = 0.05 (speculation is cheap) / VERIFIED = 1.0 (a
 // merged PR in the to-node's repo cites the from-technique).
 //
@@ -109,7 +133,7 @@
 export const SEED = {
   name: 'referral-graph-v1',
   repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'git-agent', 'AI-Writings'],
-  repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt', 'jev-quilt', 'quilt-cowboy', 'fleet-murmur', 'moth-waveform'],
+  repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt', 'jev-quilt', 'quilt-cowboy', 'fleet-murmur', 'moth-waveform', 'quality-gate-stream'],
 
   nodes: [
     { id: 'qt-api-lab', repo: 'quilt-tools', kind: 'lab',
@@ -144,9 +168,21 @@ export const SEED = {
       summary: 'honesty-receipts pass: transport-honesty contract (black-hole transport must not score 100%), fnv1a hash-chained MurmurLedger receipt substrate, VERIFIED_CLAIMS-style claims registry' },
     { id: 'mw-floor-gate', repo: 'moth-waveform', kind: 'lab',
       summary: 'duck-sensitivity receipts: the no-op health gate measures the floor in-run because a gate without a live floor measurement passes vacuously (the fleet-murmur scar); every threshold names its calibration' },
+    { id: 'qgs-strict-gate', repo: 'quality-gate-stream', kind: 'gate-integration',
+      summary: 'review-honesty scoring gate: strict mode, routing + rolling windows, installable package — rumors/payloads below threshold are REFUSED with a named reason, never silently scored' },
+    { id: 'fm-qgs-adapter', repo: 'fleet-murmur', kind: 'integration',
+      summary: 'quality_gate_adapter: fleet-murmur\'s mill gate routed through the REAL quality-gate-stream package (CustomCheck/evaluate API, closed-by-default, absence returns None never faked), pinned by 4 live package-run pins + weight-law citation naming SuperInstance/quality-gate-stream' },
   ],
 
   edges: [
+    {
+      from: 'qgs-strict-gate', to: 'fm-qgs-adapter',
+      claim: 'Two sibling repos built the two halves of the review-honesty doctrine on the same day — fleet-murmur#2 shipped a quality-gate seam, quality-gate-stream#2 shipped strict-mode scoring — and an unadaptered dialect drift between them would silently corrupt every rumor score crossing the seam. CURRENCY EARNED 2026-09-26: fleet-murmur PR #3 (merged 2026-09-26T23:08:45Z, merge 8df75c6) lands tools/quality_gate_adapter.py rewritten against the LIVE quality-gate-stream API (the pre-merge adapter raised TypeError/AttributeError against the real package — stale-API broken at birth, the fix shipped in the same PR that named the source), citing SuperInstance/quality-gate-stream BY NAME in-repo at three anchored sites: the adapter module docstring, VERIFIED_CLAIMS.md VC10, and tests/test_qgs_adapter_glue.py (4 live pins run the real package, labeled skips when uninstalled, never fake green; an always-on pin asserts the citation string survives in source). Direction honesty: the merge is in fleet-murmur, so per the substrate receipt-repo rule the edge books qgs-strict-gate -> fm-qgs-adapter — currency flows INTO the citing repo, exactly the direction pre-booked when the lane opened. fleet-murmur is the first repo carrying two VERIFIED inbound edges; the exporter-in-consumer / live-verify-in-producer shape mirrors the R26 wal-export -> quilt-doctor seam.',
+      weight: 'VERIFIED',
+      provenance: null, // the technique lives on quality-gate-stream main (strict-mode gate, installable package); the receipt is the fleet-murmur merge
+      receipt: 'SuperInstance/fleet-murmur#3',
+      falsification_condition: 'the fleet-murmur adapter scoring a rumor through a hand-rolled reimplementation while quality-gate-stream is installed, or the SuperInstance/quality-gate-stream citation removed from the adapter source / VC10 / the glue pins',
+    },
     {
       from: 'fm-honesty-receipts', to: 'mw-floor-gate',
       from: 'fm-honesty-receipts', to: 'mw-floor-gate',
