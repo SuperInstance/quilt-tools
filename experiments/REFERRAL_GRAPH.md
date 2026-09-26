@@ -77,6 +77,12 @@ do not conflate it with the currency.
   plugin-adjacent artifact.
 - JEPA predicts which repo a new finding refers to — prediction error logged
   as a receipt = the breeding-reward hook.
-- `auditReceipts` against the live org PR stream (cron) so VERIFIED weights
-  decay honestly when cited PRs are reverted — the pins' live audit now
-  covers receipts, not just provenance.
+- ~~`auditReceipts` against the live org PR stream (cron) so VERIFIED weights
+  decay honestly when cited PRs are reverted~~ **guard DONE** (the pins'
+  live audit covers receipts); **discovery DONE 2026-09-26** —
+  `experiments/referral_graph.discovery.mjs` watches the org's merged-PR
+  stream for *mintable* currency (first live run: 0 real candidates across
+  the 4 PENDING edges; 1 hit — quilt-tools#6 — EXCLUDED as self-referential:
+  the graph's own artifact cannot mint its currency, anti-Goodhart guard
+  pinned as Pin 10). Candidates surface with their PR; a human verifies the
+  citation is load-bearing, then the seed flips — this tool never books.

@@ -186,6 +186,53 @@ function fixture() {
     `repo-b=${b.share.toFixed(3)} repo-c=${c.share.toFixed(3)}`);
 }
 
+// Pin 9 — the discovery audit (REFERRAL_GRAPH.md "Next rungs"). Injected
+// stream, three claims: (a) a merged PR in the TO-node's repo citing a hint
+// surfaces as a candidate; (b) the search is scoped to the to-repo — the
+// searchFn must be called with the to-node's repo, never the from-node's
+// (a hit in the wrong repo is not currency); (c) non-live mode is SKIPPED
+// labeled, and already-VERIFIED edges are never scanned (auditReceipts
+// guards those).
+{
+  const { SEED } = await import('./referral_graph.seed.mjs');
+  const { discover, HINTS } = await import('./referral_graph.discovery.mjs');
+  const scoped = [];
+  const fakeSearch = (hint, repoFull) => {
+    scoped.push(repoFull);
+    if (hint === 'receipts flip credit' && repoFull === 'SuperInstance/quilt-show') {
+      return [{ number: 42, title: 'episode 5: receipts flip credit, demonstrated', url: 'u' }];
+    }
+    return [];
+  };
+  const offline = discover(SEED, { live: false });
+  check('discovery: offline mode reports SKIPPED, never passes silently',
+    offline.every(r => r.skipped === true), offline.map(r => `${r.edge}:${r.skipped}`).join(' '));
+  const live = discover(SEED, { live: true, searchFn: fakeSearch });
+  const e2 = live.find(r => r.edge === 'qt-api-lab->qs-ep2');
+  check('discovery: hint hit in the TO repo surfaces as candidate',
+    e2.candidates.some(c => c.pr === '#42' && c.hint === 'receipts flip credit'), JSON.stringify(e2.candidates));
+  const toRepos = new Set(SEED.edges.map(e => `${'SuperInstance'}/${SEED.nodes.find(n => n.id === e.to).repo}`));
+  check('discovery: every live search scoped to a to-node repo',
+    scoped.length > 0 && scoped.every(r => toRepos.has(r)), scoped.join(','));
+  check('discovery: VERIFIED edge (s2->ep2) is not scanned',
+    !live.some(r => r.edge === 'qt-s2-driftwatch->qs-ep2'), live.map(r => r.edge).join(' '));
+  check('discovery: every PENDING edge was scanned',
+    live.filter(r => !r.skipped).length === SEED.edges.filter(e => e.weight === 'PENDING').length,
+    `${live.length} results vs ${SEED.edges.filter(e => e.weight === 'PENDING').length} PENDING edges`);
+
+  // Pin 10 — anti-Goodhart guard: the graph's own artifact cannot mint its
+  // currency. A hit whose title matches SELF_REFERENTIAL is excluded.
+  const selfSearch = (hint, repoFull) =>
+    hint === 'NEGATIVE_SPACE' && repoFull === 'SuperInstance/quilt-tools'
+      ? [{ number: 6, title: 'REFERRAL_GRAPH PoC: the mesh answers as a distribution', url: 'u' }]
+      : [];
+  const liveSelf = discover(SEED, { live: true, searchFn: selfSearch });
+  const neg = liveSelf.find(r => r.edge === 'qa-negspace->qt-api-lab');
+  check('discovery: graph-owned PR flagged self-referential, not a candidate',
+    neg.candidates.length === 1 && neg.candidates[0].selfReferential === true && neg.candidates[0].pr === '#6',
+    JSON.stringify(neg.candidates));
+}
+
 panel('referral-graph v1 — the mesh answers as a distribution', [
   kv('nodes', '7 (3 repos)'), kv('edges', '5 — 1 VERIFIED · 4 PENDING'),
   kv('currency', '1 VERIFIED (quilt-show#1 cites S2) — empty-currency state broken'),
