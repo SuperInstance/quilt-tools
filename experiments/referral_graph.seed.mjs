@@ -60,6 +60,24 @@
 // with receipt SuperInstance/git-agent#4. The upgrade path booked at
 // PENDING-time was followed exactly; never self-upgraded — the merge did it.
 //
+// UPDATE 2026-09-26 (late): the FIFTH edge earned currency — and it is the
+// first edge whose TO-node is a repo born after the graph was seeded, plus
+// the first edge where the honest direction is from pong-quilt OUTWARD.
+// fleet-murmur PR #2 ("Honesty-receipts pass: transport modes, receipt
+// ledger, quality-gate seam, claims registry", MERGED 2026-09-26T19:08:16Z,
+// merge 5391ba56) names SuperInstance/pong-quilt BY NAME in-repo three
+// times in CROSS-POLLINATE.md: the QA-REFUSAL honesty pins as the
+// transport-honesty contract (a black-hole transport must not score 100%
+// coverage), the session WAL (tools/wal-session.js) as the receipt-ledger
+// substrate, and the VERIFIED_CLAIMS + readme-count registry as the claims
+// registry shape. HONESTY NOTE on direction: the weight law requires the
+// receipt to be a merged PR IN THE TO-NODE'S REPO, so the edge books
+// pq-session-wal -> fm-honesty-receipts (receipt SuperInstance/fleet-murmur#2
+// targets fleet-murmur, the to-node's repo). The 03:23 edge-watch note wrote
+// the direction fm->pq from the citation's perspective; the substrate's
+// receipt-repo rule is the constitution — the merge in the citing repo
+// earns currency FOR the cited technique flowing INTO that repo.
+//
 // Weight law: PENDING = 0.05 (speculation is cheap) / VERIFIED = 1.0 (a
 // merged PR in the to-node's repo cites the from-technique).
 //
@@ -70,7 +88,7 @@
 export const SEED = {
   name: 'referral-graph-v1',
   repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'git-agent', 'AI-Writings'],
-  repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt', 'jev-quilt', 'quilt-cowboy'],
+  repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt', 'jev-quilt', 'quilt-cowboy', 'fleet-murmur'],
 
   nodes: [
     { id: 'qt-api-lab', repo: 'quilt-tools', kind: 'lab',
@@ -99,9 +117,21 @@ export const SEED = {
       summary: 'the substance noul + 0.6 admit threshold (JevLens mean >= 0.6 reads VERIFIABLE) — the fleet\'s live judgment on generated text' },
     { id: 'qb-jev-gate', repo: 'quilt-cowboy', kind: 'gate-integration',
       summary: 'v3 output gate: the length-only admission proxy (synthesis_len >= 300) replaced by jev-quilt\'s substance noul, meter mode default + COWBOY_JEV_ENFORCE hard-hold' },
+    { id: 'pq-session-wal', repo: 'pong-quilt', kind: 'experiment',
+      summary: 'R26 session-WAL lane: receipt-panel rows re-anchored into the fleet five-opcode quilt WAL (tools/wal-session.js / wal-export.js), R24 canonical-md5 lineage doctrine, doctor-verdict lens on the QA-REFUSAL seam' },
+    { id: 'fm-honesty-receipts', repo: 'fleet-murmur', kind: 'integration',
+      summary: 'honesty-receipts pass: transport-honesty contract (black-hole transport must not score 100%), fnv1a hash-chained MurmurLedger receipt substrate, VERIFIED_CLAIMS-style claims registry' },
   ],
 
   edges: [
+    {
+      from: 'pq-session-wal', to: 'fm-honesty-receipts',
+      claim: 'pong-quilt\'s receipt lineage — QA-REFUSAL honesty pins (a claim must name how it knows), the session-WAL exporter re-anchoring the live receipt panel into the fleet five-opcode quilt WAL, and the VERIFIED_CLAIMS + readme-count registry pinned two-way against the live suite — is exactly the contract a gossip mesh needs before it scores delivery coverage. CURRENCY EARNED 2026-09-26: fleet-murmur PR #2 (merged 2026-09-26T19:08:16Z, merge 5391ba56) cites SuperInstance/pong-quilt BY NAME in-repo, three times in CROSS-POLLINATE.md: the QA-REFUSAL seam (R23-R28 honesty pins) as the transport-honesty contract, tools/wal-session.js\'s session WAL as the receipt-ledger substrate (\"one verifier reads every fleet ledger\"), and the VERIFIED_CLAIMS + readme-count pin as the claims-registry shape. First edge whose to-node is a repo born after the graph was seeded; first outward currency from pong-quilt.',
+      weight: 'VERIFIED',
+      provenance: null, // the techniques live on pong-quilt main (tools/wal-session.js, core.js VERIFIED_CLAIMS); the receipt is the fleet-murmur merge
+      receipt: 'SuperInstance/fleet-murmur#2',
+      falsification_condition: 'a murmur gossip round scored 100% delivery coverage with a black-hole transport and no honesty REFUSAL receipt, or the pong-quilt citations removed from CROSS-POLLINATE.md',
+    },
     {
       from: 'jq-substance-noul', to: 'qb-jev-gate',
       claim: 'quilt-cowboy\'s admission proxy was length alone — 1,745 generated papers entered the canon on synthesis_len >= 300 and nothing else (RD_QUILT_3_0 admits the length-as-concreteness proxy is a stand-in). CURRENCY EARNED 2026-09-26: quilt-cowboy PR #1 (merged 2026-09-26T09:12:37Z, merge a3feccca) wires jev-quilt\'s substance noul + 0.6 admit threshold onto the v3 output gate, citing SuperInstance/jev-quilt BY NAME in-repo (README.md "The JEV Substance Gate" section + jev_substance_gate.py CITATION const + module docstring), judged through any duck-typed backend exposing available() + decide_batch() — jev_quilt\'s TypeSafeBackend satisfies the protocol directly. First jev-quilt OUTGOING edge: all prior currency flowed show/pong/quant/tools.',

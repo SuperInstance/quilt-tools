@@ -127,3 +127,18 @@ do not conflate it with the currency.
   `SuperInstance/quilt-cowboy#1`. Two new repos enter the sheet
   (jev-quilt, quilt-cowboy); jev-quilt's referral view went from zero
   outgoing to one — the doctrine now flows outward four ways.
+- **Fifth edge VERIFIED 2026-09-26 (night) — pong-quilt's first OUTGOING
+  currency, first to-node born after seeding** — the 03:04 pulse's synergy
+  candidate landed on its own: **fleet-murmur PR #2** ("Honesty-receipts
+  pass: transport modes, receipt ledger, quality-gate seam, claims
+  registry", MERGED 2026-09-26T19:08:16Z, merge `5391ba56`) names
+  `SuperInstance/pong-quilt` **by name** in-repo three times in
+  `CROSS-POLLINATE.md`: the QA-REFUSAL seam (R23–R28 honesty pins) as the
+  transport-honesty contract ("a black-hole transport must not score 100%
+  coverage"), `tools/wal-session.js`'s session WAL as the receipt-ledger
+  substrate ("one verifier reads every fleet ledger"), and the
+  VERIFIED_CLAIMS + readme-count pin as the claims-registry shape. Weight
+  law met: edge `pq-session-wal → fm-honesty-receipts` is **VERIFIED=1.0**,
+  receipt `SuperInstance/fleet-murmur#2` — booked in the direction the
+  substrate enforces (receipt targets the to-node's repo), the honest
+  correction of the pulse note's citation-order prose.
