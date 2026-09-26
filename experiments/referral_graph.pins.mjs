@@ -25,7 +25,7 @@ for (const n of (await import('./referral_graph.seed.mjs')).SEED.nodes) seed.add
 let seedBooked = 0;
 for (const e of (await import('./referral_graph.seed.mjs')).SEED.edges) { seed.book(e); seedBooked++; }
 
-check('seed: all edges booked', seedBooked === 8 && seed.rows.length === 8, `${seedBooked} edges`);
+check('seed: all edges booked', seedBooked === 9 && seed.rows.length === 9, `${seedBooked} edges`);
 
 // Pin 1 — missing required field is a loud REFUSAL, never a silent drop.
 {
@@ -46,20 +46,21 @@ check('seed: all edges booked', seedBooked === 8 && seed.rows.length === 8, `${s
   check('seed: tampered claim -> verify fails at that row', bad.ok === false && bad.brokenAt === 2, bad.ok ? 'TAMPER ACCEPTED' : `caught row ${bad.brokenAt}: prev_hash ${bad.got} != ${bad.expected}`);
 }
 
-// Pin 3 — the VIEW: ranked distribution; four VERIFIED edges (20x an
-// epsilon) dominate quilt-show, git-agent, pong-quilt and quilt-cowboy; the
-// rest keep PENDING whispers.
+// Pin 3 — the VIEW: ranked distribution; five VERIFIED edges (20x an
+// epsilon) dominate quilt-show, fleet-murmur, git-agent, pong-quilt and
+// quilt-cowboy; the rest keep PENDING whispers.
 // (main-repair note: the #11 conflict resolution had duplicated this block
 // and left a dangling check() call — the file did not parse on main tip.
 // Removed here; the currency flip below is what this PR is for.)
 {
   const v = seed.view();
-  check('seed: view ranks all six mass-carrying repos', v.length === 6, v.map(x => `${x.repo}=${x.share.toFixed(3)}`).join(' '));
+  check('seed: view ranks all seven mass-carrying repos', v.length === 7, v.map(x => `${x.repo}=${x.share.toFixed(3)}`).join(' '));
   const shares = v.map(x => x.share);
   check('seed: view shares sum to 1', Math.abs(shares.reduce((a, b) => a + b, 0) - 1) < 1e-9, `Σ=${shares.reduce((a, b) => a + b, 0)}`);
   const byRepo = Object.fromEntries(v.map(x => [x.repo, x.weight]));
-  check('seed: view mass — qs = VERIFIED + PENDING, ga = VERIFIED, pq = VERIFIED, qb = VERIFIED, qa = 2×PENDING, qt = 1×PENDING',
+  check('seed: view mass — qs = VERIFIED + PENDING, fm = VERIFIED, ga = VERIFIED, pq = VERIFIED, qb = VERIFIED, qa = 2×PENDING, qt = 1×PENDING',
     Math.abs(byRepo['quilt-show'] - (VERIFIED_WEIGHT + PENDING_WEIGHT)) < 1e-9 &&
+    Math.abs(byRepo['fleet-murmur'] - VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['git-agent'] - VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['pong-quilt'] - VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['quilt-cowboy'] - VERIFIED_WEIGHT) < 1e-9 &&
@@ -68,12 +69,13 @@ check('seed: all edges booked', seedBooked === 8 && seed.rows.length === 8, `${s
     JSON.stringify(byRepo));
   const sorted = [...v].sort((a, b) => b.share - a.share || a.repo.localeCompare(b.repo));
   check('seed: view is sorted by share desc', JSON.stringify(v) === JSON.stringify(sorted), 'sorted');
-  check('seed: quilt-show still leads; ga/pq/qb tie at VERIFIED broken by name (git-agent 2nd)',
+  check('seed: quilt-show still leads; the four VERIFIED-only repos tie, broken by name (fleet-murmur first)',
     v[0].repo === 'quilt-show' && v[0].weight === VERIFIED_WEIGHT + PENDING_WEIGHT &&
-    v[1].repo === 'git-agent' && v[1].weight === VERIFIED_WEIGHT &&
-    v[2].repo === 'pong-quilt' && v[2].weight === VERIFIED_WEIGHT &&
-    v[3].repo === 'quilt-cowboy' && v[3].weight === VERIFIED_WEIGHT,
-    `${v[0].repo} ${(v[0].share * 100).toFixed(1)}% · ${v[1].repo} ${(v[1].share * 100).toFixed(1)}% · ${v[2].repo} ${(v[2].share * 100).toFixed(1)}% · ${v[3].repo} ${(v[3].share * 100).toFixed(1)}%`);
+    v[1].repo === 'fleet-murmur' && v[1].weight === VERIFIED_WEIGHT &&
+    v[2].repo === 'git-agent' && v[2].weight === VERIFIED_WEIGHT &&
+    v[3].repo === 'pong-quilt' && v[3].weight === VERIFIED_WEIGHT &&
+    v[4].repo === 'quilt-cowboy' && v[4].weight === VERIFIED_WEIGHT,
+    `${v[0].repo} ${(v[0].share * 100).toFixed(1)}% · ${v[1].repo} ${(v[1].share * 100).toFixed(1)}% · ${v[2].repo} ${(v[2].share * 100).toFixed(1)}% · ${v[3].repo} ${(v[3].share * 100).toFixed(1)}% · ${v[4].repo} ${(v[4].share * 100).toFixed(1)}%`);
 }
 
 // Pin 3c — the SECOND currency event (FAIL-first: on main tip the quantum-coin
@@ -85,8 +87,8 @@ check('seed: all edges booked', seedBooked === 8 && seed.rows.length === 8, `${s
     row.weight === 'VERIFIED' && row.receipt === 'SuperInstance/pong-quilt#28',
     row ? `weight=${row.weight} receipt=${row.receipt}` : 'edge not found');
   const verified = seed.rows.filter(r => r.op === 'LINK' && r.weight === 'VERIFIED');
-  check('seed: exactly four VERIFIED edges — monopoly broken, doctrine arc complete, jev-quilt currency flows outward for the first time',
-    verified.length === 4 && new Set(verified.map(r => r.to)).size === 4,
+  check('seed: exactly five VERIFIED edges — monopoly broken, doctrine arc complete, jev-quilt and pong-quilt currency both flow outward',
+    verified.length === 5 && new Set(verified.map(r => r.to)).size === 5,
     verified.map(r => `${r.from}->${r.to}`).join(' '));
 }
 
@@ -143,6 +145,36 @@ check('seed: all edges booked', seedBooked === 8 && seed.rows.length === 8, `${s
   const fromJq = seed.rows.filter(r => r.op === 'LINK' && seed.nodes.get(r.from)?.repo === 'jev-quilt');
   check('seed: this is jev-quilt\'s only outgoing edge — first outward currency',
     fromJq.length === 1 && fromJq[0].to === 'qb-jev-gate', `${fromJq.length} jev-quilt outgoing`);
+}
+
+// Pin 3f — the FIFTH currency event: fleet-murmur's honesty-receipts pass.
+// FAIL-first: on main tip this edge does not exist (the currency pins trip).
+// fleet-murmur#2 (merged 2026-09-26T19:08:16Z, merge 5391ba56) names
+// SuperInstance/pong-quilt BY NAME in-repo three times (CROSS-POLLINATE.md:
+// QA-REFUSAL honesty contract, session WAL substrate, VERIFIED_CLAIMS
+// registry). HONESTY on direction: the weight law requires the receipt to
+// target the TO-node's repo — the citing merge is in fleet-murmur, so the
+// currency books pq-session-wal -> fm-honesty-receipts (doctrine flows INTO
+// the citing repo), not the prose order the pulse note suggested.
+{
+  const row = seed.rows.find(r => r.op === 'LINK' && r.from === 'pq-session-wal' && r.to === 'fm-honesty-receipts');
+  check('seed: pq→fm edge is VERIFIED with fleet-murmur#2 receipt in the to-node\'s repo',
+    row?.weight === 'VERIFIED' && row?.receipt === 'SuperInstance/fleet-murmur#2',
+    row ? `weight=${row.weight} receipt=${row.receipt}` : 'edge not found');
+  check('seed: pq→fm claim records the currency event and the merge sha',
+    row?.claim.includes('CURRENCY EARNED 2026-09-26') && row?.claim.includes('5391ba56'),
+    row ? 'claim carries the merge receipt' : 'edge not found');
+  check('seed: pq→fm declares a falsification condition (kill switch)',
+    typeof row?.falsification_condition === 'string' && row.falsification_condition.length > 20,
+    row?.falsification_condition ?? 'none');
+  const pq = seed.nodes.get('pq-session-wal'), fm = seed.nodes.get('fm-honesty-receipts');
+  check('seed: both endpoints exist in their own repos',
+    pq?.repo === 'pong-quilt' && fm?.repo === 'fleet-murmur', `${pq?.repo} -> ${fm?.repo}`);
+  check('seed: receipt target is the to-node\'s repo (weight law, substrate-enforced)',
+    row?.receipt.split('#')[0] === `SuperInstance/${fm?.repo}`, row?.receipt);
+  const fromPq = seed.rows.filter(r => r.op === 'LINK' && seed.nodes.get(r.from)?.repo === 'pong-quilt');
+  check('seed: this is pong-quilt\'s only outgoing edge — first outward currency',
+    fromPq.length === 1 && fromPq[0].to === 'fm-honesty-receipts', `${fromPq.length} pong-quilt outgoing`);
 }
 
 // Pin 4 — provenance live audit: every cited PR must actually be merged.
@@ -304,8 +336,8 @@ function fixture() {
 }
 
 panel('referral-graph v1 — the mesh answers as a distribution', [
-  kv('nodes', '11 (7 repos)'), kv('edges', '8 — 4 VERIFIED · 4 PENDING'),
-  kv('currency', '4 VERIFIED (show#1 cites S2 · pong#28 cites coin-toss-v1 · git-agent#4 cites algebra.md · cowboy#1 cites jev-quilt) — doctrine flows outward four ways; jev-quilt earns its first outgoing edge'),
+  kv('nodes', '13 (8 repos)'), kv('edges', '9 — 5 VERIFIED · 4 PENDING'),
+  kv('currency', '5 VERIFIED (show#1 cites S2 · pong#28 cites coin-toss-v1 · git-agent#4 cites algebra.md · cowboy#1 cites jev-quilt · fleet-murmur#2 cites pong-quilt) — doctrine flows outward five ways; jev-quilt AND pong-quilt earn first outgoing edges; first to-node born after seeding'),
   kv('view', seed.view().map(x => `${x.repo} ${(x.share * 100).toFixed(1)}%`).join(' · ')),
 ]);
 done();
