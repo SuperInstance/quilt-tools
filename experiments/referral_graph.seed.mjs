@@ -35,6 +35,18 @@
 // receipt SuperInstance/pong-quilt#28. Two new nodes/repos enter the sheet:
 // quilt-quant (from-side technique) and pong-quilt (to-side consumer).
 //
+// UPDATE 2026-09-26 (evening): the THIRD edge earned currency, completing
+// the day's arc doctrine -> code -> citation -> currency. git-agent PR #4
+// ("docs: cite canonical opcode source (AI-Writings/algebra.md) in
+// GRAND-QUILT — upgrades referral edge to VERIFIABLE") MERGED
+// 2026-09-26T09:11:41Z (merge 8d6c31a) — a merged PR in the to-node's repo
+// (git-agent) that names the from-source by name and URL
+// (docs/GRAND-QUILT.md provenance block: 'Its canonical source is
+// [AI-Writings/algebra.md](...)' + the edge name, citing the weight law
+// itself). Edge aw-quint-opcode -> ga-quilt-emit is therefore VERIFIED=1.0
+// with receipt SuperInstance/git-agent#4. The upgrade path booked at
+// PENDING-time was followed exactly; never self-upgraded — the merge did it.
+//
 // Weight law: PENDING = 0.05 (speculation is cheap) / VERIFIED = 1.0 (a
 // merged PR in the to-node's repo cites the from-technique).
 //
@@ -119,9 +131,10 @@ export const SEED = {
     },
     {
       from: 'aw-quint-opcode', to: 'ga-quilt-emit',
-      claim: 'AI-Writings/algebra.md defines the five-opcode spine and its laws (BIND idempotent; algebra.md says do not add opcodes); git-agent#1 (MERGED 2026-09-26T00:27:18Z, merge 6bc099a) built quilt_emit.py — vessel events mapped one-to-one to BIND/LINK/EFFECT/VIEW/TICK lines in a hash-chained WAL — on exactly that spine. The citation is DOCTRINAL only ("the fleet quilt kernel speaks five opcodes"), the source repo is never named in the merged code, so the weight law keeps this PENDING; upgrade path = an in-repo citation naming algebra.md.',
-      weight: 'PENDING',
+      claim: 'AI-Writings/algebra.md defines the five-opcode spine and its laws (BIND idempotent; algebra.md says do not add opcodes); git-agent#1 (MERGED 2026-09-26T00:27:18Z, merge 6bc099a) built quilt_emit.py — vessel events mapped one-to-one to BIND/LINK/EFFECT/VIEW/TICK lines in a hash-chained WAL — on exactly that spine. git-agent#1\'s citation was DOCTRINAL only ("the fleet quilt kernel speaks five opcodes"), the source repo never named — so the edge was booked PENDING with the upgrade path recorded. CURRENCY EARNED 2026-09-26: git-agent PR #4 (merged 2026-09-26T09:11:41Z, merge 8d6c31a) lands the in-repo citation naming AI-Writings/algebra.md by name and URL (docs/GRAND-QUILT.md provenance block, live-verified on git-agent main), exactly the upgrade path booked here.',
+      weight: 'VERIFIED',
       provenance: 'SuperInstance/git-agent#1',
+      receipt: 'SuperInstance/git-agent#4',
       falsification_condition: 'git-agent quilt_emit.py shipping an opcode mapping that contradicts algebra.md semantics (e.g. VIEW given mutation semantics, or a 6th opcode added) with no algebra reference anywhere in the repo',
     },
   ],
