@@ -8,6 +8,14 @@
 // So every real edge is PENDING with provenance (where the finding lives).
 // The mesh starts by measuring what speculation cannot buy.
 //
+// UPDATE 2026-09-26: the first edge earned currency. quilt-show PR #1
+// ("E3 verification record: script<->sim claim map + referral edge to
+// quilt-tools PR #3") MERGED 2026-09-25T19:14:08Z (merge a2f82a35) — a
+// merged PR in the to-node's repo citing the S2 driftwatch technique.
+// Edge qt-s2-driftwatch -> qs-ep2 is therefore VERIFIED=1.0 with
+// receipt SuperInstance/quilt-show#1. The other four edges stay PENDING.
+// The empty-currency state (Finding #1) is broken; the view now moves.
+//
 // Weight law: PENDING = 0.05 (speculation is cheap) / VERIFIED = 1.0 (a
 // merged PR in the to-node's repo cites the from-technique).
 //
@@ -39,9 +47,10 @@ export const SEED = {
   edges: [
     {
       from: 'qt-s2-driftwatch', to: 'qs-ep2',
-      claim: 'S2 measured the exact wall behind E2\'s thesis: shape-beats-threshold cannot be asserted in a prompt — the episode\'s "demonstrate, don\'t assert" now has an api-lab receipt map under it',
-      weight: 'PENDING',
+      claim: 'S2 measured the exact wall behind E2\'s thesis: shape-beats-threshold cannot be asserted in a prompt — the episode\'s "demonstrate, don\'t assert" now has an api-lab receipt map under it. CURRENCY EARNED 2026-09-26: quilt-show PR #1 (merged 2026-09-25T19:14:08Z, merge a2f82a35) carries this citation in-repo (docs/E3-VERIFICATION.md referral-edge record + episode-3/sim.mjs header); quilt-show PR #3 (ep4-instruments, merged 21:30Z) re-cites it.',
+      weight: 'VERIFIED',
       provenance: 'SuperInstance/quilt-tools#3',
+      receipt: 'SuperInstance/quilt-show#1',
       falsification_condition: 'a replayed stream where the 0.80 threshold fires before shape on st02 slow drift',
     },
     {
