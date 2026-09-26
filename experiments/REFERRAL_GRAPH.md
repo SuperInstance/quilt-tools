@@ -55,7 +55,12 @@ do not conflate it with the currency.
    `SuperInstance/pong-quilt#28`, and the single-edge monopoly is broken:
    **quilt-show 47.7% · pong-quilt 45.5%** · quilt-arcade 4.5% ·
    quilt-tools 2.3%. Currency now flows tools→show AND quant→pong — two
-   independent directions of cross-use.
+   independent directions of cross-use. After the third edge (git-agent#4
+   cites algebra.md) the view carried five repos; after the FOURTH —
+   **quilt-cowboy#1 cites jev-quilt's substance noul by name, jev-quilt's
+   first outgoing edge** — the view is **quilt-show 25.0% · git-agent 23.8%
+   · pong-quilt 23.8% · quilt-cowboy 23.8%** · quilt-arcade 2.4% ·
+   quilt-tools 1.2%.
 3. **Falsification is mechanical.** Each edge declares the exact observed
    evidence that would kill it; `probe()` books the death as a REFUSED row
    (scar stays in the chain, mass drops from the view). NEGATIVE_SPACE idiom,
@@ -109,3 +114,16 @@ do not conflate it with the currency.
   first time (PENDING mass). Honest-provenance discipline: a merged PR
   citing the *idea* but not the *source* is speculation with good
   provenance, not currency.
+- **Fourth edge VERIFIED 2026-09-26 (evening) — jev-quilt's first outgoing
+  currency** — the 16:11 pulse's synergy candidate landed without us
+  lifting a finger: **quilt-cowboy PR #1** ("jev substance gate: jev-quilt
+  doctrine on the paper-generation output gate", MERGED 2026-09-26T09:12:37Z,
+  merge `a3feccca`) replaced the v3 admission proxy (length ≥ 300 alone —
+  1,745 papers admitted on a stand-in, per RD_QUILT_3_0's own admission)
+  with jev-quilt's substance noul + 0.6 admit threshold, citing
+  `SuperInstance/jev-quilt` **by name** in-repo (README + `CITATION` const +
+  module docstring). Weight law met in the TARGET repo: edge
+  `jq-substance-noul → qb-jev-gate` is **VERIFIED=1.0**, receipt
+  `SuperInstance/quilt-cowboy#1`. Two new repos enter the sheet
+  (jev-quilt, quilt-cowboy); jev-quilt's referral view went from zero
+  outgoing to one — the doctrine now flows outward four ways.

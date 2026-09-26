@@ -35,6 +35,19 @@
 // receipt SuperInstance/pong-quilt#28. Two new nodes/repos enter the sheet:
 // quilt-quant (from-side technique) and pong-quilt (to-side consumer).
 //
+// UPDATE 2026-09-26 (evening): the FOURTH edge earned currency — and it is
+// jev-quilt's FIRST outgoing edge, minted by a repo that did not exist when
+// the graph was seeded. quilt-cowboy PR #1 ("jev substance gate: jev-quilt
+// doctrine on the paper-generation output gate", MERGED 2026-09-26T09:12:37Z,
+// merge a3feccca) wires jev-quilt's substance noul + 0.6 admit threshold onto
+// the cowboy v3 paper gate, citing SuperInstance/jev-quilt BY NAME in-repo
+// (README.md "The JEV Substance Gate" + jev_substance_gate.py CITATION const
+// + module docstring). The weight law is met: a merged PR in the to-node's
+// repo names the source repo. Edge jq-substance-noul -> qb-jev-gate is
+// VERIFIED=1.0 with receipt SuperInstance/quilt-cowboy#1. This was flagged as
+// the synergy candidate in the 16:11 pulse (jev-quilt had zero outgoing
+// currency; quilt-doctor named the length-proxy stand-in the gate replaces).
+//
 // UPDATE 2026-09-26 (evening): the THIRD edge earned currency, completing
 // the day's arc doctrine -> code -> citation -> currency. git-agent PR #4
 // ("docs: cite canonical opcode source (AI-Writings/algebra.md) in
@@ -57,7 +70,7 @@
 export const SEED = {
   name: 'referral-graph-v1',
   repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'git-agent', 'AI-Writings'],
-  repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt'],
+  repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt', 'jev-quilt', 'quilt-cowboy'],
 
   nodes: [
     { id: 'qt-api-lab', repo: 'quilt-tools', kind: 'lab',
@@ -82,9 +95,21 @@ export const SEED = {
       summary: 'coin-toss-v1: the moth-quantum engine — receipted quantum coin, every flip journaled' },
     { id: 'qq-quantum-tiebreak', repo: 'pong-quilt', kind: 'experiment',
       summary: 'R21 champion selection: equal-fitness ties broken by a receipted quantum coin via the makeEvaluator onTie seam' },
+    { id: 'jq-substance-noul', repo: 'jev-quilt', kind: 'lab',
+      summary: 'the substance noul + 0.6 admit threshold (JevLens mean >= 0.6 reads VERIFIABLE) — the fleet\'s live judgment on generated text' },
+    { id: 'qb-jev-gate', repo: 'quilt-cowboy', kind: 'gate-integration',
+      summary: 'v3 output gate: the length-only admission proxy (synthesis_len >= 300) replaced by jev-quilt\'s substance noul, meter mode default + COWBOY_JEV_ENFORCE hard-hold' },
   ],
 
   edges: [
+    {
+      from: 'jq-substance-noul', to: 'qb-jev-gate',
+      claim: 'quilt-cowboy\'s admission proxy was length alone — 1,745 generated papers entered the canon on synthesis_len >= 300 and nothing else (RD_QUILT_3_0 admits the length-as-concreteness proxy is a stand-in). CURRENCY EARNED 2026-09-26: quilt-cowboy PR #1 (merged 2026-09-26T09:12:37Z, merge a3feccca) wires jev-quilt\'s substance noul + 0.6 admit threshold onto the v3 output gate, citing SuperInstance/jev-quilt BY NAME in-repo (README.md "The JEV Substance Gate" section + jev_substance_gate.py CITATION const + module docstring), judged through any duck-typed backend exposing available() + decide_batch() — jev_quilt\'s TypeSafeBackend satisfies the protocol directly. First jev-quilt OUTGOING edge: all prior currency flowed show/pong/quant/tools.',
+      weight: 'VERIFIED',
+      provenance: null, // the doctrine lives on jev-quilt main (substance noul + threshold); the receipt is the to-repo merge
+      receipt: 'SuperInstance/quilt-cowboy#1',
+      falsification_condition: 'a v3 worklog entry admitted to the canon with jev_substance present below 0.6 and no jev_admitted=False flag, or the CITATION naming SuperInstance/jev-quilt removed from the gate module',
+    },
     {
       from: 'quant-coin-toss', to: 'qq-quantum-tiebreak',
       claim: 'A champion-selection tie is a verdict: silent index order is an unwitnessed collapse. pong-quilt\'s R21 wires the makeEvaluator onTie seam to quilt-quant\'s coin-toss-v1 (seeded mock of the live engine, citation verified against quilt-quant lab/play.mjs, every flip journaled — R22 symmetrized the journal). CURRENCY EARNED 2026-09-26: pong-quilt PR #28 (merged 2026-09-26T05:27:42Z, merge b14791f) carries the coin-toss-v1 citation in-repo (core.js VERIFIED_CLAIMS \'quantum-tiebreak\' entry + tools/prerun.js).',
