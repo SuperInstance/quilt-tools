@@ -81,6 +81,27 @@
 // Weight law: PENDING = 0.05 (speculation is cheap) / VERIFIED = 1.0 (a
 // merged PR in the to-node's repo cites the from-technique).
 //
+// UPDATE 2026-09-27 (dawn): the SIXTH edge earned currency — and the second
+// repo born after seeding enters as a to-node. moth-waveform PR #1
+// ("Phase 2: duck-sensitivity receipts — which duck carries the regime?",
+// MERGED 2026-09-26T21:06:24Z, merge dc1a142) cites fleet-murmur's vacuity
+// scar BY NAME in-repo, at code level: sensitivity.py's health gate
+// ("a gate that passes without a live floor measurement passes vacuously
+// (fleet-murmur scar)") exists because fleet-murmur#2's transport-honesty
+// contract proved a black-hole transport can score 100% coverage — the same
+// honesty doctrine as the fm-honesty-receipts node this edge books from.
+// The README "Receipts doctrine" section also names pong-quilt (honesty
+// pins), hermit (quilt-WAL), quilt-doctor (moth-ledger trial balance),
+// quality-gate-stream (REFUSAL receipts) and fleet-murmur (transport modes)
+// as doctrine lineage. HONESTY: the load-bearing citation is the code-level
+// scar; the README list is lineage, not technique. Edge
+// fm-honesty-receipts -> mw-floor-gate is VERIFIED=1.0 with receipt
+// SuperInstance/moth-waveform#1. Found by the 06:56 pulse's discovery-class
+// org scan (the discovery tool reports; a human verified the citation shape).
+//
+// Weight law: PENDING = 0.05 (speculation is cheap) / VERIFIED = 1.0 (a
+// merged PR in the to-node's repo cites the from-technique).
+//
 // Each edge carries its kill switch: falsification_condition — the observed
 // evidence string that would refute the claim (probe() books the death as a
 // REFUSED row; the scar stays in the graph).
@@ -88,7 +109,7 @@
 export const SEED = {
   name: 'referral-graph-v1',
   repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'git-agent', 'AI-Writings'],
-  repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt', 'jev-quilt', 'quilt-cowboy', 'fleet-murmur'],
+  repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt', 'jev-quilt', 'quilt-cowboy', 'fleet-murmur', 'moth-waveform'],
 
   nodes: [
     { id: 'qt-api-lab', repo: 'quilt-tools', kind: 'lab',
@@ -121,9 +142,20 @@ export const SEED = {
       summary: 'R26 session-WAL lane: receipt-panel rows re-anchored into the fleet five-opcode quilt WAL (tools/wal-session.js / wal-export.js), R24 canonical-md5 lineage doctrine, doctor-verdict lens on the QA-REFUSAL seam' },
     { id: 'fm-honesty-receipts', repo: 'fleet-murmur', kind: 'integration',
       summary: 'honesty-receipts pass: transport-honesty contract (black-hole transport must not score 100%), fnv1a hash-chained MurmurLedger receipt substrate, VERIFIED_CLAIMS-style claims registry' },
+    { id: 'mw-floor-gate', repo: 'moth-waveform', kind: 'lab',
+      summary: 'duck-sensitivity receipts: the no-op health gate measures the floor in-run because a gate without a live floor measurement passes vacuously (the fleet-murmur scar); every threshold names its calibration' },
   ],
 
   edges: [
+    {
+      from: 'fm-honesty-receipts', to: 'mw-floor-gate',
+      from: 'fm-honesty-receipts', to: 'mw-floor-gate',
+      claim: 'fleet-murmur\'s transport-honesty contract is a scar other instruments must carry: a black-hole transport scored 100% coverage until the honesty REFUSAL receipt named it. moth-waveform\'s no-op health gate exists for exactly that reason. CURRENCY EARNED 2026-09-26: moth-waveform PR #1 (merged 2026-09-26T21:06:24Z, merge dc1a142) cites the scar BY NAME in-repo at code level — sensitivity.py: "a gate that passes without a live floor measurement passes vacuously (fleet-murmur scar)" — plus the README Receipts-doctrine section naming fleet-murmur (transport modes) among the doctrine lineage (pong-quilt honesty pins, hermit quilt-WAL, quilt-doctor moth-ledger trial balance, quality-gate-stream REFUSAL receipts). Load-bearing citation is the code-level scar; the README list is lineage, not technique. Second to-node born after the graph was seeded.',
+      weight: 'VERIFIED',
+      provenance: null, // the scar lives on fleet-murmur main (CROSS-POLLINATE.md transport-honesty contract); the receipt is the moth-waveform merge
+      receipt: 'SuperInstance/moth-waveform#1',
+      falsification_condition: 'a moth-waveform sensitivity receipt whose no-op health gate passed without a live floor measurement (noop row absent from the receipt) or the fleet-murmur scar citation removed from sensitivity.py',
+    },
     {
       from: 'pq-session-wal', to: 'fm-honesty-receipts',
       claim: 'pong-quilt\'s receipt lineage — QA-REFUSAL honesty pins (a claim must name how it knows), the session-WAL exporter re-anchoring the live receipt panel into the fleet five-opcode quilt WAL, and the VERIFIED_CLAIMS + readme-count registry pinned two-way against the live suite — is exactly the contract a gossip mesh needs before it scores delivery coverage. CURRENCY EARNED 2026-09-26: fleet-murmur PR #2 (merged 2026-09-26T19:08:16Z, merge 5391ba56) cites SuperInstance/pong-quilt BY NAME in-repo, three times in CROSS-POLLINATE.md: the QA-REFUSAL seam (R23-R28 honesty pins) as the transport-honesty contract, tools/wal-session.js\'s session WAL as the receipt-ledger substrate (\"one verifier reads every fleet ledger\"), and the VERIFIED_CLAIMS + readme-count pin as the claims-registry shape. First edge whose to-node is a repo born after the graph was seeded; first outward currency from pong-quilt.',
