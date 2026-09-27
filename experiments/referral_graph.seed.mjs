@@ -163,6 +163,29 @@
 // LANE-AFFECTING (all receipt/WAL export lanes should target/verify-through
 // stone-v1); this edge records the adoption, not the mandate itself.
 //
+// UPDATE 2026-09-27 (afternoon): the TENTH edge earned currency — the
+// stone-v2 sign lane, pre-booked twice (14:56 "on quilt-stone#4 merge the
+// pilot opens + candidate VERIFIED edge"; 16:04 R39 pilot shipped closed
+// against the sign-lane tip). Both merges landed in Casey's burst:
+// quilt-stone PR #4 ("STONE-V2-PILOTS sign lane: signTip/verifyTipSignature
+// ed25519 tip staples", MERGED 2026-09-27T09:02:01Z, merge 023edbed) ships
+// the sign lane, and pong-quilt PR #51 ("R39: STONE-V2-PILOTS first sign
+// pilot — producer staples the birth-seal chain's tip", MERGED
+// 2026-09-27T09:03:15Z, merge 07384ac2) cites SuperInstance/quilt-stone BY
+// NAME in-repo at three anchored sites: PLAYLOG Round 39 ("the stone-v2 sign
+// lane, SuperInstance/quilt-stone PR #4, STONE-SPEC.md §4.6.2"), the
+// citation pin in tests/stone-sign-glue.test.js, and core.js
+// VERIFIED_CLAIMS 'stone-sign-pilot' ("whenever the named quilt-stone
+// checkout ships the stone-v2 sign lane"). HONESTY ON DIRECTION: the 16:04
+// pulse note guessed the edge books pong-quilt→quilt-stone; the substrate's
+// receipt-repo rule is the constitution (edge #5 booked the same way) —
+// the citing merge is IN pong-quilt, so the edge books
+// stone-sign-lane -> pq-sign-pilot: the verifier's signature primitive
+// flowing INTO the producer that staples with it. quilt-stone earns its
+// FIRST OUTGOING edge (it received currency at edge #9 five hours earlier);
+// pong-quilt joins fleet-murmur as the second double-mass repo — receiving
+// the coin (edge #2) AND the sign lane (edge #10).
+//
 // Weight law: PENDING = 0.05 (speculation is cheap) / VERIFIED = 1.0 (a
 // merged PR in the to-node's repo cites the from-technique).
 //
@@ -220,9 +243,21 @@ export const SEED = {
       summary: 'R36 wal-export stone-v1 lane: tools/wal-export.js toStoneV1() re-anchors the live receipt-panel WAL into quilt-stone\'s forward format (stone.header + hash-chained rows, tool=pong-quilt named) — first forward-format adopter (pong-quilt#46, merged 2026-09-27)' },
     { id: 'stone-forward-adopt', repo: 'quilt-stone', kind: 'integration',
       summary: 'the canonical receipt-chain verifier adopts pong-quilt R36 as first stone-v1 forward-format adopter: smoke section 12b pins the exporter\'s REAL output (verify/tamper/splice) + README Forward-format adopters record (quilt-stone#1, merged 2026-09-27T04:20:06Z)' },
+    { id: 'stone-sign-lane', repo: 'quilt-stone', kind: 'lab',
+      summary: 'the stone-v2 sign lane: signTip/verifyTipSignature ed25519 tip staples — signed msg = "stone-v2"||tip_row_hash, stored tip binds the signature to the exact chain, post-sign body edit re-seals hashes green but the signature still refuses (the laundering pin) (quilt-stone#4, merged 2026-09-27T09:02:01Z)' },
+    { id: 'pq-sign-pilot', repo: 'pong-quilt', kind: 'experiment',
+      summary: 'R39 STONE-V2-PILOTS first sign pilot: the prerun producer staples the R37 birth-seal chain\'s tip via the named quilt-stone checkout\'s signTip — signs a COPY (unsigned stone-v1.json stays canonical), verifyTipSignature BEFORE write, refused staple bricks the run, ships closed with a labeled skip (pong-quilt#51, merged 2026-09-27T09:03:15Z)' },
   ],
 
   edges: [
+    {
+      from: 'stone-sign-lane', to: 'pq-sign-pilot',
+      claim: 'quilt-stone\'s stone-v2 sign lane gives a receipt chain a producer-identity staple — but a signature primitive nobody staples with is a library, not a doctrine. CURRENCY EARNED 2026-09-27: pong-quilt PR #51 ("R39: STONE-V2-PILOTS first sign pilot — producer staples the birth-seal chain\'s tip", MERGED 2026-09-27T09:03:15Z, merge 07384ac2) lands the first real adoption IN THE PRODUCER\'s repo: tools/prerun.js staples the R37 birth-seal chain\'s tip through the named quilt-stone checkout\'s signTip/verifyTipSignature (signs a COPY — the unsigned stone-v1.json stays canonical; verifyTipSignature with the producer public key runs BEFORE write; a refused staple bricks the run exit 1; the seam ships closed with a labeled skip when the checkout has no signTip — never silent), citing SuperInstance/quilt-stone BY NAME in-repo at three anchored sites: PLAYLOG Round 39 ("the stone-v2 sign lane, SuperInstance/quilt-stone PR #4, STONE-SPEC.md §4.6.2"), the citation pin in tests/stone-sign-glue.test.js, and core.js VERIFIED_CLAIMS \'stone-sign-pilot\'. The 4 glue pins ran LIVE against the sign-lane tip 047be72 before merge: seal links 5 + staple ok + the post-sign FORGED-edit laundering refusal ("signed tip does not match the chain tip") + wrong-key refusal. HONESTY ON DIRECTION: the 14:56/16:04 pulse notes guessed pong-quilt→quilt-stone; the substrate\'s receipt-repo rule (edge #5 precedent) books stone-sign-lane -> pq-sign-pilot — the merge in the citing repo earns currency FOR the cited technique flowing INTO that repo. quilt-stone\'s FIRST outgoing edge (it received edge #9 five hours earlier); pong-quilt joins fleet-murmur as the second double-inbound-mass repo — the sign lane lands in the same repo that already breaks ties by quantum coin. Pre-booked twice, earned by Casey\'s merge burst, never self-upgraded.',
+      weight: 'VERIFIED',
+      provenance: 'SuperInstance/quilt-stone#4', // the sign-lane merge (023edbed) whose signTip/verifyTipSignature the pilot staples with
+      receipt: 'SuperInstance/pong-quilt#51',
+      falsification_condition: 'a pong-quilt prerun run against a quilt-stone checkout shipping signTip where the staple file is written without verifyTipSignature passing first, or the post-sign FORGED-edit laundering case verifies green, or the SuperInstance/quilt-stone citation removed from PLAYLOG Round 39 / tests/stone-sign-glue.test.js / core.js VERIFIED_CLAIMS',
+    },
     {
       from: 'pq-stone-v1-export', to: 'stone-forward-adopt',
       claim: 'pong-quilt\'s R36 wal-export lane produces real stone-v1 forward-format chains from the live receipt panel — but an export format nobody verifies through is a dialect, not a standard. CURRENCY EARNED 2026-09-27: quilt-stone PR #1 ("smoke 12b: pong-quilt R36 is the first stone-v1 forward-format adopter", MERGED 2026-09-27T04:20:06Z, merge 093c1b1) lands the adoption IN THE VERIFIER\'s repo: smoke section 12b pins five checks over the exporter\'s EXACT bytes (generated live from tools/wal-export.js toStoneV1() at PR #46\'s merge tip, not retyped) — alg=stone-v1/genesis canonical/links=5, the mandatory stone.header row carries tool=pong-quilt (producer named, not laundered), a post-seal edit is caught as hash_mismatch, a row splice breaks continuity — and README.md\'s Forward-format adopters section names SuperInstance/pong-quilt PR #46 BY NAME. Weight law met in the to-node\'s repo. Third to-node born after seeding (fleet-murmur, moth-waveform, quilt-stone); pong-quilt\'s SECOND outgoing edge — it both receives currency (pq->fm) and pays it forward into the canonical verifier. Pre-booked at 11:04 ("on merge, referral graph books NINTH VERIFIED edge"), earned by Casey\'s merge, never self-upgraded.',

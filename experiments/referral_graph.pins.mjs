@@ -25,7 +25,7 @@ for (const n of (await import('./referral_graph.seed.mjs')).SEED.nodes) seed.add
 let seedBooked = 0;
 for (const e of (await import('./referral_graph.seed.mjs')).SEED.edges) { seed.book(e); seedBooked++; }
 
-check('seed: all edges booked', seedBooked === 13 && seed.rows.length === 13, `${seedBooked} edges`);
+check('seed: all edges booked', seedBooked === 14 && seed.rows.length === 14, `${seedBooked} edges`);
 
 // Pin 1 — missing required field is a loud REFUSAL, never a silent drop.
 {
@@ -46,11 +46,11 @@ check('seed: all edges booked', seedBooked === 13 && seed.rows.length === 13, `$
   check('seed: tampered claim -> verify fails at that row', bad.ok === false && bad.brokenAt === 2, bad.ok ? 'TAMPER ACCEPTED' : `caught row ${bad.brokenAt}: prev_hash ${bad.got} != ${bad.expected}`);
 }
 
-// Pin 3 — the VIEW: ranked distribution; nine VERIFIED edges (20x an
-// epsilon) — fleet-murmur carries TWO inbound (pq-session-wal + the
-// qgs-strict-gate adapter) and leads outright; quilt-show and quilt-tools
-// hold VERIFIED + PENDING; git-agent, moth-waveform, pong-quilt,
-// quilt-cowboy and quilt-stone hold single VERIFIED mass.
+// Pin 3 — the VIEW: ranked distribution; ten VERIFIED edges (20x an
+// epsilon) — fleet-murmur AND pong-quilt carry double mass (fm: two
+// inbound; pq: the quantum-coin tiebreak + the stone-v2 sign pilot),
+// quilt-show and quilt-tools hold VERIFIED + PENDING, git-agent,
+// moth-waveform, quilt-cowboy and quilt-stone hold single VERIFIED mass.
 // (From-node-only repos — quilt-quant, AI-Writings, quality-gate-stream —
 // earn no view mass; mass is measured where doctrine LANDS.)
 // (main-repair note: the #11 conflict resolution had duplicated this block
@@ -58,15 +58,14 @@ check('seed: all edges booked', seedBooked === 13 && seed.rows.length === 13, `$
 // Removed here; the currency flip below is what this PR is for.)
 {
   const v = seed.view();
-  check('seed: view ranks all nine mass-carrying repos', v.length === 9, v.map(x => `${x.repo}=${x.share.toFixed(3)}`).join(' '));
-  const shares = v.map(x => x.share);
+  check('seed: view ranks all nine mass-carrying repos', v.length === 9, v.map(x => `${x.repo}=${x.share.toFixed(3)}`).join(' '));  const shares = v.map(x => x.share);
   check('seed: view shares sum to 1', Math.abs(shares.reduce((a, b) => a + b, 0) - 1) < 1e-9, `Σ=${shares.reduce((a, b) => a + b, 0)}`);
   const byRepo = Object.fromEntries(v.map(x => [x.repo, x.weight]));
-  check('seed: view mass — fm = 2×VERIFIED, qs/qt = VERIFIED + PENDING, ga/pq/qb/mw/stone = VERIFIED, qa = 2×PENDING (from-node-only repos: no view mass)',
+  check('seed: view mass — fm = pq = 2×VERIFIED, qs/qt = VERIFIED + PENDING, ga/qb/mw/stone = VERIFIED, qa = 2×PENDING (from-node-only repos: no view mass)',
     Math.abs(byRepo['fleet-murmur'] - 2 * VERIFIED_WEIGHT) < 1e-9 &&
+    Math.abs(byRepo['pong-quilt'] - 2 * VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['quilt-show'] - (VERIFIED_WEIGHT + PENDING_WEIGHT)) < 1e-9 &&
     Math.abs(byRepo['git-agent'] - VERIFIED_WEIGHT) < 1e-9 &&
-    Math.abs(byRepo['pong-quilt'] - VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['quilt-cowboy'] - VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['moth-waveform'] - VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['quilt-stone'] - VERIFIED_WEIGHT) < 1e-9 &&
@@ -76,13 +75,13 @@ check('seed: all edges booked', seedBooked === 13 && seed.rows.length === 13, `$
     JSON.stringify(byRepo));
   const sorted = [...v].sort((a, b) => b.share - a.share || a.repo.localeCompare(b.repo));
   check('seed: view is sorted by share desc', JSON.stringify(v) === JSON.stringify(sorted), 'sorted');
-  check('seed: fleet-murmur leads with double mass; then the two VERIFIED+PENDING repos (quilt-show, quilt-tools); the five single-VERIFIED repos tie, broken by name (git-agent first, quilt-stone last)',
+  check('seed: fm and pq tie with double mass (name order); then the two VERIFIED+PENDING repos (quilt-show, quilt-tools); the four single-VERIFIED repos tie, broken by name (git-agent first, quilt-stone last)',
     v[0].repo === 'fleet-murmur' && v[0].weight === 2 * VERIFIED_WEIGHT &&
-    v[1].repo === 'quilt-show' && v[1].weight === VERIFIED_WEIGHT + PENDING_WEIGHT &&
-    v[2].repo === 'quilt-tools' && v[2].weight === VERIFIED_WEIGHT + PENDING_WEIGHT &&
-    v[3].repo === 'git-agent' && v[3].weight === VERIFIED_WEIGHT &&
-    v[4].repo === 'moth-waveform' && v[4].weight === VERIFIED_WEIGHT &&
-    v[5].repo === 'pong-quilt' && v[5].weight === VERIFIED_WEIGHT &&
+    v[1].repo === 'pong-quilt' && v[1].weight === 2 * VERIFIED_WEIGHT &&
+    v[2].repo === 'quilt-show' && v[2].weight === VERIFIED_WEIGHT + PENDING_WEIGHT &&
+    v[3].repo === 'quilt-tools' && v[3].weight === VERIFIED_WEIGHT + PENDING_WEIGHT &&
+    v[4].repo === 'git-agent' && v[4].weight === VERIFIED_WEIGHT &&
+    v[5].repo === 'moth-waveform' && v[5].weight === VERIFIED_WEIGHT &&
     v[6].repo === 'quilt-cowboy' && v[6].weight === VERIFIED_WEIGHT &&
     v[7].repo === 'quilt-stone' && v[7].weight === VERIFIED_WEIGHT &&
     v[8].repo === 'quilt-arcade' && v[8].weight === 2 * PENDING_WEIGHT,
@@ -98,8 +97,8 @@ check('seed: all edges booked', seedBooked === 13 && seed.rows.length === 13, `$
     row.weight === 'VERIFIED' && row.receipt === 'SuperInstance/pong-quilt#28',
     row ? `weight=${row.weight} receipt=${row.receipt}` : 'edge not found');
   const verified = seed.rows.filter(r => r.op === 'LINK' && r.weight === 'VERIFIED');
-  check('seed: exactly nine VERIFIED edges — monopoly broken, doctrine arc complete, jev-quilt/pong-quilt/fleet-murmur currency all flow outward (jev-quilt earns its SECOND outgoing edge; pong-quilt its second: the stone lane), and fleet-murmur anchors double inbound mass',
-    verified.length === 9 && new Set(verified.map(r => r.to)).size === 9,
+  check('seed: exactly ten VERIFIED edges across ten distinct to-nodes — monopoly broken, doctrine arc complete, jev-quilt/quilt-stone/pong-quilt/fleet-murmur currency all flow outward (jev-quilt earns its SECOND outgoing edge; pong-quilt earns double INBOUND mass: the coin tiebreak + the sign pilot), and fleet-murmur anchors double inbound mass',
+    verified.length === 10 && new Set(verified.map(r => r.to)).size === 10,
     verified.map(r => `${r.from}->${r.to}`).join(' '));
 }
 
@@ -314,6 +313,48 @@ check('seed: all edges booked', seedBooked === 13 && seed.rows.length === 13, `$
     pqs?.repo === 'pong-quilt' && st?.repo === 'quilt-stone', `${pqs?.repo} -> ${st?.repo}`);
   check('seed: receipt target is the to-node\'s repo (weight law, substrate-enforced)',
     row?.receipt.split('#')[0] === `SuperInstance/${st?.repo}`, row?.receipt);
+}
+
+// Pin 3k — the TENTH currency event: the stone-v2 sign-lane adoption,
+// pre-booked twice (14:56 "on quilt-stone#4 merge the pilot opens +
+// candidate VERIFIED edge"; 16:04 "R39 sign pilot ships closed; opens the
+// moment the sign lane lands"). FAIL-first: on main tip this edge does not
+// exist (the currency pins trip). quilt-stone#4 (MERGED
+// 2026-09-27T09:02:01Z, merge 023edbed) ships signTip/verifyTipSignature,
+// and pong-quilt#51 (MERGED 2026-09-27T09:03:15Z, merge 07384ac2) staples
+// the R37 birth-seal chain's tip with it, citing SuperInstance/quilt-stone
+// BY NAME in-repo at three anchored sites (PLAYLOG Round 39 + the citation
+// pin in tests/stone-sign-glue.test.js + core.js VERIFIED_CLAIMS
+// 'stone-sign-pilot'). DIRECTION HONESTY: the 16:04 pulse guessed
+// pq->stone; the receipt-repo rule (edge #5 precedent) books
+// stone-sign-lane -> pq-sign-pilot — the citing merge is IN pong-quilt, so
+// currency flows INTO pong-quilt (its second inbound edge; quilt-stone's
+// first outgoing).
+{
+  const row = seed.rows.find(r => r.op === 'LINK' && r.from === 'stone-sign-lane' && r.to === 'pq-sign-pilot');
+  check('seed: stone→pq sign edge is VERIFIED with pong-quilt#51 receipt in the to-node\'s repo',
+    row?.weight === 'VERIFIED' && row?.receipt === 'SuperInstance/pong-quilt#51',
+    row ? `weight=${row.weight} receipt=${row.receipt}` : 'edge not found');
+  check('seed: stone→pq sign claim records the currency event and the merge sha',
+    row?.claim.includes('CURRENCY EARNED 2026-09-27') && row?.claim.includes('07384ac2'),
+    row ? 'claim carries the merge receipt' : 'edge not found');
+  check('seed: stone→pq sign declares a falsification condition (kill switch)',
+    typeof row?.falsification_condition === 'string' && row.falsification_condition.length > 20,
+    row?.falsification_condition ?? 'none');
+  check('seed: stone→pq sign provenance records the sign-lane source merge (quilt-stone#4)',
+    row?.provenance === 'SuperInstance/quilt-stone#4', row?.provenance ?? 'none');
+  const sl = seed.nodes.get('stone-sign-lane'), pq2 = seed.nodes.get('pq-sign-pilot');
+  check('seed: both endpoints exist in their own repos',
+    sl?.repo === 'quilt-stone' && pq2?.repo === 'pong-quilt', `${sl?.repo} -> ${pq2?.repo}`);
+  check('seed: receipt target is the to-node\'s repo (weight law, substrate-enforced)',
+    row?.receipt.split('#')[0] === `SuperInstance/${pq2?.repo}`, row?.receipt);
+  const fromStone = seed.rows.filter(r => r.op === 'LINK' && seed.nodes.get(r.from)?.repo === 'quilt-stone');
+  check('seed: quilt-stone carries its FIRST outgoing VERIFIED edge (it received edge #9 five hours earlier)',
+    fromStone.length === 1 && fromStone[0].to === 'pq-sign-pilot', fromStone.map(r => `${r.from}->${r.to}`).join(' '));
+  const toPq = seed.rows.filter(r => r.op === 'LINK' && seed.nodes.get(r.to)?.repo === 'pong-quilt' && r.weight === 'VERIFIED');
+  check('seed: pong-quilt carries TWO VERIFIED inbound edges — the coin tiebreak + the sign pilot, tying fleet-murmur for double mass',
+    toPq.length === 2 && toPq.every(r => r.receipt.startsWith('SuperInstance/pong-quilt#')),
+    toPq.map(r => `${r.from}->${r.to}`).join(' '));
 }
 
 // Pin 4 — provenance live audit: every cited PR must actually be merged.
@@ -534,8 +575,8 @@ function fixture() {
 }
 
 panel('referral-graph v1 — the mesh answers as a distribution', [
-  kv('nodes', '20 (11 repos)'), kv('edges', '13 — 9 VERIFIED · 4 PENDING'),
-  kv('currency', '9 VERIFIED (show#1 cites S2 · pong#28 cites coin-toss-v1 · git-agent#4 cites algebra.md · cowboy#1 cites jev-quilt · fleet-murmur#2 cites pong-quilt · moth-waveform#1 cites the fm vacuity scar · fleet-murmur#3 cites quality-gate-stream · quilt-tools#17 cites jev-quilt commons.py G11 · quilt-stone#1 cites pong-quilt R36 toStoneV1) — doctrine flows outward nine ways; jev-quilt earns its SECOND outgoing edge (commons G11 → the graph\'s own trust lever), pong-quilt earns its SECOND outgoing edge (the R36 wal-export lane both receives pq→fm currency and pays it forward into the canonical receipt-chain verifier), fleet-murmur also earns outgoing currency; fleet-murmur is still the only repo carrying two VERIFIED inbound edges (double view mass); from-node-only repos carry no view mass — mass is measured where doctrine lands; to-nodes born after seeding: fleet-murmur, moth-waveform, quilt-stone'),
+  kv('nodes', '22 (11 repos)'), kv('edges', '14 — 10 VERIFIED · 4 PENDING'),
+  kv('currency', '10 VERIFIED (show#1 cites S2 · pong#28 cites coin-toss-v1 · git-agent#4 cites algebra.md · cowboy#1 cites jev-quilt · fleet-murmur#2 cites pong-quilt · moth-waveform#1 cites the fm vacuity scar · fleet-murmur#3 cites quality-gate-stream · quilt-tools#17 cites jev-quilt commons.py G11 · quilt-stone#1 cites pong-quilt R36 toStoneV1 · pong-quilt#51 staples with quilt-stone#4\'s signTip) — doctrine flows outward ten ways; jev-quilt earns its SECOND outgoing edge (commons G11 → the graph\'s own trust lever), pong-quilt earns its SECOND OUTGOING edge (the R36 wal-export lane both receives pq→fm currency and pays it forward into the canonical receipt-chain verifier) AND its second INBOUND (the coin tiebreak + the sign pilot — tying fleet-murmur for double view mass), quilt-stone earns its FIRST outgoing edge (the sign lane, five hours after receiving edge #9); fleet-murmur and pong-quilt are the double-inbound repos; from-node-only repos carry no view mass — mass is measured where doctrine lands; to-nodes born after seeding: fleet-murmur, moth-waveform, quilt-stone'),
   kv('view', seed.view().map(x => `${x.repo} ${(x.share * 100).toFixed(1)}%`).join(' · ')),
 ]);
 done();

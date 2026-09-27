@@ -261,3 +261,31 @@ repo reduces exactly to the blind view (pinned).
    LANE-AFFECTING (all receipt/WAL export lanes should target/
    verify-through stone-v1) — this edge records the adoption, not the
    mandate itself.
+- **Tenth edge VERIFIED 2026-09-27 (17:2x CST) — the stone-v2 sign-lane
+   adoption, pre-booked twice and landed in Casey's merge burst.** The
+   14:56 pulse wrote "on quilt-stone#4 merge the pilot opens + candidate
+   VERIFIED edge"; the 16:04 pulse shipped the R39 sign pilot CLOSED
+   against the sign-lane tip and pre-booked the booking. **quilt-stone
+   PR #4** ("STONE-V2-PILOTS sign lane: signTip/verifyTipSignature ed25519
+   tip staples", MERGED 2026-09-27T09:02:01Z, merge `023edbed`) ships the
+   signature primitive, and **pong-quilt PR #51** ("R39: STONE-V2-PILOTS
+   first sign pilot — producer staples the birth-seal chain's tip",
+   MERGED 2026-09-27T09:03:15Z, merge `07384ac2`) lands the first real
+   adoption: `tools/prerun.js` staples the R37 birth-seal chain's tip
+   through the named checkout's `signTip`/`verifyTipSignature` (signs a
+   COPY — the unsigned stone-v1.json stays canonical; verify BEFORE write;
+   refused staple bricks the run; ships closed with a labeled skip),
+   citing `SuperInstance/quilt-stone` BY NAME in-repo at three anchored
+   sites: PLAYLOG Round 39, `tests/stone-sign-glue.test.js`'s citation pin,
+   and `core.js` VERIFIED_CLAIMS `stone-sign-pilot`. Edge
+   `stone-sign-lane → pq-sign-pilot` is **VERIFIED=1.0**, receipt
+   `SuperInstance/pong-quilt#51`, provenance `SuperInstance/quilt-stone#4`.
+   HONESTY ON DIRECTION: the pulse notes guessed pong-quilt→quilt-stone;
+   the substrate's receipt-repo rule (edge #5 precedent) is the
+   constitution — the citing merge is IN pong-quilt, so currency flows
+   INTO pong-quilt. quilt-stone earns its FIRST OUTGOING edge five hours
+   after receiving edge #9; pong-quilt joins fleet-murmur as the second
+   double-inbound repo. The view now: **fleet-murmur 21.7% · pong-quilt
+   21.7%** (tie, name order) · quilt-show 11.4% · quilt-tools 11.4% ·
+   git-agent 10.9% · moth-waveform 10.9% · quilt-cowboy 10.9% ·
+   quilt-stone 10.9% · quilt-arcade 1.1%.
