@@ -105,6 +105,24 @@
 // Weight law: PENDING = 0.05 (speculation is cheap) / VERIFIED = 1.0 (a
 // merged PR in the to-node's repo cites the from-technique).
 //
+// UPDATE 2026-09-27 (late morning): the EIGHTH edge earned currency — and it
+// is the first edge the graph's own repo earns as a TO-node from the
+// commons/G11 lane, closing the loop the 08:11 pulse flagged (jev-quilt#37
+// hardened the exact blind-sum Goodhart surface this graph still had). The
+// lane was opened as that pulse's synergy candidate and shipped in
+// quilt-tools PR #17 ("referral-graph: the G11 trust lever", MERGED
+// 2026-09-27T01:27:12Z, merge d14fb44): viewTrusted() re-scales every edge
+// by its TARGET repo's EARNED trust (effective = trust·weight; unseen source
+// defaults to 0), ported FROM SuperInstance/jev-quilt BY NAME in-repo (src
+// comment naming SuperInstance/jev-quilt commons.py trust_weighted() /
+// provenance_merge(), plus the REFERRAL_GRAPH.md entry). The weight law is
+// met in the TO-node's repo: the merge landing IN quilt-tools names the
+// from-source. Edge jq-commons-g11 -> qt-trust-lever is VERIFIED=1.0 with
+// receipt SuperInstance/quilt-tools#17, provenance SuperInstance/jev-quilt#37
+// (the G11 merge that hardened the commons against weight inflation — the
+// exact anti-Goodhart term this graph's blind view needed; Pin 11 pins the
+// port's fixture semantics and the citation string).
+//
 // UPDATE 2026-09-27 (dawn): the SIXTH edge earned currency — and the second
 // repo born after seeding enters as a to-node. moth-waveform PR #1
 // ("Phase 2: duck-sensitivity receipts — which duck carries the regime?",
@@ -172,9 +190,21 @@ export const SEED = {
       summary: 'review-honesty scoring gate: strict mode, routing + rolling windows, installable package — rumors/payloads below threshold are REFUSED with a named reason, never silently scored' },
     { id: 'fm-qgs-adapter', repo: 'fleet-murmur', kind: 'integration',
       summary: 'quality_gate_adapter: fleet-murmur\'s mill gate routed through the REAL quality-gate-stream package (CustomCheck/evaluate API, closed-by-default, absence returns None never faked), pinned by 4 live package-run pins + weight-law citation naming SuperInstance/quality-gate-stream' },
+    { id: 'jq-commons-g11', repo: 'jev-quilt', kind: 'commons',
+      summary: 'the G11 trust-weighted commons: jev_quilt/commons.py trust_weighted() / provenance_merge() — cross-fleet gluing re-scaled by earned per-source trust, default 0 for unseen sources (jev-quilt#37, merged 2026-09-27T00:06:03Z)' },
+    { id: 'qt-trust-lever', repo: 'quilt-tools', kind: 'experiment',
+      summary: 'the G11 trust lever on the referral view: viewTrusted({trust, default:0}) re-scales each edge by its target repo\'s earned trust — the blind summed-weight view is buyable, trust is the lever (quilt-tools#17, merged 2026-09-27T01:27:12Z)' },
   ],
 
   edges: [
+    {
+      from: 'jq-commons-g11', to: 'qt-trust-lever',
+      claim: 'The referral graph\'s blind view sums edge weight per target repo, and weight is cheap to inflate: a source the fleet has not earned to trust can merge N junk-citation PRs into its own repo and buy itself mass — the exact Goodhart surface jev-quilt\'s G11 hardened in the commons the same week. CURRENCY EARNED 2026-09-27: quilt-tools PR #17 (merged 2026-09-27T01:27:12Z, merge d14fb44) ports the G11 trust lever into the graph\'s weight law — viewTrusted({trust, default:0}) re-scales every edge by its TARGET repo\'s EARNED trust (effective = trust·weight; an unseen source defaults to 0 and contributes NOTHING until the fleet earns reason to trust it; trust 1 everywhere reduces exactly to the blind view) — citing SuperInstance/jev-quilt commons.py trust_weighted() / provenance_merge() BY NAME in-repo (src/referral_graph.mjs comment + experiments/REFERRAL_GRAPH.md), the same honesty pattern as the moth-waveform code-level scar. This was the 08:11 pulse\'s synergy candidate, shipped exactly as flagged; Pin 11 pins the fixture semantics (blind view BUYABLE at >90% junk mass; unseen junk → 0; trust is the lever) and the citation string. First edge where the graph\'s own repo is the TO-node of a commons-lane technique; pre-hardens the currency against the weight-inflation attack the R8 Goodhart lane red-teams.',
+      weight: 'VERIFIED',
+      provenance: 'SuperInstance/jev-quilt#37', // the G11 merge that landed trust_weighted()/provenance_merge() on jev-quilt main
+      receipt: 'SuperInstance/quilt-tools#17',
+      falsification_condition: 'the referral view mass computed from summed edge weights with no earned-trust term while junk-citation PRs remain mergeable into a self-controlled repo, or the SuperInstance/jev-quilt commons.py citation removed from src/referral_graph.mjs / REFERRAL_GRAPH.md',
+    },
     {
       from: 'qgs-strict-gate', to: 'fm-qgs-adapter',
       claim: 'Two sibling repos built the two halves of the review-honesty doctrine on the same day — fleet-murmur#2 shipped a quality-gate seam, quality-gate-stream#2 shipped strict-mode scoring — and an unadaptered dialect drift between them would silently corrupt every rumor score crossing the seam. CURRENCY EARNED 2026-09-26: fleet-murmur PR #3 (merged 2026-09-26T23:08:45Z, merge 8df75c6) lands tools/quality_gate_adapter.py rewritten against the LIVE quality-gate-stream API (the pre-merge adapter raised TypeError/AttributeError against the real package — stale-API broken at birth, the fix shipped in the same PR that named the source), citing SuperInstance/quality-gate-stream BY NAME in-repo at three anchored sites: the adapter module docstring, VERIFIED_CLAIMS.md VC10, and tests/test_qgs_adapter_glue.py (4 live pins run the real package, labeled skips when uninstalled, never fake green; an always-on pin asserts the citation string survives in source). Direction honesty: the merge is in fleet-murmur, so per the substrate receipt-repo rule the edge books qgs-strict-gate -> fm-qgs-adapter — currency flows INTO the citing repo, exactly the direction pre-booked when the lane opened. fleet-murmur is the first repo carrying two VERIFIED inbound edges; the exporter-in-consumer / live-verify-in-producer shape mirrors the R26 wal-export -> quilt-doctor seam.',
