@@ -203,3 +203,32 @@ repo reduces exactly to the blind view (pinned).
    HONESTY: quality-gate-stream earns currency as a from-node only;
    from-node-only repos (quilt-quant, AI-Writings, quality-gate-stream)
    carry no view mass — the view measures where doctrine LANDS.
+- **Eighth edge VERIFIED 2026-09-27 (late morning) — the G11 trust lever
+   lands IN this repo, and the commons lane earns its first to-node
+   currency here** — the 08:11 pulse flagged the synergy the same morning
+   the R8 Goodhart lane reopened the buyable-view surface; the lane
+   shipped seven hours later. **quilt-tools PR #17** ("referral-graph:
+   the G11 trust lever", MERGED 2026-09-27T01:27:12Z, merge `d14fb44`)
+   ports `viewTrusted({trust, default:0})` from **SuperInstance/jev-quilt
+   `jev_quilt/commons.py` BY NAME** — `trust_weighted()` /
+   `provenance_merge()`, the G11 "trust-weighted cross-fleet gluing"
+   commons hardened against weight inflation in **jev-quilt#37** (MERGED
+   2026-09-27T00:06:03Z). The blind view sums edge weight per target repo:
+   a source the fleet has not earned to trust can merge N junk-citation
+   PRs into its own repo and buy mass. `viewTrusted` re-scales every edge
+   by its TARGET repo's EARNED trust (`effective = trust·weight`; unseen
+   source defaults to 0 and contributes NOTHING until the fleet earns
+   reason to trust it; trust 1 everywhere reduces exactly to the blind
+   view). Pin 11 pins the fixture semantics — blind view BUYABLE at >90%
+   junk mass; unseen junk → 0; trust is THE lever — plus the citation
+   string surviving in `src/referral_graph.mjs`. Weight law met: edge
+   `jq-commons-g11 → qt-trust-lever` is **VERIFIED=1.0**, receipt
+   `SuperInstance/quilt-tools#17`, provenance `SuperInstance/jev-quilt#37`.
+   The view now: **fleet-murmur 24.4%** (still the only double-inbound
+   repo) · quilt-show 12.8% · quilt-tools 12.8% (VERIFIED+PENDING, its
+   first mass above epsilon) · git-agent 12.2% · moth-waveform 12.2% ·
+   pong-quilt 12.2% · quilt-cowboy 12.2% · quilt-arcade 1.2%. HONESTY:
+   jev-quilt's currency here is the commons' anti-Goodhart term itself —
+   the graph pre-hardened its own weight law against the exact attack the
+   blind view invited; the citation names `jev_quilt/commons.py` at path
+   level, not just the repo.
