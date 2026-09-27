@@ -141,6 +141,28 @@
 // SuperInstance/moth-waveform#1. Found by the 06:56 pulse's discovery-class
 // org scan (the discovery tool reports; a human verified the citation shape).
 //
+// UPDATE 2026-09-27 (midday): the NINTH edge earned currency — and the
+// stone lane lands exactly as pre-booked by the 11:04 pulse ("on merge,
+// referral graph books NINTH VERIFIED edge pq-stone-v1-export ->
+// stone-forward-adopt"). quilt-stone PR #1 ("smoke 12b: pong-quilt R36 is
+// the first stone-v1 forward-format adopter — exporter's real stone-v1
+// output pinned (verify/tamper/splice) + README adoption record", MERGED
+// 2026-09-27T04:20:06Z, merge 093c1b1) cites SuperInstance/pong-quilt BY
+// NAME in-repo at two anchored sites: README.md "Forward-format adopters"
+// ("SuperInstance/pong-quilt PR #46 (merged 2026-09-27)") and smoke.mjs
+// section 12b — five pins over the EXACT exporter bytes generated live from
+// pong-quilt's tools/wal-export.js toStoneV1() at PR #46's merge tip (not
+// retyped): header row is the mandatory stone.header with tool=pong-quilt
+// (producer named, not laundered), post-seal edit -> hash_mismatch, row
+// splice -> continuity break. The weight law is met in the TO-node's repo.
+// quilt-stone is the third to-node born after the graph was seeded (after
+// fleet-murmur and moth-waveform), and pong-quilt earns its SECOND outgoing
+// edge — its R36 wal-export lane now both RECEIVES currency (pq->fm, edge
+// five) and PAYS it forward into the fleet's canonical receipt-chain
+// verifier. HONESTY: the 09:57 edge-watch flagged quilt-stone as
+// LANE-AFFECTING (all receipt/WAL export lanes should target/verify-through
+// stone-v1); this edge records the adoption, not the mandate itself.
+//
 // Weight law: PENDING = 0.05 (speculation is cheap) / VERIFIED = 1.0 (a
 // merged PR in the to-node's repo cites the from-technique).
 //
@@ -151,7 +173,7 @@
 export const SEED = {
   name: 'referral-graph-v1',
   repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'git-agent', 'AI-Writings'],
-  repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt', 'jev-quilt', 'quilt-cowboy', 'fleet-murmur', 'moth-waveform', 'quality-gate-stream'],
+  repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt', 'jev-quilt', 'quilt-cowboy', 'fleet-murmur', 'moth-waveform', 'quality-gate-stream', 'quilt-stone'],
 
   nodes: [
     { id: 'qt-api-lab', repo: 'quilt-tools', kind: 'lab',
@@ -194,9 +216,21 @@ export const SEED = {
       summary: 'the G11 trust-weighted commons: jev_quilt/commons.py trust_weighted() / provenance_merge() — cross-fleet gluing re-scaled by earned per-source trust, default 0 for unseen sources (jev-quilt#37, merged 2026-09-27T00:06:03Z)' },
     { id: 'qt-trust-lever', repo: 'quilt-tools', kind: 'experiment',
       summary: 'the G11 trust lever on the referral view: viewTrusted({trust, default:0}) re-scales each edge by its target repo\'s earned trust — the blind summed-weight view is buyable, trust is the lever (quilt-tools#17, merged 2026-09-27T01:27:12Z)' },
+    { id: 'pq-stone-v1-export', repo: 'pong-quilt', kind: 'experiment',
+      summary: 'R36 wal-export stone-v1 lane: tools/wal-export.js toStoneV1() re-anchors the live receipt-panel WAL into quilt-stone\'s forward format (stone.header + hash-chained rows, tool=pong-quilt named) — first forward-format adopter (pong-quilt#46, merged 2026-09-27)' },
+    { id: 'stone-forward-adopt', repo: 'quilt-stone', kind: 'integration',
+      summary: 'the canonical receipt-chain verifier adopts pong-quilt R36 as first stone-v1 forward-format adopter: smoke section 12b pins the exporter\'s REAL output (verify/tamper/splice) + README Forward-format adopters record (quilt-stone#1, merged 2026-09-27T04:20:06Z)' },
   ],
 
   edges: [
+    {
+      from: 'pq-stone-v1-export', to: 'stone-forward-adopt',
+      claim: 'pong-quilt\'s R36 wal-export lane produces real stone-v1 forward-format chains from the live receipt panel — but an export format nobody verifies through is a dialect, not a standard. CURRENCY EARNED 2026-09-27: quilt-stone PR #1 ("smoke 12b: pong-quilt R36 is the first stone-v1 forward-format adopter", MERGED 2026-09-27T04:20:06Z, merge 093c1b1) lands the adoption IN THE VERIFIER\'s repo: smoke section 12b pins five checks over the exporter\'s EXACT bytes (generated live from tools/wal-export.js toStoneV1() at PR #46\'s merge tip, not retyped) — alg=stone-v1/genesis canonical/links=5, the mandatory stone.header row carries tool=pong-quilt (producer named, not laundered), a post-seal edit is caught as hash_mismatch, a row splice breaks continuity — and README.md\'s Forward-format adopters section names SuperInstance/pong-quilt PR #46 BY NAME. Weight law met in the to-node\'s repo. Third to-node born after seeding (fleet-murmur, moth-waveform, quilt-stone); pong-quilt\'s SECOND outgoing edge — it both receives currency (pq->fm) and pays it forward into the canonical verifier. Pre-booked at 11:04 ("on merge, referral graph books NINTH VERIFIED edge"), earned by Casey\'s merge, never self-upgraded.',
+      weight: 'VERIFIED',
+      provenance: 'SuperInstance/pong-quilt#46', // the R36 merge whose toStoneV1() output the smoke pins
+      receipt: 'SuperInstance/quilt-stone#1',
+      falsification_condition: 'a quilt-stone smoke 12b run where the pinned pong-quilt fixture verifies under anything but stone-v1 semantics, or the SuperInstance/pong-quilt citation removed from README.md Forward-format adopters / smoke.mjs section 12b',
+    },
     {
       from: 'jq-commons-g11', to: 'qt-trust-lever',
       claim: 'The referral graph\'s blind view sums edge weight per target repo, and weight is cheap to inflate: a source the fleet has not earned to trust can merge N junk-citation PRs into its own repo and buy itself mass — the exact Goodhart surface jev-quilt\'s G11 hardened in the commons the same week. CURRENCY EARNED 2026-09-27: quilt-tools PR #17 (merged 2026-09-27T01:27:12Z, merge d14fb44) ports the G11 trust lever into the graph\'s weight law — viewTrusted({trust, default:0}) re-scales every edge by its TARGET repo\'s EARNED trust (effective = trust·weight; an unseen source defaults to 0 and contributes NOTHING until the fleet earns reason to trust it; trust 1 everywhere reduces exactly to the blind view) — citing SuperInstance/jev-quilt commons.py trust_weighted() / provenance_merge() BY NAME in-repo (src/referral_graph.mjs comment + experiments/REFERRAL_GRAPH.md), the same honesty pattern as the moth-waveform code-level scar. This was the 08:11 pulse\'s synergy candidate, shipped exactly as flagged; Pin 11 pins the fixture semantics (blind view BUYABLE at >90% junk mass; unseen junk → 0; trust is the lever) and the citation string. First edge where the graph\'s own repo is the TO-node of a commons-lane technique; pre-hardens the currency against the weight-inflation attack the R8 Goodhart lane red-teams.',
