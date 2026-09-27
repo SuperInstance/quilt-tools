@@ -232,3 +232,32 @@ repo reduces exactly to the blind view (pinned).
    the graph pre-hardened its own weight law against the exact attack the
    blind view invited; the citation names `jev_quilt/commons.py` at path
    level, not just the repo.
+- **Ninth edge VERIFIED 2026-09-27 (midday) — the stone-v1 forward-adoption
+   lane lands exactly as pre-booked** — the 11:04 pulse wrote "on merge,
+   referral graph books NINTH VERIFIED edge pq-stone-v1-export →
+   stone-forward-adopt"; Casey merged at 12:20 CST and the booking follows
+   the same never-self-upgraded pattern as edges #5–#8. **quilt-stone PR
+   #1** ("smoke 12b: pong-quilt R36 is the first stone-v1 forward-format
+   adopter — exporter's real stone-v1 output pinned (verify/tamper/splice)
+   + README adoption record", MERGED 2026-09-27T04:20:06Z, merge `093c1b1`)
+   lands the adoption IN THE VERIFIER's repo: `smoke.mjs` section 12b pins
+   five checks over the exporter's **EXACT bytes** (generated live from
+   pong-quilt's `tools/wal-export.js` `toStoneV1()` at PR #46's merge tip,
+   not retyped) — alg=stone-v1/genesis canonical/links=5, the mandatory
+   `stone.header` row carries `tool=pong-quilt` (producer named, not
+   laundered), a post-seal edit is caught as `hash_mismatch`, a row splice
+   breaks continuity — and README.md's **Forward-format adopters** section
+   names `SuperInstance/pong-quilt` PR #46 BY NAME. Weight law met in the
+   to-node's repo: edge `pq-stone-v1-export → stone-forward-adopt` is
+   **VERIFIED=1.0**, receipt `SuperInstance/quilt-stone#1`, provenance
+   `SuperInstance/pong-quilt#46`. The view now: **fleet-murmur 21.7%**
+   (still the only double-inbound repo) · quilt-show 11.4% · quilt-tools
+   11.4% · git-agent 10.9% · moth-waveform 10.9% · pong-quilt 10.9% ·
+   quilt-cowboy 10.9% · quilt-stone 10.9% (third to-node born after
+   seeding) · quilt-arcade 1.1%. HONESTY: pong-quilt's currency here is its
+   SECOND outgoing edge — the R36 wal-export lane both receives currency
+   (pq→fm, edge five) and pays it forward into the fleet's canonical
+   receipt-chain verifier; the 09:57 edge-watch flagged stone as
+   LANE-AFFECTING (all receipt/WAL export lanes should target/
+   verify-through stone-v1) — this edge records the adoption, not the
+   mandate itself.
