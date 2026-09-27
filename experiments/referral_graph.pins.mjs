@@ -402,6 +402,65 @@ function fixture() {
     JSON.stringify(neg.candidates));
 }
 
+// Pin 11 — the G11 TRUST LEVER, ported from SuperInstance/jev-quilt commons.py
+// (trust_weighted()/provenance_merge(), G11 "trust-weighted cross-fleet
+// gluing", merged as SuperInstance/jev-quilt#37): the blind view sums edge
+// weight per target repo, and an adversary who controls a repo can mint
+// junk-citation PRs into it and BUY mass. viewTrusted re-scales each edge by
+// its TARGET repo's EARNED trust: effective = trust.get(repo, default) ·
+// weight. Unseen source defaults to 0 — it contributes nothing until the
+// fleet earns reason to trust it. FAIL-first: on main tip viewTrusted does
+// not exist (ReferenceError at import/use — the pin trips by inspection).
+{
+  // fixture: an adversary repo floods VERIFIED receipts into itself; one
+  // honest repo holds a single real edge. Test data, never real findings.
+  const junk = new ReferralGraph({ name: 'trust-fixture', repos: ['acme-junk', 'honest-tool'] });
+  junk.addNode({ id: 'src-a', repo: 'fleet-src', summary: 'fixture source A' });
+  junk.addNode({ id: 'src-b', repo: 'fleet-src', summary: 'fixture source B' });
+  for (let i = 0; i < 3; i++) junk.addNode({ id: `honest-node-${i}`, repo: 'honest-tool', summary: `fixture honest ${i}` });
+  for (let i = 0; i < 10; i++) {
+    junk.addNode({ id: `junk-node-${i}`, repo: 'acme-junk', summary: `fixture junk ${i}` });
+    junk.book({ from: 'src-a', to: `junk-node-${i}`, claim: `junk citation ${i}`, weight: 'VERIFIED',
+      receipt: `acme-junk-owner/acme-junk#${i + 1}`, falsification_condition: `never-${i}` });
+  }
+  junk.book({ from: 'src-b', to: 'honest-node-0', claim: 'one honest edge', weight: 'VERIFIED',
+    receipt: 'honest-owner/honest-tool#1', falsification_condition: 'never-honest' });
+
+  const blind = junk.view();
+  const junkBlind = blind.find(x => x.repo === 'acme-junk');
+  check('trust-fixture: blind view is BUYABLE — 10 junk receipts outweigh 1 honest edge',
+    junkBlind && junkBlind.share > 0.9, `junk blind share ${(junkBlind?.share * 100).toFixed(1)}%`);
+
+  const trusted = junk.viewTrusted({ trust: { 'honest-tool': 1 } }); // acme-junk UNSEEN
+  check('trust-fixture: viewTrusted with unseen junk source → junk mass 0, honest tool 100%',
+    trusted.length === 1 && trusted[0].repo === 'honest-tool' && trusted[0].share === 1,
+    trusted.map(x => `${x.repo} ${(x.share * 100).toFixed(1)}%`).join(' ') || 'EMPTY');
+
+  const both = junk.viewTrusted({ trust: { 'honest-tool': 1, 'acme-junk': 1 } });
+  check('trust-fixture: trust 1 everywhere reduces to the blind view (same ranking, same shares)',
+    JSON.stringify(both) === JSON.stringify(blind),
+    both.map(x => `${x.repo}=${x.share.toFixed(3)}`).join(' '));
+
+  const lever = junk.viewTrusted({ trust: { 'honest-tool': 10, 'acme-junk': 0 } });
+  check('trust-fixture: trust is THE lever — weight 10×0 cannot outrun trust 0, weight 1×10 outranks weight 10×1 only by trust, not by count',
+    lever.find(x => x.repo === 'honest-tool').share === 1 && !lever.some(x => x.repo === 'acme-junk'),
+    lever.map(x => `${x.repo} ${(x.share * 100).toFixed(1)}%`).join(' '));
+
+  const mapForm = junk.viewTrusted({ trust: new Map([['honest-tool', 1]]) });
+  check('trust-fixture: Map-form trust table behaves identically to object form',
+    JSON.stringify(mapForm) === JSON.stringify(trusted), mapForm.map(x => x.repo).join(','));
+
+  const seedTrustAll1 = seed.viewTrusted({ trust: Object.fromEntries(seed.view().map(x => [x.repo, 1])) });
+  check('seed: trust-1-for-every-mass-carrying-repo ≡ blind view (regression guard on _view refactor)',
+    JSON.stringify(seedTrustAll1) === JSON.stringify(seed.view()),
+    seedTrustAll1.map(x => `${x.repo} ${(x.share * 100).toFixed(1)}%`).join(' · '));
+
+  const src = (await import('node:fs')).readFileSync(new URL('../src/referral_graph.mjs', import.meta.url), 'utf8');
+  check('weight law: G11 port cites its canonical source SuperInstance/jev-quilt commons.py BY NAME (the VERIFIED-edge citation, same honesty pattern as the moth-waveform scar)',
+    /SuperInstance\/jev-quilt commons\.py/.test(src) && /provenance_merge/.test(src),
+    'citation present in src/referral_graph.mjs');
+}
+
 panel('referral-graph v1 — the mesh answers as a distribution', [
   kv('nodes', '16 (10 repos)'), kv('edges', '11 — 7 VERIFIED · 4 PENDING'),
   kv('currency', '7 VERIFIED (show#1 cites S2 · pong#28 cites coin-toss-v1 · git-agent#4 cites algebra.md · cowboy#1 cites jev-quilt · fleet-murmur#2 cites pong-quilt · moth-waveform#1 cites the fm vacuity scar · fleet-murmur#3 cites quality-gate-stream) — doctrine flows outward seven ways; jev-quilt, pong-quilt AND fleet-murmur earn outgoing edges; fleet-murmur is the first repo carrying two VERIFIED inbound edges (double view mass, 27.8%); quality-gate-stream earns currency as a from-node (from-node-only repos carry no view mass — mass is measured where doctrine lands); to-nodes born after seeding: fleet-murmur, moth-waveform'),

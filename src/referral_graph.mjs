@@ -138,7 +138,31 @@ export class ReferralGraph {
   // The VIEW: the answer as a ranked distribution over modules. Verified
   // referrals dominate; pending speculation keeps a whisper; refuted scars
   // keep zero mass but stay visible.
-  view() {
+  view() { return this._view(() => 1); }
+
+  // The G11 TRUST LEVER — ported from SuperInstance/jev-quilt commons.py
+  // (trust_weighted() / provenance_merge(), G11 "trust-weighted cross-fleet
+  // gluing", merged as SuperInstance/jev-quilt#37). The blind view sums edge
+  // weight per target repo, and weight is cheap to inflate: a source the
+  // fleet has not earned to trust can merge N junk-citation PRs into its own
+  // repo and buy itself mass. viewTrusted re-scales every edge by its
+  // TARGET repo's EARNED trust:
+  //
+  //     effective(edge) = trust.get(toRepo, default) · weight(edge)
+  //
+  // An unseen source defaults to 0: it contributes NOTHING until the fleet
+  // earns reason to trust it — a lie minted at weight 1.0 ×10 by a stranger
+  // is scaled to 0 and cannot outvote one small trusted truth. Trust is the
+  // lever; weight alone is not. Ranking shape, refuted-scar exclusion, and
+  // share arithmetic are identical to view() (trust 1 for every repo reduces
+  // exactly to the blind view — pinned).
+  viewTrusted({ trust = {}, default: dflt = 0 } = {}) {
+    const t = trust instanceof Map ? (k) => trust.get(k) ?? dflt
+                                   : (k) => Object.hasOwn(trust, k) ? trust[k] : dflt;
+    return this._view(t);
+  }
+
+  _view(trustOf) {
     const mass = new Map(); // repo -> weight
     let total = 0;
     const refuted = new Set();
@@ -149,8 +173,10 @@ export class ReferralGraph {
       if (r.op !== 'LINK' || refuted.has(`${r.from}->${r.to}`)) continue;
       const w = r.weight === 'VERIFIED' ? VERIFIED_WEIGHT : PENDING_WEIGHT;
       const repo = this.nodes.get(r.to).repo;
-      mass.set(repo, (mass.get(repo) ?? 0) + w);
-      total += w;
+      const tw = trustOf(repo) * w;
+      if (tw <= 0) continue; // an untrusted source contributes nothing (G11)
+      mass.set(repo, (mass.get(repo) ?? 0) + tw);
+      total += tw;
     }
     return [...mass.entries()]
       .map(([repo, w]) => ({ repo, weight: w, share: total ? w / total : 0 }))

@@ -29,6 +29,21 @@ receipt that proves it or the falsification condition that would kill it.
 Provenance (where the finding lives) is shape-checked but earns nothing —
 do not conflate it with the currency.
 
+### The trust lever (G11 port, 2026-09-27)
+
+The blind view sums edge weight per target repo — and weight is cheap to
+inflate: a repo the fleet has not earned to trust can merge N junk-citation
+PRs into itself and BUY mass. `viewTrusted({trust, default: 0})` re-scales
+every edge by its target repo's EARNED trust:
+`effective = trust.get(repo, default) · weight`. An unseen source defaults
+to 0 — it contributes nothing until the fleet earns reason to trust it.
+Trust is the lever; weight alone is not. Ported from
+**SuperInstance/jev-quilt `commons.py`** — `trust_weighted()` /
+`provenance_merge()`, G11 "trust-weighted cross-fleet gluing", merged as
+SuperInstance/jev-quilt#37 (a lie deposited at weight 1000 by a stranger is
+scaled to 0 and cannot outvote a small trusted truth). Trust 1 for every
+repo reduces exactly to the blind view (pinned).
+
 ## First findings
 
 1. **The mesh started empty of currency — no longer.** All 5 seed edges began
