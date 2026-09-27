@@ -1,77 +1,132 @@
 # quilt-tools
 
-Ten working tool prototypes built on the [Quilt](https://github.com/SuperInstance/quilt)
-reactive spreadsheet engine — plus a **springboard lab** for JEV/MothQuantum
-experiments.
+Ten working tools grown on the [Quilt](https://github.com/SuperInstance/quilt)
+reactive spreadsheet engine, one shared harness, three GAN-bred bloodlines of
+logic, and a lab where the receipts get to mutate the tools that print them.
 
-## Zero-shot (30 seconds)
+**For the impatient:** everything here runs offline, grades its own homework,
+and says so out loud. No engine build, no cloud, one dependency.
 
 ```bash
 git clone https://github.com/SuperInstance/quilt-tools && cd quilt-tools
-npm install
+npm install                  # the only dep is yaml; the engine dist is vendored
 node tools/fleet-pager.mjs   # expect: 7/7 checks green
-npm run check                # expect: syntax OK
+npm run check                # syntax-check every tool and experiment
 ```
 
-No engine build needed — the @quilt/core dist is vendored.
+---
 
-Run all ten self-checks:
+## The ten tools
+
+Each `tools/*.mjs` is self-contained — engine wiring, scenario, and a check
+harness at the bottom. **75 self-checks across the set; green is the only
+accepted color.** Each tool also has a claim card in [`cards/`](cards/) saying
+what it is, who it's for, and where it came from.
+
+| tool | checks | what it actually does |
+|---|---|---|
+| [`fleet-pager`](tools/fleet-pager.mjs) | 7/7 | SRE paging with hysteresis band discipline — no more page-flapping at 3 a.m. |
+| [`ledger-seal`](tools/ledger-seal.mjs) | 6/6 | tamper-evident append-only witness ledger, fnv1a-chained |
+| [`ocean-recall`](tools/ocean-recall.mjs) | 7/7 | vector-note recall with *honest* forget — absence says "forgot," never "found" |
+| [`triagedesk`](tools/triagedesk.mjs) | 8/8 | support triage routing |
+| [`budget-tide`](tools/budget-tide.mjs) | 8/8 | cash-flow envelopes with dry-envelope fences |
+| [`home-ecos`](tools/home-ecos.mjs) | 6/6 | home ecosystem automation |
+| [`driftwatch`](tools/driftwatch.mjs) | 7/7 | config drift detection |
+| [`approvals`](tools/approvals.mjs) | 9/9 | spend approvals with tier-based routing |
+| [`habit-atlas`](tools/habit-atlas.mjs) | 8/8 | habit streaks with momentum physics |
+| [`pipeline-guard`](tools/pipeline-guard.mjs) | 9/9 | pipeline row validation + dead-letter replay |
+
+These are not demos wearing tool costumes. They are the smallest full
+behaviors that still count: each one makes decisions, keeps receipts, and can
+tell you why it decided what it decided.
 
 ```bash
-for f in tools/*.mjs; do node $f >/dev/null 2>&1 && echo "${f##*/}: green" || echo "${f##*/}: FAIL"; done
+for f in tools/*.mjs; do node $f >/dev/null 2>&1 \
+  && echo "${f##*/}: green" || echo "${f##*/}: FAIL"; done
 ```
 
-## Status: Phase 1 — scaffold ✅
+## The harness they stand on
 
-All 10 tools run offline (SysOne heuristics, no network) and self-check:
+[`src/toolkit.mjs`](src/toolkit.mjs) — `sheet()`, `check()`, `done()`, SysOne
+heuristics, a deterministic embedder, witness-chain helpers. No laptop paths;
+the engine dist resolves via [`vendor/quilt-core/`](vendor/quilt-core/) (the
+exact upstream provenance is recorded in its own README there — vendored so
+the tools run hermetically and the lab can mutate a copy without touching
+upstream). Override with `QUILT_DIST=/path/to/dist`.
 
-| tool | checks | realm |
-|---|---|---|
-| `fleet-pager` | 7/7 | SRE paging with hysteresis band discipline |
-| `ledger-seal` | 6/6 | tamper-evident append-only witness ledger |
-| `ocean-recall` | 7/7 | vector-note recall with honest forget |
-| `triagedesk` | 8/8 | support triage routing |
-| `budget-tide` | 8/8 | cash-flow envelopes with dry-envelope fences |
-| `home-ecos` | 6/6 | home ecosystem automation |
-| `driftwatch` | 7/7 | config drift detection |
-| `approvals` | 9/9 | spend approvals with tier-based routing |
-| `habit-atlas` | 8/8 | habit streaks with momentum physics |
-| `pipeline-guard` | 9/9 | pipeline row validation + dead-letter replay |
+## The lab — where tools meet live models
 
-```
-npm install
-node tools/fleet-pager.mjs    # or any of the ten
-npm run check                 # syntax-check all
-```
+[`experiments/`](experiments/) is the springboard: studies that run the
+heuristic tools against the fleet's typed live models and book whatever
+happens, including the refusals. The house rule: **witness-booked, and REFUSED
+rows are kept, never retried away.** Write-ups and receipts:
 
-## Layout
+- [`experiments/README.md`](experiments/README.md) — the live-oracle studies
+  (S1: triagedesk vs live jev — 12/12 live calls, honest score-gap reported).
+- [`experiments/API_LIMITS_R1.md`](experiments/API_LIMITS_R1.md) — what the
+  live models tolerate, measured not guessed.
+- `e1-ordinal-not-interval.mjs`, `e2-receipts-change-credit.mjs` — instrument
+  studies: how the *receipts themselves* bend the results (they do).
+- `s2-driftwatch-jev.mjs`, `s3-quantum-tided-budget.mjs` — more live pairings.
 
-- `tools/` — the ten prototypes (self-contained, each ends in a check harness)
-- `src/toolkit.mjs` — shared harness: `sheet()`, `check()`, `done()`, `SysOne`,
-  deterministic embedder, witness-chain helpers. No laptop paths — the engine
-  dist resolves via `vendor/quilt-core` (override with `QUILT_DIST=/path/to/dist`).
-- `vendor/quilt-core/` — vendored `@quilt/core` build (see its README for exact
-  provenance). Vendored so the tools run hermetically; the springboard lab can
-  mutate a copy without touching the upstream repo.
-- `cards/` — per-tool claim/role/origin cards (the "ten working tools" proof deck)
-- `site/index.html` — tool-picker UI
+### The referral graph — the mesh answers as a distribution
 
-## Springboard lab (Phase 2+)
+Casey's 2026-09-25 mandate: *"not one thing but a distribution of intelligent
+referrals."* [`src/referral_graph.mjs`](src/referral_graph.mjs) is the
+substrate: ideas are nodes, referrals are hash-chained LINK rows (fnv1a-64,
+the fleet receipt idiom), every edge carries the receipt that proves it —
+or the falsification condition that would kill it. The answer to a question
+is a ranked VIEW over modules, not a single confident pointer.
 
-The lab mandate: these prototypes plus the vendored engine are the substrate for
-JEV/MothQuantum experiments — instance-graph mutations as sheet diffs, midden
-harvesting as cell provenance, ZPP certification runs as witness chains. Work
-happens on branches; `main` stays green.
-## GAN-hardened logic (from the quilt-loom Divergence Foundry)
+- [`experiments/REFERRAL_GRAPH.md`](experiments/REFERRAL_GRAPH.md) — the
+  constitution: weight law (PENDING speculation weighs 0.05; VERIFIED merged
+  provenance weighs 1.0), booking rules, kill switches.
+- `referral_graph.seed.mjs` / `referral_graph.pins.mjs` — the real v1 graph
+  and its pin suite (`--live` audits every provenance PR against GitHub;
+  offline pins are labeled SKIPPED, never passed silently).
 
-`gan-elites/` holds crowned implementations bred by the loom — a GAN that
-breeds logic as different as possible from every prior bloodline while staying
-behaviorally exact. Each directory: `contract.mjs` (vendored oracle + canon +
-200-probe frozen corpus), `elite-NN.mjs` (provenance banner: family, hash,
-novelty, voice), and `verify.mjs` (self-contained in-place equivalence run).
+## The bloodlines — logic the loom bred
+
+[`gan-elites/`](gan-elites/) holds crowned implementations bred by the
+quilt-loom Divergence Foundry: a GAN that breeds logic **as different as
+possible from every prior bloodline while staying behaviorally exact.** Each
+directory carries a vendored oracle, a frozen 200-probe corpus, a provenance
+banner (family, hash, novelty, voice), and a self-contained verifier:
 
 ```bash
 node gan-elites/pager-band/verify.mjs      # 860/860 — divergent in form, exact in behavior
 node gan-elites/witness-fnv/verify.mjs     # 832/832
 node gan-elites/cosine-sparse/verify.mjs   # 828/828
 ```
+
+Same animal, three skeletons. If you doubt equivalence, run the verifier —
+that is what it's for.
+
+## The site
+
+[`site/index.html`](site/index.html) — a tool-picker UI over the ten. Open
+it, click around, break it, file the receipt.
+
+## Reading beyond this repo
+
+- The engine: [SuperInstance/quilt](https://github.com/SuperInstance/quilt) —
+  the reactive spreadsheet substrate everything here stands on.
+- The judges: [jeviter](https://github.com/SuperInstance/jeviter) (typed
+  model receipts) and [quilt-doctor](https://github.com/SuperInstance/quilt-doctor)
+  (four diagnostic lenses over any quilt-shaped project — this repo is a
+  patient).
+- The canon: [AI-Writings](https://github.com/SuperInstance/AI-Writings) —
+  the essays, including the ones about why tools must grade themselves.
+- The face: [SuperInstance.github.io](https://superinstance.github.io/) —
+  where the demos live.
+
+## Lab mandate (Phase 2+)
+
+These prototypes plus the vendored engine are the substrate for
+JEV/MothQuantum experiments — instance-graph mutations as sheet diffs, midden
+harvesting as cell provenance, ZPP certification runs as witness chains. Work
+happens on branches; **`main` stays green.**
+
+---
+
+*A tool that can't check itself is a rumor with a README. Nothing here is a rumor.*
