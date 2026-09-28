@@ -39,6 +39,15 @@ export const HINTS = {
 // whose title matches this pattern is reported EXCLUDED, never a candidate.
 export const SELF_REFERENTIAL = /referral[ _-]?graph/i;
 
+// Fuzzy-match guard (live run 2026-09-28): `gh search prs` ranks rather than
+// filters — it returned quilt-arcade#3 for 'episode-3 watcher' when that PR
+// never mentions watchers or episode 3 anywhere. So every search hit is
+// citation-verified BEFORE it may present as a candidate: the hint text must
+// appear literally (case-insensitive) in the PR's title, body, or diff. A
+// hit that fails is surfaced as fuzzy-rejected — printed, never booked,
+// never dropped silently. A gh error during verify is verify-unknown,
+// surfaced the same way (an unverifiable hit is not a pass).
+
 // searchFn(hint, repoFull) -> [{number,title,url,mergedAt}] — injectable for
 // pins. Default: live GitHub merged-PR search scoped to the org + repo.
 function ghSearch(hint, repoFull) {
@@ -46,7 +55,20 @@ function ghSearch(hint, repoFull) {
   return JSON.parse(out);
 }
 
-export function discover(seed, { live = false, searchFn = ghSearch, org = 'SuperInstance' } = {}) {
+// verifyFn(hint, prNumber, repoFull) -> true | false | null — injectable for
+// pins. Default: literal case-insensitive hint text in title, body, or diff;
+// null = gh error (unknown, never a pass).
+function ghVerify(hint, number, repoFull) {
+  const needle = hint.toLowerCase();
+  try {
+    const view = JSON.parse(execFileSync('gh', ['pr', 'view', String(number), '--repo', repoFull, '--json', 'title,body'], { stdio: 'pipe' }).toString());
+    if (((view.title ?? '') + '\n' + (view.body ?? '')).toLowerCase().includes(needle)) return true;
+    const diff = execFileSync('gh', ['pr', 'diff', String(number), '--repo', repoFull], { stdio: 'pipe' }).toString();
+    return diff.toLowerCase().includes(needle);
+  } catch { return null; }
+}
+
+export function discover(seed, { live = false, searchFn = ghSearch, verifyFn = ghVerify, org = 'SuperInstance' } = {}) {
   const byId = new Map(seed.nodes.map(n => [n.id, n]));
   const results = [];
   for (const edge of seed.edges) {
@@ -61,7 +83,8 @@ export function discover(seed, { live = false, searchFn = ghSearch, org = 'Super
         catch { entry.candidates.push({ hint, error: 'search failed' }); continue; }
         for (const h of hits) {
           const selfReferential = SELF_REFERENTIAL.test(h.title ?? '');
-          entry.candidates.push({ hint, pr: `#${h.number}`, title: h.title, url: h.url, ...(selfReferential ? { selfReferential: true } : {}) });
+          const verified = selfReferential ? undefined : verifyFn(hint, h.number, `${org}/${byId.get(edge.to).repo}`);
+          entry.candidates.push({ hint, pr: `#${h.number}`, title: h.title, url: h.url, ...(selfReferential ? { selfReferential: true } : verified === false ? { fuzzyRejected: true } : verified === null ? { verifyUnknown: true } : {}) });
         }
       }
     }
@@ -81,14 +104,24 @@ if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replace(/\\/g, '
     if (r.skipped) {
       console.log(`${r.edge} -> ${r.toRepo}: SKIPPED (gh=${ghOK}, --live=${LIVE}) — labeled, not silent`);
     } else {
-      const real = r.candidates.filter(c => !c.selfReferential);
+      const real = r.candidates.filter(c => !c.selfReferential && !c.fuzzyRejected && !c.verifyUnknown);
+      const fuzzy = r.candidates.filter(c => c.fuzzyRejected);
+      const unknown = r.candidates.filter(c => c.verifyUnknown);
       const self = r.candidates.filter(c => c.selfReferential);
-      if (real.length === 0 && self.length === 0) {
+      if (real.length === 0 && self.length === 0 && fuzzy.length === 0 && unknown.length === 0) {
         console.log(`${r.edge} -> ${r.toRepo}: 0 candidates across ${r.hints} hints`);
       } else {
         if (real.length) {
-          console.log(`${r.edge} -> ${r.toRepo}: ${real.length} CANDIDATE(S) — verify load-bearing, then flip the seed:`);
+          console.log(`${r.edge} -> ${r.toRepo}: ${real.length} CANDIDATE(S) — hint text verified in PR; still confirm load-bearing, then flip the seed:`);
           for (const c of real) console.log(`    [${c.hint}] ${c.pr} ${c.title}\n      ${c.url ?? c.error ?? ''}`);
+        }
+        if (fuzzy.length) {
+          console.log(`${r.edge} -> ${r.toRepo}: ${fuzzy.length} FUZZY-REJECTED (gh search ranked it, but the hint text is absent from PR title/body/diff — surfaced, not booked):`);
+          for (const c of fuzzy) console.log(`    [${c.hint}] ${c.pr} ${c.title}\n      ${c.url ?? ''}`);
+        }
+        if (unknown.length) {
+          console.log(`${r.edge} -> ${r.toRepo}: ${unknown.length} VERIFY-UNKNOWN (gh error during citation check — surfaced, not booked):`);
+          for (const c of unknown) console.log(`    [${c.hint}] ${c.pr} ${c.title}`);
         }
         if (self.length) {
           console.log(`${r.edge} -> ${r.toRepo}: ${self.length} EXCLUDED (self-referential — the graph's own artifact cannot mint its currency):`);
