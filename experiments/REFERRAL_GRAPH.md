@@ -117,6 +117,15 @@ repo reduces exactly to the blind view (pinned).
   the graph's own artifact cannot mint its currency, anti-Goodhart guard
   pinned as Pin 10). Candidates surface with their PR; a human verifies the
   citation is load-bearing, then the seed flips — this tool never books.
+  **Fuzzy-match guard LIVE 2026-09-28:** `gh search prs` ranks, not
+  filters — the live run surfaced quilt-arcade#3 ("Pong: realtime laws on
+  the discrete sheet") for 'episode-3 watcher' when that PR never mentions
+  watchers or episode 3 in title, body, or diff. Human verification rejected
+  it; the tool now citation-verifies every hit (literal hint text in
+  title/body/diff) before it may present as a CANDIDATE — fails are
+  FUZZY-REJECTED, gh errors VERIFY-UNKNOWN, both surfaced never booked
+  (Pin 12). Second live run after the guard: 0 real candidates across the
+  4 PENDING edges.
 - **Third candidate booked PENDING 2026-09-26** — the 11:11 pulse's org
   review flagged git-agent PR #1 ("quilt_emit: vessel lifecycle events →
   quilt 5-opcode WAL", MERGED 00:27:18Z, merge `6bc099a`). The merged code

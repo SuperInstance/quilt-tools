@@ -484,15 +484,20 @@ function fixture() {
     if (hint === 'receipts flip credit' && repoFull === 'SuperInstance/quilt-show') {
       return [{ number: 42, title: 'episode 5: receipts flip credit, demonstrated', url: 'u' }];
     }
+    if (hint === 'drag-to-reshape' && repoFull === 'SuperInstance/quilt-arcade') {
+      return [{ number: 3, title: 'Pong: realtime laws on the discrete sheet (plugin #6)', url: 'u' }];
+    }
     return [];
   };
+  const verifiedCalls = [];
+  const fakeVerify = (hint, number, repoFull) => { verifiedCalls.push([hint, number, repoFull]); return true; };
   const offline = discover(SEED, { live: false });
   check('discovery: offline mode reports SKIPPED, never passes silently',
     offline.every(r => r.skipped === true), offline.map(r => `${r.edge}:${r.skipped}`).join(' '));
-  const live = discover(SEED, { live: true, searchFn: fakeSearch });
+  const live = discover(SEED, { live: true, searchFn: fakeSearch, verifyFn: fakeVerify });
   const e2 = live.find(r => r.edge === 'qt-api-lab->qs-ep2');
   check('discovery: hint hit in the TO repo surfaces as candidate',
-    e2.candidates.some(c => c.pr === '#42' && c.hint === 'receipts flip credit'), JSON.stringify(e2.candidates));
+    e2.candidates.some(c => c.pr === '#42' && c.hint === 'receipts flip credit' && !c.fuzzyRejected && !c.verifyUnknown), JSON.stringify(e2.candidates));
   const toRepos = new Set(SEED.edges.map(e => `${'SuperInstance'}/${SEED.nodes.find(n => n.id === e.to).repo}`));
   check('discovery: every live search scoped to a to-node repo',
     scoped.length > 0 && scoped.every(r => toRepos.has(r)), scoped.join(','));
@@ -508,11 +513,34 @@ function fixture() {
     hint === 'NEGATIVE_SPACE' && repoFull === 'SuperInstance/quilt-tools'
       ? [{ number: 6, title: 'REFERRAL_GRAPH PoC: the mesh answers as a distribution', url: 'u' }]
       : [];
-  const liveSelf = discover(SEED, { live: true, searchFn: selfSearch });
+  const liveSelf = discover(SEED, { live: true, searchFn: selfSearch, verifyFn: fakeVerify });
   const neg = liveSelf.find(r => r.edge === 'qa-negspace->qt-api-lab');
   check('discovery: graph-owned PR flagged self-referential, not a candidate',
     neg.candidates.length === 1 && neg.candidates[0].selfReferential === true && neg.candidates[0].pr === '#6',
     JSON.stringify(neg.candidates));
+
+  // Pin 12 — fuzzy-match guard (real false positive, live run 2026-09-28):
+  // gh search prs RANKS, it does not filter — quilt-arcade#3 surfaced for
+  // 'drag-to-reshape' yet never mentions it. A hit the verifyFn rejects
+  // must be flagged fuzzyRejected (surfaced, not booked, not dropped), the
+  // verify call must be scoped to the TO repo, a verify error is
+  // verify-unknown (never a silent pass), and a verified hit carries no
+  // rejection flag at all.
+  const rejectingVerify = (hint, number, repoFull) => { verifiedCalls.push([hint, number, repoFull]); return false; };
+  const liveFuzzy = discover(SEED, { live: true, searchFn: fakeSearch, verifyFn: rejectingVerify });
+  const ep3 = liveFuzzy.find(r => r.edge === 'qs-ep3->qa-plugins');
+  check('discovery: unverified search hit flagged fuzzyRejected, not a candidate',
+    ep3.candidates.length === 1 && ep3.candidates[0].fuzzyRejected === true && ep3.candidates[0].pr === '#3',
+    JSON.stringify(ep3.candidates));
+  check('discovery: verify scoped to the TO repo',
+    verifiedCalls.length > 0 && verifiedCalls.every(([, , repo]) => toRepos.has(repo)),
+    verifiedCalls.map(c => c[2]).join(','));
+  const erroringVerify = () => null;
+  const liveUnknown = discover(SEED, { live: true, searchFn: fakeSearch, verifyFn: erroringVerify });
+  const e2u = liveUnknown.find(r => r.edge === 'qt-api-lab->qs-ep2');
+  check('discovery: verify error is verify-unknown, never a silent pass',
+    e2u.candidates.length === 1 && e2u.candidates[0].verifyUnknown === true && !e2u.candidates[0].fuzzyRejected,
+    JSON.stringify(e2u.candidates));
 }
 
 // Pin 11 — the G11 TRUST LEVER, ported from SuperInstance/jev-quilt commons.py
