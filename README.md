@@ -54,6 +54,12 @@ exact upstream provenance is recorded in its own README there — vendored so
 the tools run hermetically and the lab can mutate a copy without touching
 upstream). Override with `QUILT_DIST=/path/to/dist`.
 
+The fleet's honesty idiom for any claim is four verdicts:
+**CONFIRMED** (re-executed and it holds) · **REFUTED** (re-executed and it fails) ·
+**SIMULATED** (asserted, never executed — a model, not a measurement) ·
+**MEASURED** (executed, nothing claimed). These tools already book their refusals as
+receipts; coev's auditor names the other two dodges so no claim goes unlabeled.
+
 ## The lab — where tools meet live models
 
 [`experiments/`](experiments/) is the springboard: studies that run the
@@ -68,6 +74,11 @@ rows are kept, never retried away.** Write-ups and receipts:
 - `e1-ordinal-not-interval.mjs`, `e2-receipts-change-credit.mjs` — instrument
   studies: how the *receipts themselves* bend the results (they do).
 - `s2-driftwatch-jev.mjs`, `s3-quantum-tided-budget.mjs` — more live pairings.
+- The fleet's newest instrument: [coev](https://github.com/SuperInstance/coev) —
+  adversarial coevolution with a champion-integrity auditor. The gan-elites were
+  bred by *divergence* (as different as possible, behaviorally exact); coev breeds
+  by *rivalry* against a live champion and then audits the champion for hollowness.
+  Sibling instruments, one honesty doctrine.
 
 ### The referral graph — the mesh answers as a distribution
 
