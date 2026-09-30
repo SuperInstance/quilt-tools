@@ -266,6 +266,8 @@ export const SEED = {
       summary: 'review-honesty scoring gate: strict mode, routing + rolling windows, installable package — rumors/payloads below threshold are REFUSED with a named reason, never silently scored' },
     { id: 'fm-qgs-adapter', repo: 'fleet-murmur', kind: 'integration',
       summary: 'quality_gate_adapter: fleet-murmur\'s mill gate routed through the REAL quality-gate-stream package (CustomCheck/evaluate API, closed-by-default, absence returns None never faked), pinned by 4 live package-run pins + weight-law citation naming SuperInstance/quality-gate-stream' },
+    { id: 'fm-refusal-ledger', repo: 'fleet-murmur', kind: 'integration',
+      summary: 'the IETF refusal-events ledger lane: docs/ietf-kamimura-refusal-events-ledger.md audits pong-quilt main\'s named refusal-events corpus against draft-kamimura-scitt-refusal-events-03 (abstract sha-pinned; source re-verified still -03 on datatracker 2026-10-01), FAIL-first corpus pin via tests/test_refusal_events_ledger.py (fleet-murmur#8, merged 2026-09-30T19:31:12Z)' },
     { id: 'jq-commons-g11', repo: 'jev-quilt', kind: 'commons',
       summary: 'the G11 trust-weighted commons: jev_quilt/commons.py trust_weighted() / provenance_merge() — cross-fleet gluing re-scaled by earned per-source trust, default 0 for unseen sources (jev-quilt#37, merged 2026-09-27T00:06:03Z)' },
     { id: 'qt-trust-lever', repo: 'quilt-tools', kind: 'experiment',
@@ -278,6 +280,8 @@ export const SEED = {
       summary: 'the stone-v2 sign lane: signTip/verifyTipSignature ed25519 tip staples — signed msg = "stone-v2"||tip_row_hash, stored tip binds the signature to the exact chain, post-sign body edit re-seals hashes green but the signature still refuses (the laundering pin) (quilt-stone#4, merged 2026-09-27T09:02:01Z)' },
     { id: 'pq-sign-pilot', repo: 'pong-quilt', kind: 'experiment',
       summary: 'R39 STONE-V2-PILOTS first sign pilot: the prerun producer staples the R37 birth-seal chain\'s tip via the named quilt-stone checkout\'s signTip — signs a COPY (unsigned stone-v1.json stays canonical), verifyTipSignature BEFORE write, refused staple bricks the run, ships closed with a labeled skip (pong-quilt#51, merged 2026-09-27T09:03:15Z)' },
+    { id: 'pq-named-refusals', repo: 'pong-quilt', kind: 'experiment',
+      summary: 'the named refusal-events corpus on pong-quilt main: QA-REFUSAL (R12), byo-qpam-fallback (R16), WAL-EXPORT/REFUSED + WAL-EXPORT/EMPTY (R30), SEAL/REFUSED, and at R67 SAVE/COEV-EMPTY + LOAD/COEV-MALFORMED (SAVE/COEV-UNSTABLE R64 supersession lineage kept in claim prose) — every refusal names its kind and reason, zero prompt content' },
     { id: 'aw-jev-kat', repo: 'AI-Writings', kind: 'instrument',
       summary: 'AI-Writings#70 labs/jev-kat/jev_kat.mjs — the JEV known-answer control instrument: canonical KAT cases characterising the fleet oracle before its judgment gates anything (merged 2026-09-29T21:26:53Z)' },
     { id: 'jq-kat-bridge', repo: 'jev-quilt', kind: 'integration',
@@ -421,6 +425,14 @@ export const SEED = {
       provenance: 'SuperInstance/MicroMoth-quilt#24', // the seal whose producer-citation shape is the claim's whole subject
       receipt: 'SuperInstance/MicroMoth-quilt#29',
 falsification_condition: 'a MicroMoth-quilt receipt sealing qcells-lab work that drops the workspace/labs/qcells producer reference entirely (the sealed bytes\' provenance unmoored from any lab identity), or the upgrade PR merging with the SuperInstance/micrograd-quilt citation removed',
+    },
+    {
+      from: 'pq-named-refusals', to: 'fm-refusal-ledger',
+      claim: 'pong-quilt\'s refusals are named, receipted, and prompt-content-free (QA-REFUSAL, byo-qpam-fallback, WAL-EXPORT/REFUSED, WAL-EXPORT/EMPTY, SEAL/REFUSED — and at R67 SAVE/COEV-EMPTY + LOAD/COEV-MALFORMED, with the SAVE/COEV-UNSTABLE R64 name surviving in claim prose as supersession lineage) — exactly the worked named-corpus substrate draft-kamimura-scitt-refusal-events-03\'s refusal-claim audit needs a real deployment to be read against. CURRENCY EARNED 2026-09-30: fleet-murmur PR #8 ("Refusal-events ledger: draft-kamimura-scitt-refusal-events-03 × pong-quilt named refusals", MERGED 2026-09-30T19:31:12Z, merge b21a4a46) is a merged PR IN THE TO-NODE\'S REPO citing SuperInstance/pong-quilt BY NAME at an anchored, pinned site: the ledger doc\'s PQ_PIN repo constant plus a corpus table pinned to pong-quilt main merge 52b42b4 — six named refusal kinds present-tense grepped at that pin with line-level sites recorded — and tests/test_refusal_events_ledger.py running a FAIL-first corpus pin (a main tree without the corpus trips RED naming the missing kind, so a drifted citation cannot pass silently). Direction honesty per the substrate\'s receipt-repo rule (edge #2 precedent): the merge is in fleet-murmur, so the edge books pq-named-refusals -> fm-refusal-ledger — currency flows INTO the citing repo. The 17:49 pulse\'s org note recorded "mints pq->fm refusal-ledger edge" at merge time; this booking lands the mint the merge earned — never self-upgraded. fleet-murmur becomes the fleet\'s first TRIPLE-inbound repo (honesty-receipts#2, qgs-adapter#3, refusal-ledger#8); pong-quilt\'s THIRD outgoing edge (session-wal honesty, stone-v1 forward-adoption, named refusals).',
+      weight: 'VERIFIED',
+      provenance: null, // the refusal corpus lives on pong-quilt main (the pinned 52b42b4 tree); the receipt is the fleet-murmur merge
+      receipt: 'SuperInstance/fleet-murmur#8',
+      falsification_condition: 'the SuperInstance/pong-quilt citation removed from the ledger doc or the PQ_PIN corpus-pin test, or a re-audit of the pinned pong-quilt main merge where a named corpus kind is absent from the tree while the pin still reports green (a drifted citation passing silently)',
     },
   ],
 };

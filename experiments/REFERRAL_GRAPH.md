@@ -397,3 +397,32 @@ repo reduces exactly to the blind view (pinned).
    quilt-show 8.0% · quilt-tools 8.0% · git-agent 7.6% · jev-quilt 7.6% ·
    micrograd-quilt 7.6% · MicroMoth-quilt 7.6% · moth-waveform 7.6% ·
    quilt-cowboy 7.6% · quilt-stone 7.6% · quilt-arcade 0.8%.
+- **Fourteenth edge VERIFIED 2026-10-01 (06:56 snowball pulse) — the
+   refusal-events ledger lane; the mint fleet-murmur#8 earned lands.**
+   pong-quilt's refusals are named, receipted, and prompt-content-free —
+   QA-REFUSAL, byo-qpam-fallback, WAL-EXPORT/REFUSED, WAL-EXPORT/EMPTY,
+   SEAL/REFUSED, and at R67 SAVE/COEV-EMPTY + LOAD/COEV-MALFORMED (the
+   SAVE/COEV-UNSTABLE R64 name kept as supersession lineage). Casey merged
+   **fleet-murmur PR #8** ("Refusal-events ledger:
+   draft-kamimura-scitt-refusal-events-03 × pong-quilt named refusals",
+   MERGED 2026-09-30T19:31:12Z, merge `b21a4a4`) — a merged PR in the
+   to-node's repo whose `docs/ietf-kamimura-refusal-events-ledger.md` names
+   **SuperInstance/pong-quilt by name** at an anchored, pinned site (PQ_PIN
+   repo constant + corpus table pinned to main merge `52b42b4`, six named
+   kinds present-tense grepped at the pin), with
+   `tests/test_refusal_events_ledger.py` running a FAIL-first corpus pin so
+   a drifted citation trips RED instead of passing silently. The draft
+   source was re-verified current on 2026-10-01 (still `-03`, datatracker).
+   Weight law met in the citing repo's merge: edge `pq-named-refusals →
+   fm-refusal-ledger` is **VERIFIED=1.0**, receipt
+   `SuperInstance/fleet-murmur#8`. The 17:49 pulse noted "mints pq->fm
+   refusal-ledger edge" at merge time; this booking lands it by hand —
+   never self-upgraded. fleet-murmur becomes the fleet's first
+   **triple-inbound** repo; pong-quilt's third outgoing edge. **Ordering
+   note:** the ds-esign-drift booking rides open PR #32; if #32 lands
+   first, this entry's ordinal follows it (the chain hash, not the prose
+   ordinal, is canonical). The view now: **fleet-murmur 21.3%** (solo
+   lead) · pong-quilt 14.2% · quilt-show 7.4% · quilt-tools 7.4% ·
+   git-agent 7.1% · jev-quilt 7.1% · micrograd-quilt 7.1% · MicroMoth-quilt
+   7.1% · moth-waveform 7.1% · quilt-cowboy 7.1% · quilt-stone 7.1% ·
+   quilt-arcade 0.7%.
