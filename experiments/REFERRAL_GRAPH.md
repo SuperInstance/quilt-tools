@@ -298,3 +298,54 @@ repo reduces exactly to the blind view (pinned).
    21.7%** (tie, name order) · quilt-show 11.4% · quilt-tools 11.4% ·
    git-agent 10.9% · moth-waveform 10.9% · quilt-cowboy 10.9% ·
    quilt-stone 10.9% · quilt-arcade 1.1%.
+- **Eleventh edge BOOKED PENDING 2026-09-30 (08:11 pulse) — the KAT bridge
+   lane, one step earlier in the PR lifecycle than any prior booking.** The
+   07:11 pulse's org scan caught AI-Writings#70 (MERGED
+   2026-09-29T21:26:53Z) shipping `labs/jev-kat/jev_kat.mjs` — the JEV
+   known-answer control instrument — and the 08:03 pulse commissioned the
+   bridge into jev-quilt: **jev-quilt PR #47** (OPEN at booking) names
+   `SuperInstance/AI-Writings` **in-repo at anchored sites**: the bridge pins
+   the canonical instrument by repo + commit
+   `3f8405888366e3697b3775017fa5fe13d6244226` + sha256
+   `5f280b8b435852872fadeb449f4382275e80be56e80035da02274db8006e1cc5` as an
+   executable constant (a drifted upstream cannot be bridged silently),
+   `tests/test_jev_kat_bridge.py` asserts the citation string survives in
+   source, and the module docstring records AI-Writings#70 as the
+   instrument's canonical home. An instrument consumed by pin-and-digest is
+   doctrine LANDING in the consumer's repo. **Honest weight-law read: an OPEN
+   PR earns nothing** — edge `aw-jev-kat → jq-kat-bridge` is booked
+   **PENDING=0.05** with the merge itself as the upgrade path (the discovery
+   watcher now scans jev-quilt's merged-PR stream for `jev_kat` /
+   `known-answer control` / `AI-Writings`; on merge a human verifies the
+   citation is load-bearing and flips the seed — never self-upgraded).
+   Precedent discipline: `aw-quint-opcode` was booked PENDING on a
+   merged-but-doctrinal citation and earned currency only when the
+   target-repo merge named the source — same law, one lifecycle step
+   earlier. jev-quilt enters the VIEW for the first time as a TO-node
+   (PENDING mass; both its prior edges were outgoing). The view now:
+   **fleet-murmur 21.6% · pong-quilt 21.6%** (tie) · quilt-show 11.4% ·
+   quilt-tools 11.4% · git-agent 10.8% · moth-waveform 10.8% ·
+   quilt-cowboy 10.8% · quilt-stone 10.8% · quilt-arcade 1.1% ·
+   jev-quilt 0.5%.
+- **Eleventh edge FLIPPED VERIFIED 2026-09-30 (09:11 pulse) — the KAT
+   bridge lane closes one lifecycle step after booking.** jev-quilt PR #47
+   MERGED 2026-09-30T00:18:30Z (merge 45912589941ce29f02c8a6659bfe2b4e7abfccb9)
+   — Casey merged the commissioned bridge overnight. The 09:11 pulse ran the
+   weight-law check by hand, not self-upgraded: the MAIN-tree source still
+   carries the load-bearing citation (`tools/jev_kat_bridge.mjs` pins repo +
+   commit `3f8405888366e3697b3775017fa5fe13d6244226` + sha256
+   `5f280b8b435852872fadeb449f4382275e80be56e80035da02274db8006e1cc5` as
+   executable constants; `tests/test_jev_kat_bridge.py` still asserts the
+   citation string survives). The discovery watcher had surfaced #47 among
+   ten `AI-Writings`-hint candidates — the hint scanner ranks, the human
+   confirms load-bearing. Falsification condition checked and NOT met. Edge
+   `aw-jev-kat → jq-kat-bridge` is **VERIFIED=1.0**, receipt
+   `SuperInstance/jev-quilt#47` — jev-quilt's first INBOUND currency (both
+   prior edges were outgoing; it paid doctrine forward before ever receiving
+   it). The seed, pins (93→95 checks; three view pins correctly tripped RED
+   on the state change and were re-pinned to the post-flip distribution),
+   and this log move together — never self-upgraded, earned at the merge.
+   The view now: **fleet-murmur 17.9% · pong-quilt 17.9%** (tie) ·
+   quilt-show 9.4% · quilt-tools 9.4% · git-agent 8.9% · jev-quilt 8.9% ·
+   moth-waveform 8.9% · quilt-cowboy 8.9% · quilt-stone 8.9% ·
+   quilt-arcade 0.9%.
