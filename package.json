@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "private": false,
-  "description": "Ten working Quilt tool prototypes on the vendored @quilt/core dist \u2014 plus a springboard lab for JEV/MothQuantum experiments.",
+  "description": "Eleven working Quilt tool prototypes on the vendored @quilt/core dist \u2014 plus a springboard lab for JEV/MothQuantum experiments.",
   "scripts": {
     "check": "for f in src/toolkit.mjs tools/*.mjs experiments/*.mjs; do node --check \"$f\" || exit 1; done && echo 'syntax OK'",
     "tools": "node tools/fleet-pager.mjs",
