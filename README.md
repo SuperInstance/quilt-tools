@@ -1,6 +1,6 @@
 # quilt-tools
 
-Ten working tools grown on the [Quilt](https://github.com/SuperInstance/quilt)
+Eleven working tools grown on the [Quilt](https://github.com/SuperInstance/quilt)
 reactive spreadsheet engine, one shared harness, three GAN-bred bloodlines of
 logic, and a lab where the receipts get to mutate the tools that print them.
 
@@ -16,10 +16,10 @@ npm run check                # syntax-check every tool and experiment
 
 ---
 
-## The ten tools
+## The eleven tools
 
 Each `tools/*.mjs` is self-contained — engine wiring, scenario, and a check
-harness at the bottom. **75 self-checks across the set; green is the only
+harness at the bottom. **94 self-checks across the set; green is the only
 accepted color.** Each tool also has a claim card in [`cards/`](cards/) saying
 what it is, who it's for, and where it came from.
 
@@ -35,6 +35,7 @@ what it is, who it's for, and where it came from.
 | [`approvals`](tools/approvals.mjs) | 9/9 | spend approvals with tier-based routing |
 | [`habit-atlas`](tools/habit-atlas.mjs) | 8/8 | habit streaks with momentum physics |
 | [`pipeline-guard`](tools/pipeline-guard.mjs) | 9/9 | pipeline row validation + dead-letter replay |
+| [`convergence-gauge`](tools/convergence-gauge.mjs) | 19/19 | training-curve convergence certification — flat-tail latch, CUSUM change-point scan, hysteresis on the stop button |
 
 These are not demos wearing tool costumes. They are the smallest full
 behaviors that still count: each one makes decisions, keeps receipts, and can
