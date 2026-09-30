@@ -189,6 +189,29 @@
 // Weight law: PENDING = 0.05 (speculation is cheap) / VERIFIED = 1.0 (a
 // merged PR in the to-node's repo cites the from-technique).
 //
+// UPDATE 2026-10-01 (04:12 pulse): the FOURTEENTH edge lands directly at
+// VERIFIED — the merge outran the booking. The 23:56 9/30 pulse booked
+// qe-eproc-witness -> ds-esign-drift PENDING on branch edge14-pending-
+// delta-shape (commit 7ddd151), lost the same night in a /tmp wipe; the
+// 02:41 pulse rebuilt the PENDING booking as quilt-tools#31 (merge 812a644,
+// 2026-09-30T19:31:04Z) — and main was then reset to 58e2a18, dropping
+// the booking commit while KEEPING #29/#30. Neither wipe nor reset touches
+// the weight law's real question: did a merged PR in the to-node's repo
+// cite the from-technique load-bearing? **SuperInstance/delta-shape#1
+// ("Drift significance layer (E1-E5): e-witness bridge consuming
+// SuperInstance/quilt-ewitness", MERGED 2026-09-30T19:31:08Z, merge commit
+// 57c07426)** did exactly that: vendor/quilt-ewitness/eproc.mjs pinned BY
+// BYTES (@ 61b9e04, sha256 aad90ac5..., provenance in
+// vendor/quilt-ewitness/SOURCE.txt), src/esign.mjs witnessDrift() sha256-
+// checks the vendored instrument before trusting it (mismatched bytes refuse
+// to witness), and the owning repo SuperInstance/quilt-ewitness is named at
+// anchored sites on merged main (README "Shape != significance" section +
+// SOURCE.txt + esign.mjs VENDOR_REPO constant). One lifecycle arc, fully
+// inside the law: PENDING booking (twice — once lost, once reset away) ->
+// merge -> VERIFIED. delta-shape is the SIXTH to-node born after seeding,
+// entering at full VERIFIED mass; quilt-ewitness enters as a from-node
+// (from-node-only repos earn no view mass).
+//
 // UPDATE 2026-09-30 (14:56 pulse): the TWELFTH edge earned currency — the
 // first lab↔ledger bidirectional pair, and the booking corrects a false
 // negative. The 14:38 pulse's citation scan reported micrograd-quilt main
@@ -227,7 +250,7 @@
 export const SEED = {
   name: 'referral-graph-v1',
   repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'git-agent', 'AI-Writings'],
-  repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt', 'jev-quilt', 'quilt-cowboy', 'fleet-murmur', 'moth-waveform', 'quality-gate-stream', 'quilt-stone', 'MicroMoth-quilt', 'micrograd-quilt'],
+  repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt', 'jev-quilt', 'quilt-cowboy', 'fleet-murmur', 'moth-waveform', 'quality-gate-stream', 'quilt-stone', 'MicroMoth-quilt', 'micrograd-quilt', 'quilt-ewitness', 'delta-shape'],
 
   nodes: [
     { id: 'qt-api-lab', repo: 'quilt-tools', kind: 'lab',
@@ -286,9 +309,21 @@ export const SEED = {
       summary: 'the sealed receipt lineage on the MicroMoth import substrate: fnv1a-64 import-baseline manifest + per-receipt sha256 byte-match tables (manifest mismatch voids the seal), runner sealed as the exact bytes executed, FAIL-first pins per receipt (exp016 fba4ec7 #22 / exp017 #23 / exp018 664506a5 #24, all merged 2026-09-29)' },
     { id: 'mgq-qcells-lab', repo: 'micrograd-quilt', kind: 'lab',
       summary: 'the qcells local lab (labs/qcells): novel experimentation on the MicroMoth substrate, exp018-036 lineage with per-exp sealed results + telemetry + FINDINGS.md, receipts pushed for sealing into MicroMoth-quilt (micrograd-quilt#7 merged 2026-09-30T04:49:20Z)' },
+    { id: 'qe-eproc-witness', repo: 'quilt-ewitness', kind: 'lab',
+      summary: 'the e-process witness substrate (src/eproc.mjs): anytime-valid e-processes for "it learned" training claims — Ville bound 1/delta, sigma REQUIRED pre-registered (the tool refuses to run without it), evidence that fires and then decays RETRACTS (repo born 2026-09-30; lineage SuperInstance/witness-validation design + cellgraph E=2.996 forecast witnessing; receipted deviation: built from the standard Waudby-Smith-Ramdas-style construction without reading that code)' },
+    { id: 'ds-esign-drift', repo: 'delta-shape', kind: 'integration',
+      summary: 'the esign drift-significance layer (delta-shape#1 MERGED 2026-09-30T19:31:08Z, merge 57c07426): witnessDrift() sha256-checks the vendored quilt-ewitness instrument before trusting it, then joins the e-verdict with the change_points/shape_hash of the shape layer; E1-E5 pins seeded-LCG deterministic (V-shape WITNESSED then RETRACTED — the capability zeroTail/flatTail/extinct structurally lack); the pinned "Shape != significance" limit is DRAWN -> SHIPPED' },
   ],
 
   edges: [
+    {
+      from: 'qe-eproc-witness', to: 'ds-esign-drift',
+      claim: 'A fleet witness instrument consumed by pin-and-digest is doctrine landing in the consumer repo: quilt-ewitness (created 2026-09-30T09:25Z) ships src/eproc.mjs — anytime-valid e-process witnesses for training claims, Ville bound 1/delta, sigma pre-registered under refusal, retraction built in — and SuperInstance/delta-shape#1 ("Drift significance layer (E1-E5): e-witness bridge consuming SuperInstance/quilt-ewitness", MERGED 2026-09-30T19:31:08Z, merge commit 57c07426) names SuperInstance/quilt-ewitness in-repo at anchored sites on merged main: vendor/quilt-ewitness/eproc.mjs pinned BY BYTES (@ 61b9e04, sha256 aad90ac5aedb4d8e19b189808b47b22fc7258044af2c25c8f7fc90efec19e63a, provenance in vendor/quilt-ewitness/SOURCE.txt — the fleet vendored-dist pattern), src/esign.mjs witnessDrift() sha256-checks the vendored instrument BEFORE trusting it (the hash IS the identity; mismatched bytes refuse to witness), and the owning repo is named in README ("Shape != significance — now answered by the e-witness bridge", consuming from SuperInstance/quilt-ewitness as a sha256-pinned vendored instrument). HONEST HISTORY: this edge was booked PENDING twice before the merge outran the booking — 23:56 9/30 on branch edge14-pending-delta-shape (commit 7ddd151, lost in a /tmp wipe before push), rebuilt 02:41 as quilt-tools#31 (merge 812a644), whose commit was later reset off main — so this commit books the edge at its earned weight in one step, with the merge itself as the receipt (the aw-jev-kat precedent: booked PENDING on an open PR, flipped by the merge, never self-upgraded). delta-shape is the SIXTH to-node born after seeding (fleet-murmur, moth-waveform, quilt-stone, micrograd-quilt, MicroMoth-quilt, delta-shape); quilt-ewitness enters as a from-node (from-node-only repos earn no view mass).',
+      weight: 'VERIFIED',
+      provenance: 'SuperInstance/delta-shape#1', // the merged PR in the to-node's repo whose vendored-bytes citation IS the claim's subject
+      receipt: 'SuperInstance/delta-shape#1',
+      falsification_condition: 'delta-shape main dropping the SuperInstance/quilt-ewitness citation from src/esign.mjs / vendor/quilt-ewitness/SOURCE.txt / README, or witnessDrift() executing vendored bytes whose sha256 does not match the pinned digest aad90ac5...',
+    },
     {
       from: 'stone-sign-lane', to: 'pq-sign-pilot',
       claim: 'quilt-stone\'s stone-v2 sign lane gives a receipt chain a producer-identity staple — but a signature primitive nobody staples with is a library, not a doctrine. CURRENCY EARNED 2026-09-27: pong-quilt PR #51 ("R39: STONE-V2-PILOTS first sign pilot — producer staples the birth-seal chain\'s tip", MERGED 2026-09-27T09:03:15Z, merge 07384ac2) lands the first real adoption IN THE PRODUCER\'s repo: tools/prerun.js staples the R37 birth-seal chain\'s tip through the named quilt-stone checkout\'s signTip/verifyTipSignature (signs a COPY — the unsigned stone-v1.json stays canonical; verifyTipSignature with the producer public key runs BEFORE write; a refused staple bricks the run exit 1; the seam ships closed with a labeled skip when the checkout has no signTip — never silent), citing SuperInstance/quilt-stone BY NAME in-repo at three anchored sites: PLAYLOG Round 39 ("the stone-v2 sign lane, SuperInstance/quilt-stone PR #4, STONE-SPEC.md §4.6.2"), the citation pin in tests/stone-sign-glue.test.js, and core.js VERIFIED_CLAIMS \'stone-sign-pilot\'. The 4 glue pins ran LIVE against the sign-lane tip 047be72 before merge: seal links 5 + staple ok + the post-sign FORGED-edit laundering refusal ("signed tip does not match the chain tip") + wrong-key refusal. HONESTY ON DIRECTION: the 14:56/16:04 pulse notes guessed pong-quilt→quilt-stone; the substrate\'s receipt-repo rule (edge #5 precedent) books stone-sign-lane -> pq-sign-pilot — the merge in the citing repo earns currency FOR the cited technique flowing INTO that repo. quilt-stone\'s FIRST outgoing edge (it received edge #9 five hours earlier); pong-quilt joins fleet-murmur as the second double-inbound-mass repo — the sign lane lands in the same repo that already breaks ties by quantum coin. Pre-booked twice, earned by Casey\'s merge burst, never self-upgraded.',
