@@ -31,6 +31,7 @@ export const HINTS = {
   'qt-s3-tide->qa-plugins':  ['quantum-tided', 'PENDING/ENTANGLED/COLLAPSED', 'S3 witness'],
   'qa-negspace->qt-api-lab': ['NEGATIVE_SPACE', 'declined patch 12', 'declined-patch-12'],
   'qs-ep3->qa-plugins':      ['drag-to-reshape', 'episode-3 watcher', 'episode 3 watcher'],
+  'aw-jev-kat->jq-kat-bridge': ['jev_kat', 'known-answer control', 'AI-Writings'],
 };
 
 // Anti-Goodhart guard (first live discovery run, 2026-09-26): the graph's

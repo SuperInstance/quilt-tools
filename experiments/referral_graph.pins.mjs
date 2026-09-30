@@ -25,7 +25,7 @@ for (const n of (await import('./referral_graph.seed.mjs')).SEED.nodes) seed.add
 let seedBooked = 0;
 for (const e of (await import('./referral_graph.seed.mjs')).SEED.edges) { seed.book(e); seedBooked++; }
 
-check('seed: all edges booked', seedBooked === 14 && seed.rows.length === 14, `${seedBooked} edges`);
+check('seed: all edges booked', seedBooked === 15 && seed.rows.length === 15, `${seedBooked} edges`);
 
 // Pin 1 — missing required field is a loud REFUSAL, never a silent drop.
 {
@@ -50,7 +50,10 @@ check('seed: all edges booked', seedBooked === 14 && seed.rows.length === 14, `$
 // epsilon) — fleet-murmur AND pong-quilt carry double mass (fm: two
 // inbound; pq: the quantum-coin tiebreak + the stone-v2 sign pilot),
 // quilt-show and quilt-tools hold VERIFIED + PENDING, git-agent,
-// moth-waveform, quilt-cowboy and quilt-stone hold single VERIFIED mass.
+// moth-waveform, quilt-cowboy and quilt-stone hold single VERIFIED mass,
+// and jev-quilt enters the view for the first time as a TO-node (the KAT
+// bridge, one PENDING edge — its first inbound currency; its two prior
+// edges were both outgoing).
 // (From-node-only repos — quilt-quant, AI-Writings, quality-gate-stream —
 // earn no view mass; mass is measured where doctrine LANDS.)
 // (main-repair note: the #11 conflict resolution had duplicated this block
@@ -58,10 +61,10 @@ check('seed: all edges booked', seedBooked === 14 && seed.rows.length === 14, `$
 // Removed here; the currency flip below is what this PR is for.)
 {
   const v = seed.view();
-  check('seed: view ranks all nine mass-carrying repos', v.length === 9, v.map(x => `${x.repo}=${x.share.toFixed(3)}`).join(' '));  const shares = v.map(x => x.share);
+  check('seed: view ranks all ten mass-carrying repos', v.length === 10, v.map(x => `${x.repo}=${x.share.toFixed(3)}`).join(' '));  const shares = v.map(x => x.share);
   check('seed: view shares sum to 1', Math.abs(shares.reduce((a, b) => a + b, 0) - 1) < 1e-9, `Σ=${shares.reduce((a, b) => a + b, 0)}`);
   const byRepo = Object.fromEntries(v.map(x => [x.repo, x.weight]));
-  check('seed: view mass — fm = pq = 2×VERIFIED, qs/qt = VERIFIED + PENDING, ga/qb/mw/stone = VERIFIED, qa = 2×PENDING (from-node-only repos: no view mass)',
+  check('seed: view mass — fm = pq = 2×VERIFIED, qs/qt = VERIFIED + PENDING, ga/qb/mw/stone = VERIFIED, qa = 2×PENDING, jev-quilt = PENDING (from-node-only repos: no view mass)',
     Math.abs(byRepo['fleet-murmur'] - 2 * VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['pong-quilt'] - 2 * VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['quilt-show'] - (VERIFIED_WEIGHT + PENDING_WEIGHT)) < 1e-9 &&
@@ -71,11 +74,12 @@ check('seed: all edges booked', seedBooked === 14 && seed.rows.length === 14, `$
     Math.abs(byRepo['quilt-stone'] - VERIFIED_WEIGHT) < 1e-9 &&
     !('quality-gate-stream' in byRepo) &&
     Math.abs(byRepo['quilt-arcade'] - 2 * PENDING_WEIGHT) < 1e-9 &&
-    Math.abs(byRepo['quilt-tools'] - (VERIFIED_WEIGHT + PENDING_WEIGHT)) < 1e-9,
+    Math.abs(byRepo['quilt-tools'] - (VERIFIED_WEIGHT + PENDING_WEIGHT)) < 1e-9 &&
+    Math.abs(byRepo['jev-quilt'] - PENDING_WEIGHT) < 1e-9,
     JSON.stringify(byRepo));
   const sorted = [...v].sort((a, b) => b.share - a.share || a.repo.localeCompare(b.repo));
   check('seed: view is sorted by share desc', JSON.stringify(v) === JSON.stringify(sorted), 'sorted');
-  check('seed: fm and pq tie with double mass (name order); then the two VERIFIED+PENDING repos (quilt-show, quilt-tools); the four single-VERIFIED repos tie, broken by name (git-agent first, quilt-stone last)',
+  check('seed: fm and pq tie with double mass (name order); then the two VERIFIED+PENDING repos (quilt-show, quilt-tools); the four single-VERIFIED repos tie, broken by name (git-agent first, quilt-stone last); jev-quilt enters last with its single PENDING edge — first inbound currency',
     v[0].repo === 'fleet-murmur' && v[0].weight === 2 * VERIFIED_WEIGHT &&
     v[1].repo === 'pong-quilt' && v[1].weight === 2 * VERIFIED_WEIGHT &&
     v[2].repo === 'quilt-show' && v[2].weight === VERIFIED_WEIGHT + PENDING_WEIGHT &&
@@ -84,8 +88,9 @@ check('seed: all edges booked', seedBooked === 14 && seed.rows.length === 14, `$
     v[5].repo === 'moth-waveform' && v[5].weight === VERIFIED_WEIGHT &&
     v[6].repo === 'quilt-cowboy' && v[6].weight === VERIFIED_WEIGHT &&
     v[7].repo === 'quilt-stone' && v[7].weight === VERIFIED_WEIGHT &&
-    v[8].repo === 'quilt-arcade' && v[8].weight === 2 * PENDING_WEIGHT,
-    `${v[0].repo} ${(v[0].share * 100).toFixed(1)}% · ${v[1].repo} ${(v[1].share * 100).toFixed(1)}% · ${v[2].repo} ${(v[2].share * 100).toFixed(1)}% · ${v[3].repo} ${(v[3].share * 100).toFixed(1)}% · ${v[4].repo} ${(v[4].share * 100).toFixed(1)}% · ${v[5].repo} ${(v[5].share * 100).toFixed(1)}% · ${v[6].repo} ${(v[6].share * 100).toFixed(1)}% · ${v[7].repo} ${(v[7].share * 100).toFixed(1)}% · ${v[8].repo} ${(v[8].share * 100).toFixed(1)}%`);
+    v[8].repo === 'quilt-arcade' && v[8].weight === 2 * PENDING_WEIGHT &&
+    v[9].repo === 'jev-quilt' && v[9].weight === PENDING_WEIGHT,
+    `${v[0].repo} ${(v[0].share * 100).toFixed(1)}% · ${v[1].repo} ${(v[1].share * 100).toFixed(1)}% · ${v[2].repo} ${(v[2].share * 100).toFixed(1)}% · ${v[3].repo} ${(v[3].share * 100).toFixed(1)}% · ${v[4].repo} ${(v[4].share * 100).toFixed(1)}% · ${v[5].repo} ${(v[5].share * 100).toFixed(1)}% · ${v[6].repo} ${(v[6].share * 100).toFixed(1)}% · ${v[7].repo} ${(v[7].share * 100).toFixed(1)}% · ${v[8].repo} ${(v[8].share * 100).toFixed(1)}% · ${v[9].repo} ${(v[9].share * 100).toFixed(1)}%`);
 }
 
 // Pin 3c — the SECOND currency event (FAIL-first: on main tip the quantum-coin
@@ -357,6 +362,38 @@ check('seed: all edges booked', seedBooked === 14 && seed.rows.length === 14, `$
     toPq.map(r => `${r.from}->${r.to}`).join(' '));
 }
 
+// Pin 3l — the ELEVENTH edge BOOKED PENDING 2026-09-30: the KAT bridge lane.
+// FAIL-first: on main tip this edge does not exist (the booking pins trip).
+// The 08:03 pulse shipped jev-quilt#47 (OPEN at booking) — the commissioned
+// bridge naming SuperInstance/AI-Writings in-repo at anchored sites (repo +
+// commit 3f8405888366e3697b3775017fa5fe13d6244226 + sha256 5f280b8b…e1cc5 as
+// an executable constant; tests/test_jev_kat_bridge.py asserts the citation
+// string survives; module docstring records AI-Writings#70 as canonical
+// home). Weight law discipline: an OPEN PR earns nothing — PENDING with the
+// merge itself as the upgrade path (discovery hints now watch the to-repo's
+// merged stream: jev_kat / known-answer control / AI-Writings). Precedent:
+// aw-quint-opcode was booked PENDING on a merged-but-doctrinal citation and
+// earned currency only when the target-repo merge named the source — one
+// step earlier in the PR lifecycle here.
+{
+  const row = seed.rows.find(r => r.op === 'LINK' && r.from === 'aw-jev-kat' && r.to === 'jq-kat-bridge');
+  check('seed: aw→jq KAT edge is PENDING with no receipt (weight must be earned)',
+    row?.weight === 'PENDING' && row?.receipt === null,
+    row ? `weight=${row.weight} receipt=${row.receipt}` : 'edge not found');
+  check('seed: aw→jq claim records the OPEN-PR provenance and the upgrade path',
+    row?.claim.includes('SuperInstance/jev-quilt#47') && row?.claim.includes('OPEN at booking'),
+    row ? 'claim carries the open-PR provenance' : 'edge not found');
+  check('seed: aw→jq declares a falsification condition (kill switch)',
+    typeof row?.falsification_condition === 'string' && row.falsification_condition.length > 20,
+    row?.falsification_condition ?? 'none');
+  const aw = seed.nodes.get('aw-jev-kat'), jq = seed.nodes.get('jq-kat-bridge');
+  check('seed: both endpoints exist in their own repos',
+    aw?.repo === 'AI-Writings' && jq?.repo === 'jev-quilt', `${aw?.repo} -> ${jq?.repo}`);
+  const toJq = seed.rows.filter(r => r.op === 'LINK' && seed.nodes.get(r.to)?.repo === 'jev-quilt');
+  check('seed: this is jev-quilt\'s FIRST inbound edge — its first view mass (both prior edges were outgoing)',
+    toJq.length === 1 && toJq[0].from === 'aw-jev-kat', toJq.map(r => `${r.from}->${r.to}`).join(' '));
+}
+
 // Pin 4 — provenance live audit: every cited PR must actually be merged.
 // gh absence -> skip labeled SKIPPED (honest), never pass silently.
 {
@@ -603,7 +640,7 @@ function fixture() {
 }
 
 panel('referral-graph v1 — the mesh answers as a distribution', [
-  kv('nodes', '22 (11 repos)'), kv('edges', '14 — 10 VERIFIED · 4 PENDING'),
+  kv('nodes', '24 (11 repos)'), kv('edges', '15 — 10 VERIFIED · 5 PENDING'),
   kv('currency', '10 VERIFIED (show#1 cites S2 · pong#28 cites coin-toss-v1 · git-agent#4 cites algebra.md · cowboy#1 cites jev-quilt · fleet-murmur#2 cites pong-quilt · moth-waveform#1 cites the fm vacuity scar · fleet-murmur#3 cites quality-gate-stream · quilt-tools#17 cites jev-quilt commons.py G11 · quilt-stone#1 cites pong-quilt R36 toStoneV1 · pong-quilt#51 staples with quilt-stone#4\'s signTip) — doctrine flows outward ten ways; jev-quilt earns its SECOND outgoing edge (commons G11 → the graph\'s own trust lever), pong-quilt earns its SECOND OUTGOING edge (the R36 wal-export lane both receives pq→fm currency and pays it forward into the canonical receipt-chain verifier) AND its second INBOUND (the coin tiebreak + the sign pilot — tying fleet-murmur for double view mass), quilt-stone earns its FIRST outgoing edge (the sign lane, five hours after receiving edge #9); fleet-murmur and pong-quilt are the double-inbound repos; from-node-only repos carry no view mass — mass is measured where doctrine lands; to-nodes born after seeding: fleet-murmur, moth-waveform, quilt-stone'),
   kv('view', seed.view().map(x => `${x.repo} ${(x.share * 100).toFixed(1)}%`).join(' · ')),
 ]);

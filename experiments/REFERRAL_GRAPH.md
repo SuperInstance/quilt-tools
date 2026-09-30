@@ -298,3 +298,32 @@ repo reduces exactly to the blind view (pinned).
    21.7%** (tie, name order) · quilt-show 11.4% · quilt-tools 11.4% ·
    git-agent 10.9% · moth-waveform 10.9% · quilt-cowboy 10.9% ·
    quilt-stone 10.9% · quilt-arcade 1.1%.
+- **Eleventh edge BOOKED PENDING 2026-09-30 (08:11 pulse) — the KAT bridge
+   lane, one step earlier in the PR lifecycle than any prior booking.** The
+   07:11 pulse's org scan caught AI-Writings#70 (MERGED
+   2026-09-29T21:26:53Z) shipping `labs/jev-kat/jev_kat.mjs` — the JEV
+   known-answer control instrument — and the 08:03 pulse commissioned the
+   bridge into jev-quilt: **jev-quilt PR #47** (OPEN at booking) names
+   `SuperInstance/AI-Writings` **in-repo at anchored sites**: the bridge pins
+   the canonical instrument by repo + commit
+   `3f8405888366e3697b3775017fa5fe13d6244226` + sha256
+   `5f280b8b435852872fadeb449f4382275e80be56e80035da02274db8006e1cc5` as an
+   executable constant (a drifted upstream cannot be bridged silently),
+   `tests/test_jev_kat_bridge.py` asserts the citation string survives in
+   source, and the module docstring records AI-Writings#70 as the
+   instrument's canonical home. An instrument consumed by pin-and-digest is
+   doctrine LANDING in the consumer's repo. **Honest weight-law read: an OPEN
+   PR earns nothing** — edge `aw-jev-kat → jq-kat-bridge` is booked
+   **PENDING=0.05** with the merge itself as the upgrade path (the discovery
+   watcher now scans jev-quilt's merged-PR stream for `jev_kat` /
+   `known-answer control` / `AI-Writings`; on merge a human verifies the
+   citation is load-bearing and flips the seed — never self-upgraded).
+   Precedent discipline: `aw-quint-opcode` was booked PENDING on a
+   merged-but-doctrinal citation and earned currency only when the
+   target-repo merge named the source — same law, one lifecycle step
+   earlier. jev-quilt enters the VIEW for the first time as a TO-node
+   (PENDING mass; both its prior edges were outgoing). The view now:
+   **fleet-murmur 21.6% · pong-quilt 21.6%** (tie) · quilt-show 11.4% ·
+   quilt-tools 11.4% · git-agent 10.8% · moth-waveform 10.8% ·
+   quilt-cowboy 10.8% · quilt-stone 10.8% · quilt-arcade 1.1% ·
+   jev-quilt 0.5%.

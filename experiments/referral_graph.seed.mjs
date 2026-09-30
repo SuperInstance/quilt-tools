@@ -247,6 +247,10 @@ export const SEED = {
       summary: 'the stone-v2 sign lane: signTip/verifyTipSignature ed25519 tip staples — signed msg = "stone-v2"||tip_row_hash, stored tip binds the signature to the exact chain, post-sign body edit re-seals hashes green but the signature still refuses (the laundering pin) (quilt-stone#4, merged 2026-09-27T09:02:01Z)' },
     { id: 'pq-sign-pilot', repo: 'pong-quilt', kind: 'experiment',
       summary: 'R39 STONE-V2-PILOTS first sign pilot: the prerun producer staples the R37 birth-seal chain\'s tip via the named quilt-stone checkout\'s signTip — signs a COPY (unsigned stone-v1.json stays canonical), verifyTipSignature BEFORE write, refused staple bricks the run, ships closed with a labeled skip (pong-quilt#51, merged 2026-09-27T09:03:15Z)' },
+    { id: 'aw-jev-kat', repo: 'AI-Writings', kind: 'instrument',
+      summary: 'AI-Writings#70 labs/jev-kat/jev_kat.mjs — the JEV known-answer control instrument: canonical KAT cases characterising the fleet oracle before its judgment gates anything (merged 2026-09-29T21:26:53Z)' },
+    { id: 'jq-kat-bridge', repo: 'jev-quilt', kind: 'integration',
+      summary: 'jev-quilt#47 tools/jev_kat_bridge.mjs — bridge fetching the canonical AI-Writings KAT instrument at pinned commit 3f8405888 (sha256 5f280b8b…e1cc5 verified pre-exec), receipting the live characterisation under jev_sessions/, offline gate exit 0/2/3 (OPEN at booking 2026-09-30)' },
   ],
 
   edges: [
@@ -358,6 +362,13 @@ export const SEED = {
       provenance: 'SuperInstance/git-agent#1',
       receipt: 'SuperInstance/git-agent#4',
       falsification_condition: 'git-agent quilt_emit.py shipping an opcode mapping that contradicts algebra.md semantics (e.g. VIEW given mutation semantics, or a 6th opcode added) with no algebra reference anywhere in the repo',
+    },
+    {
+      from: 'aw-jev-kat', to: 'jq-kat-bridge',
+      claim: 'A fleet oracle instrument consumed by pin-and-digest is doctrine landing in the consumer\'s repo: AI-Writings#70 (MERGED 2026-09-29T21:26:53Z) shipped labs/jev-kat/jev_kat.mjs as the canonical KAT instrument, and SuperInstance/jev-quilt#47 (OPEN at booking 2026-09-30 — this pulse\'s commissioned bridge) names SuperInstance/AI-Writings in-repo at anchored sites: the bridge pins the instrument by repo + commit 3f8405888366e3697b3775017fa5fe13d6244226 + sha256 5f280b8b435852872fadeb449f4382275e80be56e80035da02274db8006e1cc5 as an executable constant, tests/test_jev_kat_bridge.py asserts the citation string survives in source (a drifted upstream cannot be bridged silently), and the module docstring records AI-Writings#70 as the instrument\'s canonical home. Honest weight law read: the citing PR is OPEN, not merged — so this edge is speculation with unusually good provenance, booked PENDING with the merge itself as the upgrade path (the discovery watcher now scans the to-repo\'s merged stream for these hints). Precedent: the aw-quint-opcode edge was booked PENDING on a merged-but-doctrinal citation and earned currency only when the target-repo merge named the source — same discipline here, one step earlier in the PR lifecycle.',
+      weight: 'PENDING',
+      provenance: null, // the citing PR SuperInstance/jev-quilt#47 is OPEN at booking — provenance is named in the claim, not structured, until the merge earns the structured field (Pin 4 live audit requires MERGED)
+      falsification_condition: 'jev-quilt#47 merging with the SuperInstance/AI-Writings citation removed from tools/jev_kat_bridge.mjs source or the tests/test_jev_kat_bridge.py citation pin, or the bridge executing an instrument whose sha256 does not match the pinned digest 5f280b8b…e1cc5',
     },
   ],
 };
