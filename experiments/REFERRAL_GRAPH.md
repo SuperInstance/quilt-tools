@@ -13,7 +13,8 @@ receipt that proves it or the falsification condition that would kill it.
 - `experiments/referral_graph.seed.mjs` — the real v1 graph: 9 nodes across
   quilt-tools ↔ quilt-show ↔ quilt-arcade + quilt-quant → pong-quilt, 6
   edges, every edge with its kill switch declared.
-- `experiments/referral_graph.pins.mjs` — 27 pins. Run:
+- `experiments/referral_graph.pins.mjs` — 109 pins (108 offline-green +
+  the live PR audit on `--live`). Run:
   `node experiments/referral_graph.pins.mjs --live` (the `--live` pass audits
   every provenance PR against GitHub; offline pins are labeled SKIPPED, never
   passed silently).
@@ -349,3 +350,50 @@ repo reduces exactly to the blind view (pinned).
    quilt-show 9.4% · quilt-tools 9.4% · git-agent 8.9% · jev-quilt 8.9% ·
    moth-waveform 8.9% · quilt-cowboy 8.9% · quilt-stone 8.9% ·
    quilt-arcade 0.9%.
+- **Twelfth edge VERIFIED 2026-09-30 (14:56 pulse) — the lab↔ledger pair,
+   ledger→lab, and a FALSE NEGATIVE corrected in the claim itself.** The
+   14:38 pulse queued a citation PR to micrograd-quilt on the claim that its
+   main cited SuperInstance/MicroMoth-quilt ZERO times despite consuming the
+   exp018-036 receipt lineage. This pulse's re-audit found that scan WRONG:
+   **micrograd-quilt PR #7** ("qcells exp020-036: tie-band replication →
+   two-regime desert hazard → triplet-stream rate-lane closure", MERGED
+   2026-09-30T04:49:20Z, merge `44de605`) is a merged PR in the to-node's
+   repo whose diff ADDS `labs/qcells/FINDINGS.md` citing
+   SuperInstance/MicroMoth-quilt **by name at four anchored sites** — the lab
+   charter header, the import-baseline manifest pin on MicroMoth-quilt main,
+   the honest-limit gap posted on MicroMoth-quilt#3, the receipts/ lane note —
+   plus `docs/synergy-scan-2026-09-30-0711.md` consuming MicroMoth-quilt#23/#24's
+   MERGED sealed findings to redirect the lab's own queue ("do not re-run").
+   No citation PR was opened — Casey's merge already earned the edge, and
+   opening one would have been citation spam on a false premise. Weight law
+   met: edge `mm-sealed-receipts → mgq-qcells-lab` is **VERIFIED=1.0**,
+   receipt `SuperInstance/micrograd-quilt#7`, provenance
+   `SuperInstance/MicroMoth-quilt#24`. micrograd-quilt enters the view at
+   full VERIFIED mass (a to-node born after seeding, skipping epsilon).
+- **Thirteenth edge FLIPPED VERIFIED 2026-09-30 (17:56 pulse) — the mirror
+   earns its currency; the first bidirectional pair is VERIFIED in both
+   directions.** The 14:56 pulse booked the lab→ledger mirror PENDING on the
+   git-agent#1 doctrinal shape (MicroMoth-quilt#24 names the producer only
+   as "the qcells lab (workspace/labs/qcells)"). Casey merged the upgrade
+   path six hours later: **MicroMoth-quilt PR #29** ("docs(audit): qcells
+   lab canonical home = SuperInstance/micrograd-quilt — provenance note +
+   citation pin", MERGED 2026-09-30T09:27:01Z) is a merged PR in the
+   to-node's repo whose diff ADDS an AUDIT.md "Qcells lab — canonical home"
+   note naming **SuperInstance/micrograd-quilt by name** as the lab's
+   durable addressable home (labs/qcells tree; sealed lineage exp018–exp022
+   mirrored as receipt PRs #5–#7), with `tests/test_lab_home_citation.py`
+   pinning the citation in-repo (repo named; local path framed by citation).
+   Honest handling of history: sealed receipts are immutable — the note
+   amends provenance without touching them. Weight law met: edge
+   `mgq-qcells-lab → mm-sealed-receipts` is **VERIFIED=1.0**, receipt
+   `SuperInstance/MicroMoth-quilt#29`, provenance unchanged
+   (`SuperInstance/MicroMoth-quilt#24`). The discovery watcher surfaced #29
+   on the booked hint scan (`micrograd-quilt` / `qcells lab`); the flip was
+   confirmed by hand against the merged diff — load-bearing citation, FAIL
+   test intact, never self-upgraded. The mm⇄mgq pair now carries VERIFIED
+   mass in BOTH directions — the graph's first fully-verified bidirectional
+   relationship. MicroMoth-quilt enters the view at full VERIFIED mass.
+   The view now: **fleet-murmur 15.2% · pong-quilt 15.2%** (tie) ·
+   quilt-show 8.0% · quilt-tools 8.0% · git-agent 7.6% · jev-quilt 7.6% ·
+   micrograd-quilt 7.6% · MicroMoth-quilt 7.6% · moth-waveform 7.6% ·
+   quilt-cowboy 7.6% · quilt-stone 7.6% · quilt-arcade 0.8%.
