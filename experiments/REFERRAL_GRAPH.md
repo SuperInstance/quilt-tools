@@ -13,7 +13,8 @@ receipt that proves it or the falsification condition that would kill it.
 - `experiments/referral_graph.seed.mjs` — the real v1 graph: 9 nodes across
   quilt-tools ↔ quilt-show ↔ quilt-arcade + quilt-quant → pong-quilt, 6
   edges, every edge with its kill switch declared.
-- `experiments/referral_graph.pins.mjs` — 27 pins. Run:
+- `experiments/referral_graph.pins.mjs` — 109 pins (108 offline-green +
+  the live PR audit on `--live`). Run:
   `node experiments/referral_graph.pins.mjs --live` (the `--live` pass audits
   every provenance PR against GitHub; offline pins are labeled SKIPPED, never
   passed silently).
@@ -349,3 +350,42 @@ repo reduces exactly to the blind view (pinned).
    quilt-show 9.4% · quilt-tools 9.4% · git-agent 8.9% · jev-quilt 8.9% ·
    moth-waveform 8.9% · quilt-cowboy 8.9% · quilt-stone 8.9% ·
    quilt-arcade 0.9%.
+- **Twelfth edge VERIFIED 2026-09-30 (14:56 pulse) — the lab↔ledger pair,
+   ledger→lab, and a FALSE NEGATIVE corrected in the claim itself.** The
+   14:38 pulse queued a citation PR to micrograd-quilt on the claim that its
+   main cited SuperInstance/MicroMoth-quilt ZERO times despite consuming the
+   exp018-036 receipt lineage. This pulse's re-audit found that scan WRONG:
+   **micrograd-quilt PR #7** ("qcells exp020-036: tie-band replication →
+   two-regime desert hazard → triplet-stream rate-lane closure", MERGED
+   2026-09-30T04:49:20Z, merge `44de605`) is a merged PR in the to-node's
+   repo whose diff ADDS `labs/qcells/FINDINGS.md` citing
+   SuperInstance/MicroMoth-quilt **by name at four anchored sites** — the lab
+   charter header, the import-baseline manifest pin on MicroMoth-quilt main,
+   the honest-limit gap posted on MicroMoth-quilt#3, the receipts/ lane note —
+   plus `docs/synergy-scan-2026-09-30-0711.md` consuming MicroMoth-quilt#23/#24's
+   MERGED sealed findings to redirect the lab's own queue ("do not re-run").
+   No citation PR was opened — Casey's merge already earned the edge, and
+   opening one would have been citation spam on a false premise. Weight law
+   met: edge `mm-sealed-receipts → mgq-qcells-lab` is **VERIFIED=1.0**,
+   receipt `SuperInstance/micrograd-quilt#7`, provenance
+   `SuperInstance/MicroMoth-quilt#24`. micrograd-quilt enters the view at
+   full VERIFIED mass (a to-node born after seeding, skipping epsilon).
+- **Thirteenth edge BOOKED PENDING 2026-09-30 (same pulse) — the mirror,
+   lab→ledger, and the graph's first bidirectional pair.**
+   **MicroMoth-quilt PR #24** ("exp018 receipt: hard-root autopsy — FITNESS
+   DESERT AT THE BIRTH CLOUD", MERGED 2026-09-29T21:25:32Z, merge
+   `664506a5`) seals the qcells lab's exp018 autopsy and names the producer
+   only as "the qcells lab (workspace/labs/qcells)" — a workspace path,
+   never the repo `SuperInstance/micrograd-quilt`. That is the git-agent#1
+   doctrinal-citation shape, which earned currency only when git-agent#4
+   named algebra.md — so edge `mgq-qcells-lab → mm-sealed-receipts` is booked
+   **PENDING=0.05**, provenance `SuperInstance/MicroMoth-quilt#24`, upgrade
+   path = a MicroMoth-quilt PR naming SuperInstance/micrograd-quilt in-repo
+   (the discovery watcher now scans MicroMoth-quilt's merged stream for
+   `micrograd-quilt` / `qcells lab`; on merge a human verifies and flips —
+   never self-upgraded). MicroMoth-quilt enters the view at PENDING mass.
+   Same relationship, both directions, different weights — recorded honestly.
+   The view now: **fleet-murmur 17.7% · pong-quilt 17.7%** (tie) ·
+   quilt-show 9.3% · quilt-tools 9.3% · git-agent 8.8% · micrograd-quilt
+   8.8% · moth-waveform 8.8% · quilt-cowboy 8.8% · quilt-stone 8.8% ·
+   quilt-arcade 0.9% · jev-quilt 0.4% · MicroMoth-quilt 0.4%.

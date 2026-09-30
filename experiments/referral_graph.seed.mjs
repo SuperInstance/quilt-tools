@@ -189,6 +189,37 @@
 // Weight law: PENDING = 0.05 (speculation is cheap) / VERIFIED = 1.0 (a
 // merged PR in the to-node's repo cites the from-technique).
 //
+// UPDATE 2026-09-30 (14:56 pulse): the TWELFTH edge earned currency — the
+// first lab↔ledger bidirectional pair, and the booking corrects a false
+// negative. The 14:38 pulse's citation scan reported micrograd-quilt main
+// citing SuperInstance/MicroMoth-quilt ZERO times despite consuming the
+// exp018-036 receipt lineage, and queued a citation PR. Re-audit 2026-09-30
+// (this pulse) found that scan WRONG: micrograd-quilt PR #7 ("qcells
+// exp020-036: tie-band replication → two-regime desert hazard →
+// triplet-stream rate-lane closure", MERGED 2026-09-30T04:49:20Z, merge
+// 44de605) is a merged PR IN THE TO-NODE'S REPO whose diff ADDS
+// labs/qcells/FINDINGS.md citing SuperInstance/MicroMoth-quilt BY NAME at
+// four anchored sites (the lab charter header, the import-baseline manifest
+// pin on MicroMoth-quilt main, the honest-limit gap posted on
+// MicroMoth-quilt#3, the receipts/ dir lane note) plus
+// docs/synergy-scan-2026-09-30-0711.md consuming MicroMoth-quilt#23/#24's
+// MERGED sealed findings to redirect the lab's own queue ("do not re-run").
+// No citation PR was opened — Casey's merge already earned the edge, and
+// opening one would have been citation spam on a false premise. Edge
+// mm-sealed-receipts -> mgq-qcells-lab is VERIFIED=1.0 with receipt
+// SuperInstance/micrograd-quilt#7, provenance SuperInstance/MicroMoth-quilt#24
+// (the exp018 seal the synergy scan consumes). The MIRROR edge is booked
+// PENDING the same hour: MicroMoth-quilt#24 (MERGED 2026-09-29T21:25:32Z,
+// merge 664506a5) seals the lab's exp018 autopsy and names the producer
+// only as "the qcells lab (workspace/labs/qcells)" — a workspace path,
+// never the repo SuperInstance/micrograd-quilt. That is the git-agent#1
+// doctrinal-citation shape, which this graph booked PENDING until
+// git-agent#4 named algebra.md — same law, upgrade path = a MicroMoth-quilt
+// PR naming SuperInstance/micrograd-quilt in-repo (discovery now watches
+// that stream). MicroMoth-quilt and micrograd-quilt become the fourth and
+// fifth repos born after seeding; the lab is the producer, the ledger the
+// seal, and the graph records both directions honestly.
+//
 // Each edge carries its kill switch: falsification_condition — the observed
 // evidence string that would refute the claim (probe() books the death as a
 // REFUSED row; the scar stays in the graph).
@@ -196,7 +227,7 @@
 export const SEED = {
   name: 'referral-graph-v1',
   repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'git-agent', 'AI-Writings'],
-  repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt', 'jev-quilt', 'quilt-cowboy', 'fleet-murmur', 'moth-waveform', 'quality-gate-stream', 'quilt-stone'],
+  repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt', 'jev-quilt', 'quilt-cowboy', 'fleet-murmur', 'moth-waveform', 'quality-gate-stream', 'quilt-stone', 'MicroMoth-quilt', 'micrograd-quilt'],
 
   nodes: [
     { id: 'qt-api-lab', repo: 'quilt-tools', kind: 'lab',
@@ -251,6 +282,10 @@ export const SEED = {
       summary: 'AI-Writings#70 labs/jev-kat/jev_kat.mjs — the JEV known-answer control instrument: canonical KAT cases characterising the fleet oracle before its judgment gates anything (merged 2026-09-29T21:26:53Z)' },
     { id: 'jq-kat-bridge', repo: 'jev-quilt', kind: 'integration',
       summary: 'jev-quilt#47 tools/jev_kat_bridge.mjs — bridge fetching the canonical AI-Writings KAT instrument at pinned commit 3f8405888 (sha256 5f280b8b…e1cc5 verified pre-exec), receipting the live characterisation under jev_sessions/, offline gate exit 0/2/3 (MERGED as SuperInstance/jev-quilt#47 2026-09-30T00:18:30Z, merge 4591258994)' },
+    { id: 'mm-sealed-receipts', repo: 'MicroMoth-quilt', kind: 'lab',
+      summary: 'the sealed receipt lineage on the MicroMoth import substrate: fnv1a-64 import-baseline manifest + per-receipt sha256 byte-match tables (manifest mismatch voids the seal), runner sealed as the exact bytes executed, FAIL-first pins per receipt (exp016 fba4ec7 #22 / exp017 #23 / exp018 664506a5 #24, all merged 2026-09-29)' },
+    { id: 'mgq-qcells-lab', repo: 'micrograd-quilt', kind: 'lab',
+      summary: 'the qcells local lab (labs/qcells): novel experimentation on the MicroMoth substrate, exp018-036 lineage with per-exp sealed results + telemetry + FINDINGS.md, receipts pushed for sealing into MicroMoth-quilt (micrograd-quilt#7 merged 2026-09-30T04:49:20Z)' },
   ],
 
   edges: [
@@ -370,6 +405,21 @@ export const SEED = {
       provenance: 'SuperInstance/jev-quilt#47', // merged 2026-09-30T00:18:30Z — the citing PR IS the finding's home
       receipt: 'SuperInstance/jev-quilt#47',
       falsification_condition: 'jev-quilt#47 merging with the SuperInstance/AI-Writings citation removed from tools/jev_kat_bridge.mjs source or the tests/test_jev_kat_bridge.py citation pin, or the bridge executing an instrument whose sha256 does not match the pinned digest 5f280b8b…e1cc5',
+    },
+    {
+      from: 'mm-sealed-receipts', to: 'mgq-qcells-lab',
+      claim: 'A sealed receipt lineage nobody\'s experiment names is a ledger talking to itself: the qcells lab runs ON the MicroMoth substrate and consumes the ledger\'s sealed findings, and its merged work says so. CURRENCY EARNED 2026-09-30: micrograd-quilt PR #7 ("qcells exp020-036: tie-band replication → two-regime desert hazard → triplet-stream rate-lane closure", MERGED 2026-09-30T04:49:20Z, merge 44de605) is a merged PR IN THE TO-NODE\'S REPO whose diff ADDS labs/qcells/FINDINGS.md citing SuperInstance/MicroMoth-quilt BY NAME at four anchored sites — the lab charter header ("Lab for novel experimentation on SuperInstance/MicroMoth-quilt"), the import-baseline manifest pin on MicroMoth-quilt main, the honest-limit gap posted on MicroMoth-quilt#3, and the receipts/ dir lane note — plus docs/synergy-scan-2026-09-30-0711.md consuming MicroMoth-quilt#23/#24\'s MERGED sealed findings to redirect the lab\'s own queue ("the lab\'s follow-on items are now already answered cross-repo; do not re-run"). The from-technique is the ledger those receipts seal into: fnv1a-64 import-baseline manifest + sha256 byte-match receipt tables with per-receipt FAIL-first pins (exp016 sealed receipt commit fba4ec7 via MicroMoth-quilt#22 is the exp019 data_provenance anchor). HONESTY: the 14:38 pulse\'s citation scan reported this repo cited ZERO times by micrograd-quilt main — that scan was a FALSE NEGATIVE; the re-audit that booked this edge found 5+ by-name citations in the merged tree, so no citation PR was opened (one would have been citation spam on a false premise) and the edge is booked directly on Casey\'s merge. Fourth and fifth repos born after seeding enter together; the lab is the producer, the ledger the seal — this edge books the ledger→lab direction, and the mirror (lab→ledger) is booked PENDING in the same hour.',
+      weight: 'VERIFIED',
+      provenance: 'SuperInstance/MicroMoth-quilt#24', // the exp018 seal (664506a5) whose merged finding the in-repo synergy scan consumes to redirect the lab queue
+      receipt: 'SuperInstance/micrograd-quilt#7',
+      falsification_condition: 'the SuperInstance/MicroMoth-quilt citations removed from labs/qcells/FINDINGS.md or docs/synergy-scan-2026-09-30-0711.md, or a lab experiment consuming a sealed MicroMoth-quilt receipt with no receipt reference anywhere in the consuming artifact',
+    },
+    {
+      from: 'mgq-qcells-lab', to: 'mm-sealed-receipts',
+      claim: 'The ledger\'s receipts seal the lab\'s work — but a seal that names its producer only by workspace path is a doctrinal citation, not a currency: it identifies the work, not the repo. MicroMoth-quilt PR #24 ("exp018 receipt: hard-root autopsy — FITNESS DESERT AT THE BIRTH CLOUD", MERGED 2026-09-29T21:25:32Z, merge 664506a5) seals the qcells lab\'s exp018 autopsy as a receipt and names the producer as "the qcells lab (workspace/labs/qcells)" — a filesystem path, never the repo SuperInstance/micrograd-quilt. That is exactly the git-agent#1 shape ("the fleet quilt kernel speaks five opcodes", source repo unnamed), which this graph booked PENDING until git-agent#4 named algebra.md and earned the currency. Booked PENDING with the upgrade path recorded: a MicroMoth-quilt PR naming SuperInstance/micrograd-quilt in-repo (the discovery watcher now scans MicroMoth-quilt\'s merged stream for \'micrograd-quilt\' / \'qcells lab\'). Never self-upgraded — the merge in the TARGET repo does the earning. This is MicroMoth-quilt\'s FIRST inbound edge; the mirror edge (mm→mgq) earned VERIFIED in the same pulse, so the pair records both directions of the same lab↔ledger relationship with different weights, honestly.',
+      weight: 'PENDING',
+      provenance: 'SuperInstance/MicroMoth-quilt#24', // the seal whose producer-citation shape is the claim's whole subject
+      falsification_condition: 'a MicroMoth-quilt receipt sealing qcells-lab work that drops the workspace/labs/qcells producer reference entirely (the sealed bytes\' provenance unmoored from any lab identity), or the upgrade PR merging with the SuperInstance/micrograd-quilt citation removed',
     },
   ],
 };
