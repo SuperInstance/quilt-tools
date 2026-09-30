@@ -370,22 +370,30 @@ repo reduces exactly to the blind view (pinned).
    receipt `SuperInstance/micrograd-quilt#7`, provenance
    `SuperInstance/MicroMoth-quilt#24`. micrograd-quilt enters the view at
    full VERIFIED mass (a to-node born after seeding, skipping epsilon).
-- **Thirteenth edge BOOKED PENDING 2026-09-30 (same pulse) — the mirror,
-   lab→ledger, and the graph's first bidirectional pair.**
-   **MicroMoth-quilt PR #24** ("exp018 receipt: hard-root autopsy — FITNESS
-   DESERT AT THE BIRTH CLOUD", MERGED 2026-09-29T21:25:32Z, merge
-   `664506a5`) seals the qcells lab's exp018 autopsy and names the producer
-   only as "the qcells lab (workspace/labs/qcells)" — a workspace path,
-   never the repo `SuperInstance/micrograd-quilt`. That is the git-agent#1
-   doctrinal-citation shape, which earned currency only when git-agent#4
-   named algebra.md — so edge `mgq-qcells-lab → mm-sealed-receipts` is booked
-   **PENDING=0.05**, provenance `SuperInstance/MicroMoth-quilt#24`, upgrade
-   path = a MicroMoth-quilt PR naming SuperInstance/micrograd-quilt in-repo
-   (the discovery watcher now scans MicroMoth-quilt's merged stream for
-   `micrograd-quilt` / `qcells lab`; on merge a human verifies and flips —
-   never self-upgraded). MicroMoth-quilt enters the view at PENDING mass.
-   Same relationship, both directions, different weights — recorded honestly.
-   The view now: **fleet-murmur 17.7% · pong-quilt 17.7%** (tie) ·
-   quilt-show 9.3% · quilt-tools 9.3% · git-agent 8.8% · micrograd-quilt
-   8.8% · moth-waveform 8.8% · quilt-cowboy 8.8% · quilt-stone 8.8% ·
-   quilt-arcade 0.9% · jev-quilt 0.4% · MicroMoth-quilt 0.4%.
+- **Thirteenth edge FLIPPED VERIFIED 2026-09-30 (17:56 pulse) — the mirror
+   earns its currency; the first bidirectional pair is VERIFIED in both
+   directions.** The 14:56 pulse booked the lab→ledger mirror PENDING on the
+   git-agent#1 doctrinal shape (MicroMoth-quilt#24 names the producer only
+   as "the qcells lab (workspace/labs/qcells)"). Casey merged the upgrade
+   path six hours later: **MicroMoth-quilt PR #29** ("docs(audit): qcells
+   lab canonical home = SuperInstance/micrograd-quilt — provenance note +
+   citation pin", MERGED 2026-09-30T09:27:01Z) is a merged PR in the
+   to-node's repo whose diff ADDS an AUDIT.md "Qcells lab — canonical home"
+   note naming **SuperInstance/micrograd-quilt by name** as the lab's
+   durable addressable home (labs/qcells tree; sealed lineage exp018–exp022
+   mirrored as receipt PRs #5–#7), with `tests/test_lab_home_citation.py`
+   pinning the citation in-repo (repo named; local path framed by citation).
+   Honest handling of history: sealed receipts are immutable — the note
+   amends provenance without touching them. Weight law met: edge
+   `mgq-qcells-lab → mm-sealed-receipts` is **VERIFIED=1.0**, receipt
+   `SuperInstance/MicroMoth-quilt#29`, provenance unchanged
+   (`SuperInstance/MicroMoth-quilt#24`). The discovery watcher surfaced #29
+   on the booked hint scan (`micrograd-quilt` / `qcells lab`); the flip was
+   confirmed by hand against the merged diff — load-bearing citation, FAIL
+   test intact, never self-upgraded. The mm⇄mgq pair now carries VERIFIED
+   mass in BOTH directions — the graph's first fully-verified bidirectional
+   relationship. MicroMoth-quilt enters the view at full VERIFIED mass.
+   The view now: **fleet-murmur 15.2% · pong-quilt 15.2%** (tie) ·
+   quilt-show 8.0% · quilt-tools 8.0% · git-agent 7.6% · jev-quilt 7.6% ·
+   micrograd-quilt 7.6% · MicroMoth-quilt 7.6% · moth-waveform 7.6% ·
+   quilt-cowboy 7.6% · quilt-stone 7.6% · quilt-arcade 0.8%.
