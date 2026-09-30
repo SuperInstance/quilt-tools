@@ -7,8 +7,9 @@ fix classes 1–11 plus the eager-reactive iteration.
 - Source commit: see `git log` in the quilt repo for branch tip at build time
 - Build: `npm ci && npm run build` in `packages/core` (tsc → `dist/`)
 - Package identity: `@quilt/core@0.3.0`, ESM, sole runtime dep `yaml`
-- The ten tools in this repo were verified green against exactly this dist
-  (75/75 checks, offline mode)
+- The eleven tools in this repo were verified green against exactly this dist
+  (94/94 checks, offline mode; re-verified live 2026-09-30 after the
+  convergence-gauge #28 merge)
 
 ## Rebuild after upstream lands
 
