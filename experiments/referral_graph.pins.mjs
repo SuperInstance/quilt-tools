@@ -25,7 +25,7 @@ for (const n of (await import('./referral_graph.seed.mjs')).SEED.nodes) seed.add
 let seedBooked = 0;
 for (const e of (await import('./referral_graph.seed.mjs')).SEED.edges) { seed.book(e); seedBooked++; }
 
-check('seed: all edges booked', seedBooked === 15 && seed.rows.length === 15, `${seedBooked} edges`);
+check('seed: all edges booked', seedBooked === 17 && seed.rows.length === 17, `${seedBooked} edges`);
 
 // Pin 1 — missing required field is a loud REFUSAL, never a silent drop.
 {
@@ -46,14 +46,18 @@ check('seed: all edges booked', seedBooked === 15 && seed.rows.length === 15, `$
   check('seed: tampered claim -> verify fails at that row', bad.ok === false && bad.brokenAt === 2, bad.ok ? 'TAMPER ACCEPTED' : `caught row ${bad.brokenAt}: prev_hash ${bad.got} != ${bad.expected}`);
 }
 
-// Pin 3 — the VIEW: ranked distribution; ten VERIFIED edges (20x an
+// Pin 3 — the VIEW: ranked distribution; eleven VERIFIED edges (20x an
 // epsilon) — fleet-murmur AND pong-quilt carry double mass (fm: two
 // inbound; pq: the quantum-coin tiebreak + the stone-v2 sign pilot),
-// quilt-show and quilt-tools hold VERIFIED + PENDING, git-agent,
-// moth-waveform, quilt-cowboy and quilt-stone hold single VERIFIED mass,
-// and jev-quilt enters the view for the first time as a TO-node (the KAT
-// bridge, one PENDING edge — its first inbound currency; its two prior
-// edges were both outgoing).
+// quilt-show and quilt-tools hold VERIFIED + PENDING, five repos hold
+// single VERIFIED mass (git-agent, micrograd-quilt, moth-waveform,
+// quilt-cowboy, quilt-stone — micrograd-quilt earns its first inbound
+// currency via micrograd-quilt#7, the lab's merged work naming the
+// MicroMoth-quilt ledger by name), quilt-arcade holds double PENDING,
+// and jev-quilt + MicroMoth-quilt enter with single PENDING edges
+// (MicroMoth-quilt's PENDING inbound = the ledger→lab mirror of the
+// VERIFIED lab-bound edge — the first lab↔ledger bidirectional pair at
+// different weights).
 // (From-node-only repos — quilt-quant, AI-Writings, quality-gate-stream —
 // earn no view mass; mass is measured where doctrine LANDS.)
 // (main-repair note: the #11 conflict resolution had duplicated this block
@@ -61,36 +65,40 @@ check('seed: all edges booked', seedBooked === 15 && seed.rows.length === 15, `$
 // Removed here; the currency flip below is what this PR is for.)
 {
   const v = seed.view();
-  check('seed: view ranks all ten mass-carrying repos', v.length === 10, v.map(x => `${x.repo}=${x.share.toFixed(3)}`).join(' '));  const shares = v.map(x => x.share);
+  check('seed: view ranks all twelve mass-carrying repos', v.length === 12, v.map(x => `${x.repo}=${x.share.toFixed(3)}`).join(' '));  const shares = v.map(x => x.share);
   check('seed: view shares sum to 1', Math.abs(shares.reduce((a, b) => a + b, 0) - 1) < 1e-9, `Σ=${shares.reduce((a, b) => a + b, 0)}`);
   const byRepo = Object.fromEntries(v.map(x => [x.repo, x.weight]));
-  check('seed: view mass — fm = pq = 2×VERIFIED, qs/qt = VERIFIED + PENDING, ga/qb/mw/stone = VERIFIED, qa = 2×PENDING, jev-quilt = PENDING (from-node-only repos: no view mass)',
+  check('seed: view mass — fm = pq = 2×VERIFIED, qs/qt = VERIFIED + PENDING, ga/mgq/mw/qb/stone = VERIFIED, qa = 2×PENDING, jev-quilt = MicroMoth-quilt = PENDING (from-node-only repos: no view mass)',
     Math.abs(byRepo['fleet-murmur'] - 2 * VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['pong-quilt'] - 2 * VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['quilt-show'] - (VERIFIED_WEIGHT + PENDING_WEIGHT)) < 1e-9 &&
     Math.abs(byRepo['git-agent'] - VERIFIED_WEIGHT) < 1e-9 &&
+    Math.abs(byRepo['micrograd-quilt'] - VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['quilt-cowboy'] - VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['moth-waveform'] - VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['quilt-stone'] - VERIFIED_WEIGHT) < 1e-9 &&
     !('quality-gate-stream' in byRepo) &&
     Math.abs(byRepo['quilt-arcade'] - 2 * PENDING_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['quilt-tools'] - (VERIFIED_WEIGHT + PENDING_WEIGHT)) < 1e-9 &&
-    Math.abs(byRepo['jev-quilt'] - PENDING_WEIGHT) < 1e-9,
+    Math.abs(byRepo['jev-quilt'] - PENDING_WEIGHT) < 1e-9 &&
+    Math.abs(byRepo['MicroMoth-quilt'] - PENDING_WEIGHT) < 1e-9,
     JSON.stringify(byRepo));
   const sorted = [...v].sort((a, b) => b.share - a.share || a.repo.localeCompare(b.repo));
   check('seed: view is sorted by share desc', JSON.stringify(v) === JSON.stringify(sorted), 'sorted');
-  check('seed: fm and pq tie with double mass (name order); then the two VERIFIED+PENDING repos (quilt-show, quilt-tools); the four single-VERIFIED repos tie, broken by name (git-agent first, quilt-stone last); jev-quilt enters last with its single PENDING edge — first inbound currency',
+  check('seed: fm and pq tie with double mass (name order); then the two VERIFIED+PENDING repos (quilt-show, quilt-tools); the five single-VERIFIED repos tie, broken by name (git-agent first, quilt-stone last — micrograd-quilt enters the view for the first time via its one inbound edge); quilt-arcade double-PENDING; then the two single-PENDING repos (jev-quilt first by name, MicroMoth-quilt last — its PENDING inbound mirror of the VERIFIED ledger→lab edge)',
     v[0].repo === 'fleet-murmur' && v[0].weight === 2 * VERIFIED_WEIGHT &&
     v[1].repo === 'pong-quilt' && v[1].weight === 2 * VERIFIED_WEIGHT &&
     v[2].repo === 'quilt-show' && v[2].weight === VERIFIED_WEIGHT + PENDING_WEIGHT &&
     v[3].repo === 'quilt-tools' && v[3].weight === VERIFIED_WEIGHT + PENDING_WEIGHT &&
     v[4].repo === 'git-agent' && v[4].weight === VERIFIED_WEIGHT &&
-    v[5].repo === 'moth-waveform' && v[5].weight === VERIFIED_WEIGHT &&
-    v[6].repo === 'quilt-cowboy' && v[6].weight === VERIFIED_WEIGHT &&
-    v[7].repo === 'quilt-stone' && v[7].weight === VERIFIED_WEIGHT &&
-    v[8].repo === 'quilt-arcade' && v[8].weight === 2 * PENDING_WEIGHT &&
-    v[9].repo === 'jev-quilt' && v[9].weight === PENDING_WEIGHT,
-    `${v[0].repo} ${(v[0].share * 100).toFixed(1)}% · ${v[1].repo} ${(v[1].share * 100).toFixed(1)}% · ${v[2].repo} ${(v[2].share * 100).toFixed(1)}% · ${v[3].repo} ${(v[3].share * 100).toFixed(1)}% · ${v[4].repo} ${(v[4].share * 100).toFixed(1)}% · ${v[5].repo} ${(v[5].share * 100).toFixed(1)}% · ${v[6].repo} ${(v[6].share * 100).toFixed(1)}% · ${v[7].repo} ${(v[7].share * 100).toFixed(1)}% · ${v[8].repo} ${(v[8].share * 100).toFixed(1)}% · ${v[9].repo} ${(v[9].share * 100).toFixed(1)}%`);
+    v[5].repo === 'micrograd-quilt' && v[5].weight === VERIFIED_WEIGHT &&
+    v[6].repo === 'moth-waveform' && v[6].weight === VERIFIED_WEIGHT &&
+    v[7].repo === 'quilt-cowboy' && v[7].weight === VERIFIED_WEIGHT &&
+    v[8].repo === 'quilt-stone' && v[8].weight === VERIFIED_WEIGHT &&
+    v[9].repo === 'quilt-arcade' && v[9].weight === 2 * PENDING_WEIGHT &&
+    v[10].repo === 'jev-quilt' && v[10].weight === PENDING_WEIGHT &&
+    v[11].repo === 'MicroMoth-quilt' && v[11].weight === PENDING_WEIGHT,
+    `${v[0].repo} ${(v[0].share * 100).toFixed(1)}% · ${v[1].repo} ${(v[1].share * 100).toFixed(1)}% · ${v[2].repo} ${(v[2].share * 100).toFixed(1)}% · ${v[3].repo} ${(v[3].share * 100).toFixed(1)}% · ${v[4].repo} ${(v[4].share * 100).toFixed(1)}% · ${v[5].repo} ${(v[5].share * 100).toFixed(1)}% · ${v[6].repo} ${(v[6].share * 100).toFixed(1)}% · ${v[7].repo} ${(v[7].share * 100).toFixed(1)}% · ${v[8].repo} ${(v[8].share * 100).toFixed(1)}% · ${v[9].repo} ${(v[9].share * 100).toFixed(1)}% · ${v[10].repo} ${(v[10].share * 100).toFixed(1)}% · ${v[11].repo} ${(v[11].share * 100).toFixed(1)}%`);
 }
 
 // Pin 3c — the SECOND currency event (FAIL-first: on main tip the quantum-coin
@@ -102,8 +110,8 @@ check('seed: all edges booked', seedBooked === 15 && seed.rows.length === 15, `$
     row.weight === 'VERIFIED' && row.receipt === 'SuperInstance/pong-quilt#28',
     row ? `weight=${row.weight} receipt=${row.receipt}` : 'edge not found');
   const verified = seed.rows.filter(r => r.op === 'LINK' && r.weight === 'VERIFIED');
-  check('seed: exactly ten VERIFIED edges across ten distinct to-nodes — monopoly broken, doctrine arc complete, jev-quilt/quilt-stone/pong-quilt/fleet-murmur currency all flow outward (jev-quilt earns its SECOND outgoing edge; pong-quilt earns double INBOUND mass: the coin tiebreak + the sign pilot), and fleet-murmur anchors double inbound mass',
-    verified.length === 10 && new Set(verified.map(r => r.to)).size === 10,
+  check('seed: exactly eleven VERIFIED edges across eleven distinct to-nodes — monopoly broken, doctrine arc complete, jev-quilt/quilt-stone/pong-quilt/fleet-murmur/MicroMoth-quilt currency all flow outward (jev-quilt earns its SECOND outgoing edge; pong-quilt earns double INBOUND mass: the coin tiebreak + the sign pilot), fleet-murmur anchors double inbound mass, and micrograd-quilt enters with its first inbound edge (the lab merged work naming the MicroMoth-quilt ledger by name)',
+    verified.length === 11 && new Set(verified.map(r => r.to)).size === 11,
     verified.map(r => `${r.from}->${r.to}`).join(' '));
 }
 
@@ -394,6 +402,70 @@ check('seed: all edges booked', seedBooked === 15 && seed.rows.length === 15, `$
     toJq.length === 1 && toJq[0].from === 'aw-jev-kat', toJq.map(r => `${r.from}->${r.to}`).join(' '));
 }
 
+// Pin 3m — the TWELFTH edge VERIFIED 2026-09-30 (14:56 pulse): the
+// lab↔ledger pair, ledger→lab direction. The booking corrects a FALSE
+// NEGATIVE — the 14:38 pulse's citation scan reported micrograd-quilt main
+// citing SuperInstance/MicroMoth-quilt ZERO times; the re-audit found
+// micrograd-quilt#7's merged tree names it at 4+ anchored sites, so no
+// citation PR was opened and the edge is booked directly on Casey's merge.
+{
+  const r = seed.rows.find(x => x.op === 'LINK' && x.from === 'mm-sealed-receipts' && x.to === 'mgq-qcells-lab');
+  check('seed: mm→mgq edge is VERIFIED with micrograd-quilt#7 receipt in the to-node\'s repo',
+    r?.weight === 'VERIFIED' && r?.receipt === 'SuperInstance/micrograd-quilt#7',
+    r ? `weight=${r.weight} receipt=${r.receipt}` : 'edge not found');
+  check('seed: mm→mgq claim records the currency event and the merge sha',
+    r?.claim.includes('MERGED 2026-09-30T04:49:20Z') && r?.claim.includes('44de605'),
+    r ? 'claim carries the merge receipt' : 'edge not found');
+  check('seed: mm→mgq claim carries the FALSE-NEGATIVE honesty note (the 14:38 scan was wrong; no citation PR opened)',
+    r?.claim.includes('FALSE NEGATIVE') && r?.claim.includes('citation spam'),
+    r ? 'honesty note present' : 'edge not found');
+  check('seed: mm→mgq declares a falsification condition (kill switch)',
+    typeof r?.falsification_condition === 'string' && r.falsification_condition.length > 20,
+    r?.falsification_condition ?? 'none');
+  check('seed: mm→mgq provenance is the exp018 seal the synergy scan consumes',
+    r?.provenance === 'SuperInstance/MicroMoth-quilt#24',
+    r?.provenance ?? 'none');
+  const nf = seed.nodes.get(r?.from), nt = seed.nodes.get(r?.to);
+  check('seed: mm→mgq both endpoints exist in their own repos',
+    nf?.repo === 'MicroMoth-quilt' && nt?.repo === 'micrograd-quilt',
+    `${nf?.repo} -> ${nt?.repo}`);
+  check('seed: mm→mgq receipt target is the to-node\'s repo (weight law, substrate-enforced)',
+    r?.receipt?.startsWith(`SuperInstance/${nt?.repo}#`), r?.receipt ?? 'none');
+  const toMgq = seed.rows.filter(x => x.op === 'LINK' && x.to === 'mgq-qcells-lab');
+  check('seed: mm→mgq is micrograd-quilt\'s FIRST inbound edge — the lab enters the view at VERIFIED mass, not epsilon',
+    toMgq.length === 1 && toMgq[0].from === 'mm-sealed-receipts',
+    toMgq.map(x => `${x.from}->${x.to} (its first inbound edge — VERIFIED mass on arrival)`).join(' '));
+}
+
+// Pin 3n — the THIRTEENTH edge booked PENDING 2026-09-30 (same pulse): the
+// mirror, lab→ledger. MicroMoth-quilt#24 names the producer only by
+// workspace path ("the qcells lab (workspace/labs/qcells)") — the
+// git-agent#1 doctrinal-citation shape. First bidirectional pair in the
+// graph: same relationship, both directions, different weights, honestly.
+{
+  const r = seed.rows.find(x => x.op === 'LINK' && x.from === 'mgq-qcells-lab' && x.to === 'mm-sealed-receipts');
+  check('seed: mgq→mm edge is PENDING — a workspace-path citation names the work, not the repo (receipt absent)',
+    r?.weight === 'PENDING' && r?.receipt == null,
+    r ? `weight=${r.weight} receipt=${r.receipt}` : 'edge not found');
+  check('seed: mgq→mm claim records the doctrinal-citation shape and the git-agent#1 precedent',
+    r?.claim.includes('workspace/labs/qcells') && r?.claim.includes('never the repo') && r?.claim.includes('git-agent#1'),
+    r ? 'claim carries the citation-shape analysis' : 'edge not found');
+  check('seed: mgq→mm declares a falsification condition (kill switch)',
+    typeof r?.falsification_condition === 'string' && r.falsification_condition.length > 20,
+    r?.falsification_condition ?? 'none');
+  check('seed: mgq→mm provenance is the seal whose producer-citation shape is the claim\'s subject',
+    r?.provenance === 'SuperInstance/MicroMoth-quilt#24',
+    r?.provenance ?? 'none');
+  const nf = seed.nodes.get(r?.from), nt = seed.nodes.get(r?.to);
+  check('seed: mgq→mm both endpoints exist in their own repos',
+    nf?.repo === 'micrograd-quilt' && nt?.repo === 'MicroMoth-quilt',
+    `${nf?.repo} -> ${nt?.repo}`);
+  const toMm = seed.rows.filter(x => x.op === 'LINK' && x.to === 'mm-sealed-receipts');
+  check('seed: mgq→mm is MicroMoth-quilt\'s FIRST inbound edge — the ledger enters the view at PENDING mass; upgrade path recorded (a MicroMoth-quilt PR naming SuperInstance/micrograd-quilt), never self-upgraded; mirror of the VERIFIED mm→mgq edge — first bidirectional pair',
+    toMm.length === 1 && toMm[0].from === 'mgq-qcells-lab',
+    toMm.map(x => `${x.from}->${x.to} (its first inbound edge — PENDING mass)`).join(' '));
+}
+
 // Pin 4 — provenance live audit: every cited PR must actually be merged.
 // gh absence -> skip labeled SKIPPED (honest), never pass silently.
 {
@@ -640,8 +712,8 @@ function fixture() {
 }
 
 panel('referral-graph v1 — the mesh answers as a distribution', [
-  kv('nodes', '24 (11 repos)'), kv('edges', '15 — 10 VERIFIED · 5 PENDING'),
-  kv('currency', '10 VERIFIED (show#1 cites S2 · pong#28 cites coin-toss-v1 · git-agent#4 cites algebra.md · cowboy#1 cites jev-quilt · fleet-murmur#2 cites pong-quilt · moth-waveform#1 cites the fm vacuity scar · fleet-murmur#3 cites quality-gate-stream · quilt-tools#17 cites jev-quilt commons.py G11 · quilt-stone#1 cites pong-quilt R36 toStoneV1 · pong-quilt#51 staples with quilt-stone#4\'s signTip) — doctrine flows outward ten ways; jev-quilt earns its SECOND outgoing edge (commons G11 → the graph\'s own trust lever), pong-quilt earns its SECOND OUTGOING edge (the R36 wal-export lane both receives pq→fm currency and pays it forward into the canonical receipt-chain verifier) AND its second INBOUND (the coin tiebreak + the sign pilot — tying fleet-murmur for double view mass), quilt-stone earns its FIRST outgoing edge (the sign lane, five hours after receiving edge #9); fleet-murmur and pong-quilt are the double-inbound repos; from-node-only repos carry no view mass — mass is measured where doctrine lands; to-nodes born after seeding: fleet-murmur, moth-waveform, quilt-stone'),
+  kv('nodes', '28 (15 repos)'), kv('edges', '17 — 11 VERIFIED · 6 PENDING'),
+  kv('currency', '11 VERIFIED (show#1 cites S2 · pong#28 cites coin-toss-v1 · git-agent#4 cites algebra.md · cowboy#1 cites jev-quilt · fleet-murmur#2 cites pong-quilt · moth-waveform#1 cites the fm vacuity scar · fleet-murmur#3 cites quality-gate-stream · quilt-tools#17 cites jev-quilt commons.py G11 · quilt-stone#1 cites pong-quilt R36 toStoneV1 · pong-quilt#51 staples with quilt-stone#4\'s signTip · micrograd-quilt#7 cites the MicroMoth-quilt ledger by name across the qcells lab) — doctrine flows outward eleven ways; jev-quilt earns its SECOND outgoing edge (commons G11 → the graph\'s own trust lever), pong-quilt earns its SECOND OUTBOUND + second INBOUND, quilt-stone its FIRST outgoing, micrograd-quilt its FIRST inbound at VERIFIED mass; the mm⇄mgq pair is the graph\'s first bidirectional booking — VERIFIED ledger→lab (receipt micrograd-quilt#7; the 14:38 pulse\'s ZERO-citation scan was a FALSE NEGATIVE, corrected in the claim) and PENDING lab→ledger (MicroMoth-quilt#24 names only "the qcells lab (workspace/labs/qcells)" — the git-agent#1 doctrinal shape; upgrade = a MicroMoth-quilt PR naming SuperInstance/micrograd-quilt); fleet-murmur and pong-quilt remain the double-inbound repos; from-node-only repos carry no view mass; to-nodes born after seeding: fleet-murmur, moth-waveform, quilt-stone, micrograd-quilt, MicroMoth-quilt'),
   kv('view', seed.view().map(x => `${x.repo} ${(x.share * 100).toFixed(1)}%`).join(' · ')),
 ]);
 done();
