@@ -397,3 +397,34 @@ repo reduces exactly to the blind view (pinned).
    quilt-show 8.0% · quilt-tools 8.0% · git-agent 7.6% · jev-quilt 7.6% ·
    micrograd-quilt 7.6% · MicroMoth-quilt 7.6% · moth-waveform 7.6% ·
    quilt-cowboy 7.6% · quilt-stone 7.6% · quilt-arcade 0.8%.
+- **Fourteenth edge BOOKED PENDING 2026-10-01 (02:20 pulse) — a
+   reconstruction, and the e-witness instrument-consumption lane one
+   lifecycle step earlier than its own precedent.** The 23:56 9/30 pulse
+   booked this edge on branch `edge14-pending-delta-shape` (commit
+   `7ddd151`, pins 114 offline + 115 live green) and the branch lived only
+   in `/tmp` — wiped overnight, never pushed. This booking rebuilds it on
+   the edge13-flip tip with every fact re-verified live against the open
+   PR: **SuperInstance/delta-shape#1** ("Drift significance layer (E1–E5):
+   e-witness bridge consuming SuperInstance/quilt-ewitness", OPEN, head
+   `e6a8f24f6bd88f0403fba857eaacc70232b925cf`, base `e2ad00d`) vendors
+   quilt-ewitness's `src/eproc.mjs` **by bytes** (@ `61b9e04`, sha256
+   `aad90ac5…`, provenance in `vendor/quilt-ewitness/SOURCE.txt` — the
+   fleet vendored-dist pattern), `src/esign.mjs witnessDrift()` sha256-checks
+   the vendored instrument before trusting it (the hash IS the identity;
+   mismatched bytes refuse to witness), and `docs/DRIFT-SIGNIFICANCE.md`
+   records what the bridge adds — the shape layer answers WHERE, the
+   e-witness answers WHETHER. **Honest weight-law read: an OPEN PR earns
+   nothing** — edge `qe-eproc-witness → ds-esign-drift` is booked
+   **PENDING=0.05**, provenance NULL (Pin 4's live audit audits only merged
+   PRs; the open-PR pointer lives in the claim text). Upgrade path:
+   delta-shape#1 merging with the citation load-bearing → a human flips the
+   seed, never self-upgraded. Precedent arc: `aw-jev-kat` was booked
+   PENDING on open jev-quilt#47 and flipped the morning after its merge —
+   the same law, the same instrument-consumption shape, one repo later.
+   delta-shape becomes the **sixth to-node born after seeding**;
+   quilt-ewitness enters as a from-node (from-node-only repos carry no
+   view mass). The view now carries thirteen repos: fleet-murmur 15.1% ·
+   pong-quilt 15.1% (tie) · quilt-show 8.0% · quilt-tools 8.0% ·
+   git-agent 7.5% · jev-quilt 7.5% · micrograd-quilt 7.5% ·
+   MicroMoth-quilt 7.5% · moth-waveform 7.5% · quilt-cowboy 7.5% ·
+   quilt-stone 7.5% · quilt-arcade 0.8% · **delta-shape 0.4%** (PENDING).
