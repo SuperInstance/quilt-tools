@@ -397,7 +397,36 @@ repo reduces exactly to the blind view (pinned).
    quilt-show 8.0% · quilt-tools 8.0% · git-agent 7.6% · jev-quilt 7.6% ·
    micrograd-quilt 7.6% · MicroMoth-quilt 7.6% · moth-waveform 7.6% ·
    quilt-cowboy 7.6% · quilt-stone 7.6% · quilt-arcade 0.8%.
-- **Fourteenth edge VERIFIED 2026-10-01 (06:56 snowball pulse) — the
+- **Fourteenth edge VERIFIED 2026-10-01 (04:12 pulse) — the e-witness
+   instrument-consumption lane; the merge outran the booking.** Honest
+   history first: this edge was booked PENDING twice — 23:56 9/30 on branch
+   `edge14-pending-delta-shape` (commit `7ddd151`, lost the same night in a
+   `/tmp` wipe before push), rebuilt 02:41 as **quilt-tools#31** (merge
+   `812a644`, 2026-09-30T19:31:04Z) — whose commit was later reset off main
+   (main returned to `58e2a18`, keeping #29/#30; the booking survived
+   nowhere). Neither loss touches the weight law's question: did a merged
+   PR in the to-node's repo cite the from-technique load-bearing?
+   **SuperInstance/delta-shape#1** ("Drift significance layer (E1–E5):
+   e-witness bridge consuming SuperInstance/quilt-ewitness", MERGED
+   2026-09-30T19:31:08Z, merge `57c07426`) answers it on merged main:
+   `vendor/quilt-ewitness/eproc.mjs` pinned BY BYTES (@ `61b9e04`, sha256
+   `aad90ac5…`, provenance in `vendor/quilt-ewitness/SOURCE.txt`),
+   `src/esign.mjs witnessDrift()` sha256-checks the vendored instrument
+   before trusting it (mismatched bytes refuse to witness), and the README
+   "Shape ≠ significance" section names **SuperInstance/quilt-ewitness** as
+   the sha256-pinned vendored instrument consumed. Weight law met: edge
+   `qe-eproc-witness → ds-esign-drift` is **VERIFIED=1.0**, receipt
+   `SuperInstance/delta-shape#1`, provenance the same merge. One lifecycle
+   arc fully inside the law: PENDING twice (wiped, reset) → merge →
+   VERIFIED — the aw-jev-kat precedent (edge #11) with the booking chased
+   by the merge instead of preceding it. delta-shape is the **sixth
+   to-node born after seeding**, entering at FULL VERIFIED mass; quilt-ewitness
+   enters as a from-node. The view now carries thirteen repos:
+   fleet-murmur 14.1% · pong-quilt 14.1% (tie) · quilt-show 7.4% ·
+   quilt-tools 7.4% · delta-shape 7.0% · git-agent 7.0% · jev-quilt 7.0% ·
+   micrograd-quilt 7.0% · MicroMoth-quilt 7.0% · moth-waveform 7.0% ·
+   quilt-cowboy 7.0% · quilt-stone 7.0% · quilt-arcade 0.7%.
+- **Fifteenth edge VERIFIED 2026-10-01 (06:56 snowball pulse) — the
    refusal-events ledger lane; the mint fleet-murmur#8 earned lands.**
    pong-quilt's refusals are named, receipted, and prompt-content-free —
    QA-REFUSAL, byo-qpam-fallback, WAL-EXPORT/REFUSED, WAL-EXPORT/EMPTY,

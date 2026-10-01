@@ -33,6 +33,7 @@ export const HINTS = {
   'qs-ep3->qa-plugins':      ['drag-to-reshape', 'episode-3 watcher', 'episode 3 watcher'],
   'aw-jev-kat->jq-kat-bridge': ['jev_kat', 'known-answer control', 'AI-Writings'],
   'mgq-qcells-lab->mm-sealed-receipts': ['micrograd-quilt', 'qcells lab', 'SuperInstance/micrograd-quilt'],
+  'qe-eproc-witness->ds-esign-drift': ['quilt-ewitness', 'e-process', 'esign', 'witnessDrift'],
 };
 
 // Anti-Goodhart guard (first live discovery run, 2026-09-26): the graph's
