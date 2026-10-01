@@ -455,3 +455,35 @@ repo reduces exactly to the blind view (pinned).
    git-agent 7.1% · jev-quilt 7.1% · micrograd-quilt 7.1% · MicroMoth-quilt
    7.1% · moth-waveform 7.1% · quilt-cowboy 7.1% · quilt-stone 7.1% ·
    quilt-arcade 0.7%.
+- **Sixteenth + seventeenth edges VERIFIED 2026-10-02 (04:27 snowball
+   pulse) — the fleet-triage resolver census pair; the two mints Casey's
+   2026-10-01T20:07Z merge burst earned land together.** The fleet-triage
+   resolver's scoped quilt-family census (244 repos, 15,880 files indexed,
+   5,852 docs / 7,790 citation sites in 162s; audit subcommand re-verified
+   513 findings by filesystem scan at 0.0% FP on hard outcomes) filed two
+   CANDIDATE edges on 2026-10-02 (02:26 pulse) with the weight-law upgrade
+   path recorded: PENDING → VERIFIED on a merged PR in each target repo.
+   Both merges landed ~20:07 UTC 2026-10-01 — **quilt-research-canons PR
+   #5** ("REFERRAL — fleet-triage resolver", MERGED 2026-10-01T20:07:58Z,
+   merge `62f18ff7`) naming the canon cluster's **222 FILE_MISSING**
+   citations (the family's largest single doc→file drift surface), and
+   **quilt-tournament PR #1** ("REFERRAL EDGE — fleet-triage resolver →
+   quilt-tournament", MERGED 2026-10-01T20:07:46Z, merge `2f6daf21`) holding
+   **all 25 LINE_OOR citations family-wide** (referee/ docs, line-past-EOF
+   vs quilt-canvas-tui core.c, quilt-verilog quf.rs, quilt-fleet-tools
+   seal.py). Each merged PR lands `docs/REFERRAL-fleet-triage-resolver.md`
+   in its own repo citing **SuperInstance/fleet-triage and resolver.py by
+   name**, with honest boundary notes carried verbatim (shallow-HEAD index;
+   PATH_PRECISE_ONLY advisory-only at 49.2% FP; LINE_OOR spot-verified by
+   direct wc/grep, not audit-sealed). Weight law met in both citing repos'
+   merges: edges `ft-resolver → qc-fm-surface` and `ft-resolver →
+   qt-lineoor-surface` are **VERIFIED=1.0**, receipts
+   `SuperInstance/quilt-research-canons#5` and
+   `SuperInstance/quilt-tournament#1`. Never self-upgraded; both to-repos
+   take their first inbound edge, and fleet-triage opens the graph's first
+   instrument→surface pair — two VERIFIED edges from one instrument, one
+   run. Branch pins: 129/129 offline, 130/130 --live (25→27 receipts
+   audited) green; the branch's updated count pins trip on main tip
+   (FAIL-first). The view now: **fleet-murmur** (solo triple lead) ·
+   pong-quilt · quilt-show · quilt-tools · ten single-VERIFIED repos
+   (delta-shape → quilt-tournament by name) · quilt-arcade closes.
