@@ -25,7 +25,7 @@ for (const n of (await import('./referral_graph.seed.mjs')).SEED.nodes) seed.add
 let seedBooked = 0;
 for (const e of (await import('./referral_graph.seed.mjs')).SEED.edges) { seed.book(e); seedBooked++; }
 
-check('seed: all edges booked', seedBooked === 25 && seed.rows.length === 25, `${seedBooked} edges`);
+check('seed: all edges booked', seedBooked === 27 && seed.rows.length === 27, `${seedBooked} edges`);
 
 // Pin 1 — missing required field is a loud REFUSAL, never a silent drop.
 {
@@ -72,7 +72,7 @@ check('seed: all edges booked', seedBooked === 25 && seed.rows.length === 25, `$
 // Removed here; the currency flip below is what this PR is for.)
 {
   const v = seed.view();
-  check('seed: view ranks all eighteen mass-carrying repos', v.length === 18, v.map(x => `${x.repo}=${x.share.toFixed(3)}`).join(' '));  const shares = v.map(x => x.share);
+  check('seed: view ranks all twenty mass-carrying repos', v.length === 20, v.map(x => `${x.repo}=${x.share.toFixed(3)}`).join(' '));  const shares = v.map(x => x.share);
   check('seed: view shares sum to 1', Math.abs(shares.reduce((a, b) => a + b, 0) - 1) < 1e-9, `Σ=${shares.reduce((a, b) => a + b, 0)}`);
   const byRepo = Object.fromEntries(v.map(x => [x.repo, x.weight]));
   check('seed: view mass — fm = 3×VERIFIED (first triple-inbound), pq = 2×VERIFIED, qs/qt = VERIFIED + PENDING, ga/jq/mgq/mm/mw/qb/qc-arcade… qc-canons/qt-tournament = VERIFIED (the mm⇄mgq pair both VERIFIED), qo = 2×PENDING (wal2feed wiring + notes2feed witness — the feed.v1 dialect has two named producers), qig = from-node-only 2 edges no view mass, bh = PENDING',
@@ -81,6 +81,8 @@ check('seed: all edges booked', seedBooked === 25 && seed.rows.length === 25, `$
     Math.abs(byRepo['quilt-show'] - (VERIFIED_WEIGHT + PENDING_WEIGHT)) < 1e-9 &&
     Math.abs(byRepo['git-agent'] - VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['micrograd-quilt'] - VERIFIED_WEIGHT) < 1e-9 &&
+    Math.abs(byRepo['doubt-ledger'] - VERIFIED_WEIGHT) < 1e-9 &&
+    Math.abs(byRepo['tidepool'] - VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['quilt-adjudication'] - VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['quilt-cowboy'] - VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['jev-quilt'] - VERIFIED_WEIGHT) < 1e-9 &&
@@ -100,26 +102,28 @@ check('seed: all edges booked', seedBooked === 25 && seed.rows.length === 25, `$
     JSON.stringify(byRepo));
   const sorted = [...v].sort((a, b) => b.share - a.share || a.repo.localeCompare(b.repo));
   check('seed: view is sorted by share desc', JSON.stringify(v) === JSON.stringify(sorted), 'sorted');
-  check('seed: fm leads solo with triple mass (first triple-inbound repo); pq second with double mass; then the two VERIFIED+PENDING repos (quilt-show, quilt-tools); the eleven single-VERIFIED repos tie, broken by name (delta-shape first — the e-witness booking whose merge outran it; git-agent … quilt-tournament last of the single-mass tier, quilt-research-canons and quilt-tournament entering 2026-10-02 on the resolver census pair; micrograd-quilt and MicroMoth-quilt enter via the lab↔ledger pair, both directions VERIFIED; the KAT edge now VERIFIED); then the two double-PENDING repos (quilt-arcade, quilt-overhead — overhead at TWO PENDING inbound edges: the wal2feed wiring + the notes2feed witness edge) and backward-holdem single-PENDING closes the view',
+  check('seed: fm leads solo with triple mass (first triple-inbound repo); pq second with double mass; then the two VERIFIED+PENDING repos (quilt-show, quilt-tools); the thirteen single-VERIFIED repos tie, broken by name (delta-shape first — the e-witness booking whose merge outran it; doubt-ledger enters on the Janus hedge with pong-quilt#99 as its receipted source; git-agent … tidepool last of the single-mass tier — quilt-research-canons and quilt-tournament entered 2026-10-02 on the resolver census pair, tidepool 2026-10-03 on the PAM hedge; micrograd-quilt and MicroMoth-quilt enter via the lab↔ledger pair, both directions VERIFIED; the KAT edge now VERIFIED); then the two double-PENDING repos (quilt-arcade, quilt-overhead — overhead at TWO PENDING inbound edges: the wal2feed wiring + the notes2feed witness edge) and backward-holdem single-PENDING closes the view',
     v[0].repo === 'fleet-murmur' && v[0].weight === 3 * VERIFIED_WEIGHT &&
     v[1].repo === 'pong-quilt' && v[1].weight === 2 * VERIFIED_WEIGHT &&
     v[2].repo === 'quilt-show' && v[2].weight === VERIFIED_WEIGHT + PENDING_WEIGHT &&
     v[3].repo === 'quilt-tools' && v[3].weight === VERIFIED_WEIGHT + PENDING_WEIGHT &&
     v[4].repo === 'delta-shape' && v[4].weight === VERIFIED_WEIGHT &&
-    v[5].repo === 'git-agent' && v[5].weight === VERIFIED_WEIGHT &&
-    v[6].repo === 'jev-quilt' && v[6].weight === VERIFIED_WEIGHT &&
-    v[7].repo === 'micrograd-quilt' && v[7].weight === VERIFIED_WEIGHT &&
-    v[8].repo === 'MicroMoth-quilt' && v[8].weight === VERIFIED_WEIGHT &&
-    v[9].repo === 'moth-waveform' && v[9].weight === VERIFIED_WEIGHT &&
-    v[10].repo === 'quilt-adjudication' && v[10].weight === VERIFIED_WEIGHT &&
-    v[11].repo === 'quilt-cowboy' && v[11].weight === VERIFIED_WEIGHT &&
-    v[12].repo === 'quilt-research-canons' && v[12].weight === VERIFIED_WEIGHT &&
-    v[13].repo === 'quilt-stone' && v[13].weight === VERIFIED_WEIGHT &&
-    v[14].repo === 'quilt-tournament' && v[14].weight === VERIFIED_WEIGHT &&
-    v[15].repo === 'quilt-arcade' && v[15].weight === 2 * PENDING_WEIGHT &&
-    v[16].repo === 'quilt-overhead' && v[16].weight === 2 * PENDING_WEIGHT &&
-    v[17].repo === 'backward-holdem' && v[17].weight === PENDING_WEIGHT,
-    `${v[0].repo} ${(v[0].share * 100).toFixed(1)}% · ${v[1].repo} ${(v[1].share * 100).toFixed(1)}% · ${v[2].repo} ${(v[2].share * 100).toFixed(1)}% · ${v[3].repo} ${(v[3].share * 100).toFixed(1)}% · ${v[4].repo} ${(v[4].share * 100).toFixed(1)}% · ${v[5].repo} ${(v[5].share * 100).toFixed(1)}% · ${v[6].repo} ${(v[6].share * 100).toFixed(1)}% · ${v[7].repo} ${(v[7].share * 100).toFixed(1)}% · ${v[8].repo} ${(v[8].share * 100).toFixed(1)}% · ${v[9].repo} ${(v[9].share * 100).toFixed(1)}% · ${v[10].repo} ${(v[10].share * 100).toFixed(1)}% · ${v[11].repo} ${(v[11].share * 100).toFixed(1)}% · ${v[12].repo} ${(v[12].share * 100).toFixed(1)}% · ${v[13].repo} ${(v[13].share * 100).toFixed(1)}% · ${v[14].repo} ${(v[14].share * 100).toFixed(1)}% · ${v[15].repo} ${(v[15].share * 100).toFixed(1)}% · ${v[16].repo} ${(v[16].share * 100).toFixed(1)}% · ${v[17].repo} ${(v[17].share * 100).toFixed(1)}%`);
+    v[5].repo === 'doubt-ledger' && v[5].weight === VERIFIED_WEIGHT &&
+    v[6].repo === 'git-agent' && v[6].weight === VERIFIED_WEIGHT &&
+    v[7].repo === 'jev-quilt' && v[7].weight === VERIFIED_WEIGHT &&
+    v[8].repo === 'micrograd-quilt' && v[8].weight === VERIFIED_WEIGHT &&
+    v[9].repo === 'MicroMoth-quilt' && v[9].weight === VERIFIED_WEIGHT &&
+    v[10].repo === 'moth-waveform' && v[10].weight === VERIFIED_WEIGHT &&
+    v[11].repo === 'quilt-adjudication' && v[11].weight === VERIFIED_WEIGHT &&
+    v[12].repo === 'quilt-cowboy' && v[12].weight === VERIFIED_WEIGHT &&
+    v[13].repo === 'quilt-research-canons' && v[13].weight === VERIFIED_WEIGHT &&
+    v[14].repo === 'quilt-stone' && v[14].weight === VERIFIED_WEIGHT &&
+    v[15].repo === 'quilt-tournament' && v[15].weight === VERIFIED_WEIGHT &&
+    v[16].repo === 'tidepool' && v[16].weight === VERIFIED_WEIGHT &&
+    v[17].repo === 'quilt-arcade' && v[17].weight === 2 * PENDING_WEIGHT &&
+    v[18].repo === 'quilt-overhead' && v[18].weight === 2 * PENDING_WEIGHT &&
+    v[19].repo === 'backward-holdem' && v[19].weight === PENDING_WEIGHT,
+    `${v[0].repo} ${(v[0].share * 100).toFixed(1)}% · ${v[1].repo} ${(v[1].share * 100).toFixed(1)}% · ${v[2].repo} ${(v[2].share * 100).toFixed(1)}% · ${v[3].repo} ${(v[3].share * 100).toFixed(1)}% · ${v[4].repo} ${(v[4].share * 100).toFixed(1)}% · ${v[5].repo} ${(v[5].share * 100).toFixed(1)}% · ${v[6].repo} ${(v[6].share * 100).toFixed(1)}% · ${v[7].repo} ${(v[7].share * 100).toFixed(1)}% · ${v[8].repo} ${(v[8].share * 100).toFixed(1)}% · ${v[9].repo} ${(v[9].share * 100).toFixed(1)}% · ${v[10].repo} ${(v[10].share * 100).toFixed(1)}% · ${v[11].repo} ${(v[11].share * 100).toFixed(1)}% · ${v[12].repo} ${(v[12].share * 100).toFixed(1)}% · ${v[13].repo} ${(v[13].share * 100).toFixed(1)}% · ${v[14].repo} ${(v[14].share * 100).toFixed(1)}% · ${v[15].repo} ${(v[15].share * 100).toFixed(1)}% · ${v[16].repo} ${(v[16].share * 100).toFixed(1)}% · ${v[17].repo} ${(v[17].share * 100).toFixed(1)}% · ${v[18].repo} ${(v[18].share * 100).toFixed(1)}% · ${v[19].repo} ${(v[19].share * 100).toFixed(1)}%`);
 }
 
 // Pin 3c — the SECOND currency event (FAIL-first: on main tip the quantum-coin
@@ -131,8 +135,8 @@ check('seed: all edges booked', seedBooked === 25 && seed.rows.length === 25, `$
     row.weight === 'VERIFIED' && row.receipt === 'SuperInstance/pong-quilt#28',
     row ? `weight=${row.weight} receipt=${row.receipt}` : 'edge not found');
   const verified = seed.rows.filter(r => r.op === 'LINK' && r.weight === 'VERIFIED');
-  check('seed: exactly eighteen VERIFIED edges across eighteen distinct to-nodes — monopoly broken, doctrine arc complete; the mm⇄mgq pair VERIFIED in both directions (ledger→lab via micrograd-quilt#7, lab→ledger via MicroMoth-quilt#29), jev-quilt holds its KAT inbound (jev-quilt#47), pong-quilt double INBOUND (coin + sign pilot) and THREE outgoing (wal-honesty, stone-v1 export, named refusals), fleet-murmur TRIPLE inbound (honesty#2 + qgs-adapter#3 + refusal-ledger#8), delta-shape holds the e-witness inbound (delta-shape#1 — the booking the merge outran), quilt-research-canons and quilt-tournament hold their FIRST inbound edges from the fleet-triage resolver census (canons#5 FILE_MISSING surface, tournament#1 LINE_OOR surface) — fleet-triage opens the graph\'s first instrument→surface pair with two outgoing VERIFIED edges from one run',
-    verified.length === 18 && new Set(verified.map(r => r.to)).size === 18,
+  check('seed: exactly twenty VERIFIED edges across twenty distinct to-nodes — the 01:37 pulse\'s Janus+PAM sweep added doubt-ledger + tidepool as to-node FIRST-inbound repos; monopoly broken, doctrine arc complete; the mm⇄mgq pair VERIFIED in both directions (ledger→lab via micrograd-quilt#7, lab→ledger via MicroMoth-quilt#29), jev-quilt holds its KAT inbound (jev-quilt#47), pong-quilt double INBOUND (coin + sign pilot) and FOUR outgoing (wal-honesty, stone-v1 export, named refusals, franken-guard lineage), fleet-murmur TRIPLE inbound (honesty#2 + qgs-adapter#3 + refusal-ledger#8), delta-shape holds the e-witness inbound (delta-shape#1 — the booking the merge outran), quilt-research-canons and quilt-tournament hold their FIRST inbound edges from the fleet-triage resolver census (canons#5 FILE_MISSING surface, tournament#1 LINE_OOR surface), quilt-adjudication holds the query-lane inbound (quilt-adjudication#1)',
+    verified.length === 20 && new Set(verified.map(r => r.to)).size === 20,
     verified.map(r => `${r.from}->${r.to}`).join(' '));
 }
 
@@ -155,8 +159,8 @@ check('seed: all edges booked', seedBooked === 25 && seed.rows.length === 25, `$
     e2?.claim.includes('0809402a13c37d70') && e2?.falsification_condition.includes('pin_snapshot'),
     e2 ? `weight=${e2.weight} provenance=${e2.provenance}` : 'edge not found');
   const verified = seed.rows.filter(r => r.op === 'LINK' && r.weight === 'VERIFIED');
-  check('seed: the two wiring edges did not mint currency — still exactly eighteen VERIFIED',
-    verified.length === 18, `${verified.length} VERIFIED`);
+  check('seed: the two wiring edges did not mint currency — still exactly twenty VERIFIED at their booking (the Janus+PAM sweep earned #26+#27 hours later, not here)',
+    verified.length === 20, `${verified.length} VERIFIED`);
 }
 
 // Pin 3b — the currency event (FAIL-first: on main tip the S2 edge is PENDING
@@ -241,8 +245,8 @@ check('seed: all edges booked', seedBooked === 25 && seed.rows.length === 25, `$
   check('seed: receipt target is the to-node\'s repo (weight law, substrate-enforced)',
     row?.receipt.split('#')[0] === `SuperInstance/${fm?.repo}`, row?.receipt);
   const fromPq = seed.rows.filter(r => r.op === 'LINK' && seed.nodes.get(r.from)?.repo === 'pong-quilt');
-  check('seed: pong-quilt carries three outgoing VERIFIED edges — receives currency (pq→fm honesty) and pays it forward into the canonical verifier (stone lane) and the IETF refusal-ledger lane (named refusals)',
-    fromPq.length === 3 && fromPq.every(r => r.weight === 'VERIFIED') && fromPq.some(r => r.to === 'fm-honesty-receipts') && fromPq.some(r => r.to === 'stone-forward-adopt') && fromPq.some(r => r.to === 'fm-refusal-ledger'),
+  check('seed: pong-quilt carries four outgoing VERIFIED edges — receives currency (pq→fm honesty) and pays it forward into the canonical verifier (stone lane), the IETF refusal-ledger lane (named refusals), and the doubt-ledger Janus hedge (franken-save guard lineage, pong-quilt#99)',
+    fromPq.length === 4 && fromPq.every(r => r.weight === 'VERIFIED') && fromPq.some(r => r.to === 'fm-honesty-receipts') && fromPq.some(r => r.to === 'stone-forward-adopt') && fromPq.some(r => r.to === 'fm-refusal-ledger') && fromPq.some(r => r.to === 'dl-janus-evidence'),
     fromPq.map(r => `${r.from}->${r.to}`).join(' '));
 }
 
@@ -675,8 +679,8 @@ check('seed: all edges booked', seedBooked === 25 && seed.rows.length === 25, `$
   const qig = seed.nodes.get('qig-notes2feed'), qo = seed.nodes.get('qo-feed-v1');
   check('seed: both endpoints exist in their own repos',
     qig?.repo === 'quilt-in-git' && qo?.repo === 'quilt-overhead', `${qig?.repo} -> ${qo?.repo}`);
-  check('seed: the witness edge did not mint currency — still exactly eighteen VERIFIED',
-    seed.rows.filter(r => r.op === 'LINK' && r.weight === 'VERIFIED').length === 18, '18 VERIFIED');
+  check('seed: the witness edge did not mint currency — twenty VERIFIED after the Janus+PAM sweep (it stays PENDING)',
+    seed.rows.filter(r => r.op === 'LINK' && r.weight === 'VERIFIED').length === 20, '20 VERIFIED');
   check('seed: quilt-overhead carries TWO PENDING inbound edges (wal2feed wiring + notes witness) — the feed.v1 dialect has two named producers before any merged-PR currency',
     seed.rows.filter(r => r.op === 'LINK' && seed.nodes.get(r.to)?.repo === 'quilt-overhead' && r.weight === 'PENDING').length === 2,
     seed.rows.filter(r => seed.nodes.get(r.to)?.repo === 'quilt-overhead').map(r => `${r.from}->${r.to}:${r.weight}`).join(' '));
@@ -685,8 +689,63 @@ check('seed: all edges booked', seedBooked === 25 && seed.rows.length === 25, `$
     fromQig.length === 2 && fromQig.some(r => r.to === 'qad-dispute-query' && r.weight === 'VERIFIED') && fromQig.some(r => r.to === 'qo-feed-v1' && r.weight === 'PENDING'),
     fromQig.map(r => `${r.from}->${r.to}:${r.weight}`).join(' '));
   const v = seed.view();
-  check('seed: witness edge adds no view mass — from-node-only PENDING repos stay massless, view still eighteen repos',
-    v.length === 18 && !v.some(x => x.repo === 'quilt-in-git'), `${v.length} repos`);
+  check('seed: witness edge adds no view mass — from-node-only PENDING repos stay massless, view now twenty repos (doubt-ledger + tidepool entered on the Janus/PAM sweep)',
+    v.length === 20 && !v.some(x => x.repo === 'quilt-in-git'), `${v.length} repos`);
+}
+
+// Pin 3t — the TWENTY-SIXTH + TWENTY-SEVENTH edges VERIFIED 2026-10-03
+// (01:37 snowball pulse): the Casey 15:42–15:52Z hedge-sweep pair. FAIL-first:
+// on main tip these edges do not exist (the count pins above trip RED —
+// captured 8 trips before this file was touched). doubt-ledger#9 ("docs:
+// Janus hedge — arXiv 2609.38266", MERGED 2026-10-02T15:51:57Z into base
+// branch poc, tip 6f202da5) names pong-quilt's franken-save guard at PR #99
+// lineage; tidepool#12 ("docs: PAM vocabulary hedge — arXiv 2605.11032",
+// MERGED 2026-10-02T15:42:43Z) receipts doubt-ledger's #1–#3 sweep by name
+// and timestamp. Both from-techniques merge-receipted BEFORE their citations
+// (pong-quilt#99 15:43:23Z → citation 15:51:57Z; doubt-ledger#3 02:39:02Z →
+// citation 15:42:43Z). HONESTY: doubt-ledger's Casey sweep merged into `poc`,
+// not `main` (main sits at e0dfdd1) — the repos' own PR culture puts poc
+// ahead; citation trees are live and merge-receipted either way. The
+// Janus doc's quilt-overhead / backward-holdem cross-cites stay PENDING per
+// the dance-of-growth precedent (main-direct to-nodes, no merged PR).
+{
+  const rowA = seed.rows.find(r => r.op === 'LINK' && r.from === 'pq-franken-guard' && r.to === 'dl-janus-evidence');
+  check('seed: pq→dl Janus edge is VERIFIED with doubt-ledger#9 receipt in the to-node\'s repo',
+    rowA?.weight === 'VERIFIED' && rowA?.receipt === 'SuperInstance/doubt-ledger#9',
+    rowA ? `weight=${rowA.weight} receipt=${rowA.receipt}` : 'edge not found');
+  check('seed: pq→dl Janus claim records the currency event and the PR #99 lineage citation',
+    rowA?.claim.includes('TWENTY-SIXTH edge VERIFIED') && rowA?.claim.includes('PR #99 lineage') && rowA?.claim.includes('franken-save guard'),
+    rowA ? 'claim carries the receipt + lineage citation' : 'edge not found');
+  check('seed: pq→dl Janus provenance records the from-technique merge (pong-quilt#99)',
+    rowA?.provenance === 'SuperInstance/pong-quilt#99', rowA?.provenance ?? 'none');
+  check('seed: pq→dl Janus declares a falsification condition (kill switch)',
+    typeof rowA?.falsification_condition === 'string' && rowA.falsification_condition.length > 20,
+    rowA?.falsification_condition ?? 'none');
+  const rowB = seed.rows.find(r => r.op === 'LINK' && r.from === 'dl-selective-disclosure' && r.to === 'td-pam-hedge');
+  check('seed: dl→td PAM edge is VERIFIED with tidepool#12 receipt in the to-node\'s repo',
+    rowB?.weight === 'VERIFIED' && rowB?.receipt === 'SuperInstance/tidepool#12',
+    rowB ? `weight=${rowB.weight} receipt=${rowB.receipt}` : 'edge not found');
+  check('seed: dl→td PAM claim records the currency event and the #1–#3 sweep citation',
+    rowB?.claim.includes('TWENTY-SEVENTH edge VERIFIED') && rowB?.claim.includes('doubt-ledger #1–#3'),
+    rowB ? 'claim carries the receipt + sweep citation' : 'edge not found');
+  check('seed: dl→td PAM provenance records the from-technique merge (doubt-ledger#3)',
+    rowB?.provenance === 'SuperInstance/doubt-ledger#3', rowB?.provenance ?? 'none');
+  check('seed: dl→td PAM declares a falsification condition (kill switch)',
+    typeof rowB?.falsification_condition === 'string' && rowB.falsification_condition.length > 20,
+    rowB?.falsification_condition ?? 'none');
+  const pg = seed.nodes.get('pq-franken-guard'), dl = seed.nodes.get('dl-janus-evidence'), ds = seed.nodes.get('dl-selective-disclosure'), td = seed.nodes.get('td-pam-hedge');
+  check('seed: all four endpoints exist in their own repos',
+    pg?.repo === 'pong-quilt' && dl?.repo === 'doubt-ledger' && ds?.repo === 'doubt-ledger' && td?.repo === 'tidepool', `${pg?.repo} -> ${dl?.repo} · ${ds?.repo} -> ${td?.repo}`);
+  check('seed: both receipts target their to-node\'s repo (weight law, substrate-enforced)',
+    rowA?.receipt.split('#')[0] === `SuperInstance/${dl?.repo}` && rowB?.receipt.split('#')[0] === `SuperInstance/${td?.repo}`,
+    `${rowA?.receipt} · ${rowB?.receipt}`);
+  check('seed: doubt-ledger and tidepool each carry their FIRST inbound edge — both enter the view at full VERIFIED mass',
+    seed.rows.filter(r => r.op === 'LINK' && seed.nodes.get(r.to)?.repo === 'doubt-ledger').length === 1 &&
+    seed.rows.filter(r => r.op === 'LINK' && seed.nodes.get(r.to)?.repo === 'tidepool').length === 1,
+    'dl + td first-inbound');
+  check('seed: doubt-ledger opens an outgoing lane the same hour — dl→td pays the wave-2 export forward into the PAM hedge',
+    seed.rows.some(r => r.op === 'LINK' && r.from === 'dl-selective-disclosure' && r.to === 'td-pam-hedge' && r.weight === 'VERIFIED'),
+    'dl→td VERIFIED');
 }
 
 // Pin 4 — provenance live audit: every cited PR must actually be merged.
@@ -935,8 +994,8 @@ function fixture() {
 }
 
 panel('referral-graph v1 — the mesh answers as a distribution', [
-  kv('nodes', '40 (24 repos)'), kv('edges', '25 — 18 VERIFIED · 7 PENDING'),
-  kv('currency', '15 VERIFIED (show#1 cites S2 · pong#28 cites coin-toss-v1 · git-agent#4 cites algebra.md · cowboy#1 cites jev-quilt · fleet-murmur#2 cites pong-quilt · moth-waveform#1 cites the fm vacuity scar · fleet-murmur#3 cites quality-gate-stream · quilt-tools#17 cites jev-quilt commons.py G11 · quilt-stone#1 cites pong-quilt R36 toStoneV1 · pong-quilt#51 staples with quilt-stone#4\'s signTip · jev-quilt#47 cites the AI-Writings KAT instrument · micrograd-quilt#7 cites the MicroMoth-quilt ledger by name across the qcells lab · MicroMoth-quilt#29 cites SuperInstance/micrograd-quilt as the qcells lab canonical home · delta-shape#1 cites SuperInstance/quilt-ewitness as a sha256-pinned vendored e-witness instrument · fleet-murmur#8 cites pong-quilt\'s named-refusal corpus at a pinned main merge · canons#5 cites the fleet-triage resolver for the canon cluster\'s 222 FILE_MISSING surface · tournament#1 cites the same resolver for the family\'s 25 LINE_OOR sites · quilt-adjudication#1 cites quilt-in-git\'s wave4-query layer at the pinned 43f10b2 merge) — doctrine flows outward eighteen ways; the mm⇄mgq pair is the graph\'s first bidirectional pair and both directions now carry VERIFIED mass — ledger→lab earned by the lab\'s merged FINDINGS (micrograd-quilt#7) and lab→ledger earned by the ledger\'s merged AUDIT canonical-home note with a citation pin (MicroMoth-quilt#29; sealed receipts untouched, provenance amended not rewritten); jev-quilt holds its KAT inbound (flipped on jev-quilt#47 merge); the qe→ds edge booked PENDING twice (a /tmp wipe took 7ddd151, a main reset took 812a644) and the delta-shape#1 merge outran the booking — landed directly at VERIFIED 2026-10-01; pong-quilt remains double-INBOUND with three outgoing edges while fleet-murmur is the fleet\'s first TRIPLE-inbound repo (honesty#2 + qgs-adapter#3 + refusal-ledger#8); from-node-only repos carry no view mass; to-nodes born after seeding: fleet-murmur, moth-waveform, quilt-stone, micrograd-quilt, MicroMoth-quilt, delta-shape, fm-refusal-ledger, qc-fm-surface, qt-lineoor-surface, qad-dispute-query'),
+  kv('nodes', '44 (26 repos)'), kv('edges', '27 — 20 VERIFIED · 7 PENDING'),
+  kv('currency', '20 VERIFIED (show#1 cites S2 · pong#28 cites coin-toss-v1 · git-agent#4 cites algebra.md · cowboy#1 cites jev-quilt · fleet-murmur#2 cites pong-quilt · moth-waveform#1 cites the fm vacuity scar · fleet-murmur#3 cites quality-gate-stream · quilt-tools#17 cites jev-quilt commons.py G11 · quilt-stone#1 cites pong-quilt R36 toStoneV1 · pong-quilt#51 staples with quilt-stone#4\'s signTip · jev-quilt#47 cites the AI-Writings KAT instrument · micrograd-quilt#7 cites the MicroMoth-quilt ledger by name across the qcells lab · MicroMoth-quilt#29 cites SuperInstance/micrograd-quilt as the qcells lab canonical home · delta-shape#1 cites SuperInstance/quilt-ewitness as a sha256-pinned vendored e-witness instrument · fleet-murmur#8 cites pong-quilt\'s named-refusal corpus at a pinned main merge · canons#5 cites the fleet-triage resolver for the canon cluster\'s 222 FILE_MISSING surface · tournament#1 cites the same resolver for the family\'s 25 LINE_OOR sites · quilt-adjudication#1 cites quilt-in-git\'s wave4-query layer at the pinned 43f10b2 merge · doubt-ledger#9 cites pong-quilt#99\'s franken-save guard lineage in the Janus hedge · tidepool#12 cites doubt-ledger\'s #1–#3 sweep receipts in the PAM hedge) — doctrine flows outward twenty ways; the mm⇄mgq pair is the graph\'s first bidirectional pair and both directions now carry VERIFIED mass — ledger→lab earned by the lab\'s merged FINDINGS (micrograd-quilt#7) and lab→ledger earned by the ledger\'s merged AUDIT canonical-home note with a citation pin (MicroMoth-quilt#29; sealed receipts untouched, provenance amended not rewritten); jev-quilt holds its KAT inbound (flipped on jev-quilt#47 merge); the qe→ds edge booked PENDING twice (a /tmp wipe took 7ddd151, a main reset took 812a644) and the delta-shape#1 merge outran the booking — landed directly at VERIFIED 2026-10-01; pong-quilt remains double-INBOUND with four outgoing edges while fleet-murmur is the fleet\'s first TRIPLE-inbound repo (honesty#2 + qgs-adapter#3 + refusal-ledger#8); from-node-only repos carry no view mass; to-nodes born after seeding: fleet-murmur, moth-waveform, quilt-stone, micrograd-quilt, MicroMoth-quilt, delta-shape, fm-refusal-ledger, qc-fm-surface, qt-lineoor-surface, qad-dispute-query, dl-janus-evidence, td-pam-hedge'),
   kv('view', seed.view().map(x => `${x.repo} ${(x.share * 100).toFixed(1)}%`).join(' · ')),
 ]);
 done();

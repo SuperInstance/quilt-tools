@@ -345,6 +345,17 @@ export const SEED = {
     // documented, not faked.
     { id: 'qig-notes2feed', repo: 'quilt-in-git', kind: 'witness-stream',
       summary: 'the git-native witness stream (quilt-in-git#11 MERGED 2026-10-02T08:50:52Z, merge 0d2c0f9): the w3a post-commit hook attaches every tick receipt to its commit as a git note (refs/notes/quilt/receipts), so receipts ride fetch/push/clone with the branch while .quilt/receipts/ files never leave the working tree; tools/notes2feed.py reads the notes ref and emits the quilt-overhead feed.v1 dialect ({cells,meta}; lattice coords; kind in the five fleet verbs) with wal_ref = notes:<chain-head> as stream identity; 11 FAIL-first pins (N0 fresh-clone refusal named, never a fake-empty feed); the missing push wire (notes never auto-fetch/push) documented in docs/NOTES2FEED.md, not faked' },
+    // 2026-10-03 (01:37 pulse): the Casey 15:42–15:52Z merge sweep earns two
+    // edges. doubt-ledger + tidepool enter the sheet; pong-quilt earns its
+    // FOURTH outgoing edge (the Janus hedge names the franken-save guard).
+    { id: 'pq-franken-guard', repo: 'pong-quilt', kind: 'experiment',
+      summary: "the franken-save guard lineage (pong-quilt#99 MERGED 2026-10-02T15:43:23Z): the v1 draw-ledger append-discipline round names the save guard as a pure function of state+receipts — pong-quilt's gloss for 'gate = pure function of the receipt log'; cited BY NAME at row 2 of doubt-ledger's JANUS-EVIDENCE-BEFORE-EFFECT.md (docs/, doubt-ledger#9 MERGED 2026-10-02T15:51:57Z into poc) with the PR #99 lineage named in-repo" },
+    { id: 'dl-janus-evidence', repo: 'doubt-ledger', kind: 'integration',
+      summary: "the Janus evidence-before-effect hedge (doubt-ledger#9 MERGED 2026-10-02T15:51:57Z into base branch poc): docs/JANUS-EVIDENCE-BEFORE-EFFECT.md books arXiv 2609.38266's vocabulary cite/differentiate-style — six CLAIM-THEIRS/OURS rows, ADOPT 'gate = pure function of the receipt log' naming pong-quilt#99's franken-save guard BY NAME, honest limits adopted (understated declarations, five open substitution routes), kill switch: corrections append, never silent edit" },
+    { id: 'dl-selective-disclosure', repo: 'doubt-ledger', kind: 'experiment',
+      summary: 'the wave-2 selective-disclosure export + Ed25519 root signing (doubt-ledger#3 MERGED 2026-10-02T02:39:02Z into poc; #2 01:50:54Z; the 01:49–02:39Z Casey sweep #1–#3): filtered slice to standalone JSONL, header binds the live tip, checksums recomputed, verify_export names the exact tampered line; honest limit 5 pinned in-repo: export proves integrity OF THE INCLUDED, never completeness — no capability tokens, the moat-shaped gap named not faked' },
+    { id: 'td-pam-hedge', repo: 'tidepool', kind: 'integration',
+      summary: "the PAM vocabulary hedge (tidepool#12 MERGED 2026-10-02T15:42:43Z): docs/PAM-HEDGE.md books arXiv 2605.11032's provenance vocabulary before it gets owned — CLAIM-THEIRS/OURS rows for Merkle-DAG provenance, Ed25519 root signing, capability tokens/selective disclosure, each with doubt-ledger's shipped-and-receipted answers named BY NAME (wave-2 export, #1–#3 sweep receipts dated in-doc), ADOPT-WITH-GAP-NAMED where the honest limit is real" },
   ],
 
   edges: [
@@ -552,6 +563,29 @@ falsification_condition: 'a MicroMoth-quilt receipt sealing qcells-lab work that
       weight: 'PENDING',
       provenance: 'SuperInstance/quilt-in-git#11', // the merged PR whose tool+doc carry the by-name feed.v1 citation
       falsification_condition: 'notes2feed emitting a feed whose dialect drifts from quilt-overhead feed.v1 ({cells, meta} shape, lattice coords, kind in the five fleet verbs, meta.wal_ref as stream identity), or the SuperInstance/quilt-overhead / feed.v1 citation removed from tools/notes2feed.py / docs/NOTES2FEED.md on quilt-in-git main, or the 11-pin notes2feed suite dropping below green',
+    },
+    // 2026-10-03 (01:37 pulse) — the Casey 15:42–15:52Z merge sweep earns
+    // TWO edges from one hedge wave. Both to-nodes are PR-culture repos whose
+    // merges landed the by-name citations; never self-upgraded — the merges
+    // did the earning. NOTE on doubt-ledger's base branch: the Casey sweep
+    // merged into `poc`, not `main` (main sits at e0dfdd1, 01:50Z — the
+    // repos' own PR culture puts poc ahead; the citation trees are live and
+    // merge-receipted either way, so the weight law is met).
+    {
+      from: 'pq-franken-guard', to: 'dl-janus-evidence',
+      claim: 'TWENTY-SIXTH edge VERIFIED 2026-10-03 (01:37 snowball pulse): the Janus vocabulary lands inside the fleet with its receipt named. doubt-ledger PR #9 ("docs: Janus hedge (arXiv 2609.38266 evidence-before-effect sagas) — cite/differentiate ledger", MERGED 2026-10-02T15:51:57Z into base branch poc, tip 6f202da5) lands docs/JANUS-EVIDENCE-BEFORE-EFFECT.md IN THE TO-NODE\'S REPO citing SuperInstance/pong-quilt BY NAME at an anchored row: CLAIM row 2 ("Gates = pure functions of the log") names pong-quilt\'s franken-save guard as "exactly a pure function of state+receipts (PR #99 lineage)" and ADOPTS the Janus gloss "gate = pure function of the receipt log" as the fleet\'s name for guards/pins. The from-technique landed FIRST and is itself merge-receipted: pong-quilt#99 ("Round 77: v1 draw ledger append discipline + draw #13", MERGED 2026-10-02T15:43:23Z) precedes the citation by 8m34s — the provenance-order the weight law demands. The same doc cross-cites quilt-overhead\'s snapshot wal_ref and backward-holdem\'s LEDGER prereg (both main-direct cultures — those stay PENDING per the dance-of-growth precedent; only the pong-quilt row, whose source repo is PR-culture and merge-receipted, earns currency here). HONESTY: the doc is a hedge against arXiv 2609.38266 — the external work is cited/differentiated, never claimed; the edge\'s from-node is the fleet\'s own guard, not Janus. Never self-upgraded — Casey\'s merge in the TARGET repo did the earning. pong-quilt\'s FOURTH outgoing edge; doubt-ledger\'s FIRST inbound edge, 10h00m after the repo\'s poc commit.',
+      weight: 'VERIFIED',
+      provenance: 'SuperInstance/pong-quilt#99', // the merged from-technique PR (15:43:23Z) the citation names by lineage
+      receipt: 'SuperInstance/doubt-ledger#9',
+      falsification_condition: 'the "PR #99 lineage" / franken-save-guard citation removed from docs/JANUS-EVIDENCE-BEFORE-EFFECT.md on doubt-ledger\'s merged tree, or pong-quilt#99\'s append-discipline guard ceasing to be a pure function of state+receipts while the edge still reports green',
+    },
+    {
+      from: 'dl-selective-disclosure', to: 'td-pam-hedge',
+      claim: 'TWENTY-SEVENTH edge VERIFIED 2026-10-03 (01:37 snowball pulse, same booking): the PAM hedge names doubt-ledger\'s shipped answers as its CLAIM-OURS receipts. tidepool PR #12 ("docs: PAM vocabulary hedge — cite/differentiate arXiv 2605.11032", MERGED 2026-10-02T15:42:43Z) lands docs/PAM-HEDGE.md IN THE TO-NODE\'S REPO citing SuperInstance/doubt-ledger BY NAME at three anchored CLAIM-OURS rows: row 3 (Ed25519 root signing) — "doubt-ledger wave-2 shipped selective-disclosure export + Ed25519 root-signing over the tip root ... merged in the 01:49–02:39Z Casey sweep (doubt-ledger #1–#3)" with VERDICT ADOPT-already-adopted-receipted-above; row 4 (capability tokens / selective disclosure) — "doubt-ledger has export-side selective disclosure: filtered slice → standalone JSONL, header binds the live tip, checksums recomputed, verify_export names the exact tampered line", honest limit 5 pinned (integrity OF THE INCLUDED, never completeness), VERDICT ADOPT-WITH-GAP-NAMED. The from-technique is merge-receipted on doubt-ledger\'s merged tree: wave-2 selective-disclosure export + Ed25519 root signing shipped in the #1–#3 sweep (tip-of-line #3 MERGED 2026-10-02T02:39:02Z), ~13h before the citation merged. Direction per the receipt-repo rule: the merge is in tidepool, so currency flows INTO tidepool — dl-selective-disclosure -> td-pam-hedge. HONESTY: this is a hedge against external arXiv 2605.11032; the edge\'s from-node is doubt-ledger\'s own export lane, and the doc explicitly claims tamper-evidence never tamper-proof against PAM\'s stronger phrasing. Never self-upgraded. doubt-ledger\'s FIRST outgoing edge; tidepool\'s FIRST inbound edge — the to-node the 12:25 pulse staged as "repo not yet seeded" now carries VERIFIED mass.',
+      weight: 'VERIFIED',
+      provenance: 'SuperInstance/doubt-ledger#3', // the wave-2 export merge the hedge doc receipts by name and sweep timestamp
+      receipt: 'SuperInstance/tidepool#12',
+      falsification_condition: 'the doubt-ledger #1–#3 sweep citations removed from docs/PAM-HEDGE.md on tidepool main, or a tidepool claim of selective-disclosure/Ed25519 capability that the doubt-ledger export lane cannot re-derive while the edge still reports green',
     },
   ],
 };
