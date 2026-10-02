@@ -514,3 +514,37 @@ repo reduces exactly to the blind view (pinned).
    lead) · pong-quilt · quilt-show · quilt-tools · eleven single-VERIFIED
    repos (delta-shape → quilt-tournament by name; quilt-adjudication heads
    the quilt-* tier) · quilt-arcade closes.
+- **Twenty-fifth edge BOOKED 2026-10-02 (18:56 snowball pulse) — the
+   git-notes witness edge; PENDING at birth, upgrade path recorded.** The
+   16:40 holdem-pulse directive ("book w3a→qo-feed-v1 edge after #11
+   merges") executes now that quilt-in-git#11 ("w3a seam: notes2feed —
+   git-native witness stream → feed.v1", MERGED 2026-10-02T08:50:52Z,
+   merge `0d2c0f9`) precedes the booking by ~10h. The merged tree cites
+   **quilt-overhead feed.v1 BY NAME** at anchored sites:
+   `tools/notes2feed.py`'s module docstring ("refs/notes/quilt/receipts ->
+   quilt-overhead feed.v1") and `docs/NOTES2FEED.md` (the dialect contract:
+   `{cells, meta}`; lattice coords; kind in the five fleet verbs;
+   `meta.wal_ref = "notes:<chain-head>"` — the notes head IS the stream
+   identity, the same role wal_ref plays for WAL files), plus 11 FAIL-first
+   pins (N0 refuses a fresh clone — notes never auto-fetch — never faking an
+   empty feed) and the missing push wire documented honestly, not faked.
+   Weight-law honesty: the citation lives in a merged PR in the FROM repo
+   and the to-node's repo (quilt-overhead) is a main-direct culture — per
+   the git-agent#1 precedent and the #36 wiring-pair booking (same
+   to-node), the edge `qig-notes2feed → qo-feed-v1` books **PENDING** with
+   provenance `SuperInstance/quilt-in-git#11`; upgrade path = a PR into
+   quilt-overhead citing quilt-in-git#11. Never self-upgraded. quilt-in-git
+   becomes the graph's first TWO-EDGE from-node with no view mass (mass is
+   measured where doctrine LANDS); quilt-overhead carries **two** PENDING
+   inbound edges — the feed.v1 dialect now has two named producers
+   (backward-holdem WAL ticks, quilt-in-git notes) before any merged-PR
+   currency, exactly what the graph was built to measure. Branch pins:
+   147/147 offline green; live run 147/148 with the one failure
+   PRE-EXISTING on main (the #36 wiring pair's `@commit`-form provenance
+   404s the PR-state audit — carried, not introduced); view unchanged at
+   eighteen repos (overhead moves to double-PENDING mass, tie-broken under
+   quilt-arcade by name; backward-holdem closes the view). The view now:
+   **fleet-murmur** (solo triple lead) · pong-quilt · quilt-show ·
+   quilt-tools · eleven single-VERIFIED repos (delta-shape →
+   quilt-tournament by name) · quilt-arcade + quilt-overhead (double
+   PENDING) · backward-holdem closes.

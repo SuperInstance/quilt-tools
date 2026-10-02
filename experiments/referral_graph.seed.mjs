@@ -336,6 +336,15 @@ export const SEED = {
       summary: 'the backward-holdem tick-WAL substrate (repo born 2026-10-02): strict type-safe tick schema — the parser rejects unknown kinds, wrong field types, and extra fields — fnv1a-64 hash-chained receipts (the fleet WAL convention, chaining discipline per git-agent quilt_emit), script identity = sha256(file + parameters) so a retuned threshold is a NEW artifact with lineage; the ExoJ game runs fully algorithmic (zero API in the decision path) with adaptation metered per seat through a Budget; sample run seed 20261002 / 120 hands / 1235 ticks / wal_ref 0809402a13c37d70 sealed in-repo (receipts/wal.jsonl); 21 FAIL-first engine pins GREEN' },
     { id: 'qo-feed-v1', repo: 'quilt-overhead', kind: 'integration',
       summary: 'the overhead-board feed.v1 dialect (repo born 2026-10-02): {cells:[{id,name,agent,x,y in [0,1],doc,deltas:[{t,kind,size}]}]} with kind in the five fleet verbs; the simulated scene stays a seed-pinned renderer fixture (honestly tagged SIMULATED), and the first REAL feed — feeds/real-wal-feed.json generated from backward-holdem receipts/wal.jsonl by tools/wal2feed.py — is pinned by tools/pin_snapshot.py (RED on empty feeds/, GREEN on the real snapshot: contract + wal_ref + REAL tag + named source)' },
+    // 2026-10-02 (18:56 pulse): the git-native witness stream enters the
+    // sheet. quilt-in-git#11 (MERGED 2026-10-02T08:50:52Z, merge 0d2c0f9)
+    // ships tools/notes2feed.py — refs/notes/quilt/receipts -> feed.v1,
+    // wal_ref := "notes:<chain-head>" — citing the quilt-overhead feed.v1
+    // dialect BY NAME in tool + doc, with 11 FAIL-first pins (N0 refuses a
+    // fresh clone, never fakes an empty feed) and the missing push wire
+    // documented, not faked.
+    { id: 'qig-notes2feed', repo: 'quilt-in-git', kind: 'witness-stream',
+      summary: 'the git-native witness stream (quilt-in-git#11 MERGED 2026-10-02T08:50:52Z, merge 0d2c0f9): the w3a post-commit hook attaches every tick receipt to its commit as a git note (refs/notes/quilt/receipts), so receipts ride fetch/push/clone with the branch while .quilt/receipts/ files never leave the working tree; tools/notes2feed.py reads the notes ref and emits the quilt-overhead feed.v1 dialect ({cells,meta}; lattice coords; kind in the five fleet verbs) with wal_ref = notes:<chain-head> as stream identity; 11 FAIL-first pins (N0 fresh-clone refusal named, never a fake-empty feed); the missing push wire (notes never auto-fetch/push) documented in docs/NOTES2FEED.md, not faked' },
   ],
 
   edges: [
@@ -531,6 +540,18 @@ falsification_condition: 'a MicroMoth-quilt receipt sealing qcells-lab work that
       receipt: 'SuperInstance/quilt-adjudication#1',
       claim: 'EIGHTEENTH edge VERIFIED 2026-10-02 (13:26 snowball pulse): the adjudication query lane. The 12:25 pulse declared quilt-adjudication#1 the top open queue item; the merge outran the booking — same pattern as edge #14 (delta-shape#1, a98a5c5). quilt-adjudication#1 ("docs: referral edge — quilt-in-git wave4-query → adjudication query layer", MERGED 2026-10-02T04:57:51Z, merge 281330985e55bcf60a9b9a7f5f2eae2ebd465b56) lands docs/REFERRAL-quilt-in-git-wave4-query.md IN THE TO-NODE\'S REPO citing SuperInstance/quilt-in-git BY NAME at the pinned wave4-query merge 43f10b2 (quilt-in-git#9, MERGED 2026-10-02T02:38:47Z) — the quilt-query divergence / trusted-but-unaudited / attest verbs + LEDGER doubt grammar an adjudicating merge consumes before recording its disputes ("an adjudication merge is a divergence query whose answer was written down instead of discarded"). CURRENCY EARNED 2026-10-02; never self-upgraded — the merge in the TARGET repo did the earning, 2h19m after the from-technique landed. quilt-adjudication\'s FIRST inbound edge; the to-node born with its citing PR.',
       falsification_condition: 'the SuperInstance/quilt-in-git citation or the pinned 43f10b2 merge reference removed from docs/REFERRAL-quilt-in-git-wave4-query.md on quilt-adjudication main, or the quilt-query divergence / trusted-but-unaudited / attest verbs or the LEDGER doubt convention dropped from quilt-in-git main while the edge still reports green',
+    },
+    // 2026-10-02 (18:56 pulse) — the git-notes witness edge. Booked PENDING
+    // per the weight law: the citation is a merged PR in the FROM repo
+    // (quilt-in-git#11), and the to-node's repo (quilt-overhead) is a
+    // main-direct culture — the same shape as the dance-of-growth wiring
+    // pair booked hours earlier. Upgrade path recorded; never self-upgraded.
+    {
+      from: 'qig-notes2feed', to: 'qo-feed-v1',
+      claim: 'the git-native witness stream is the feed.v1 dialect\'s second producer: quilt-in-git#11 ("w3a seam: notes2feed — git-native witness stream -> feed.v1", MERGED 2026-10-02T08:50:52Z, merge 0d2c0f9) ships tools/notes2feed.py reading refs/notes/quilt/receipts and emitting the quilt-overhead feed.v1 dialect ({cells, meta}; lattice coords; kind in the five fleet verbs), with wal_ref := "notes:<chain-head>" as stream identity — the SAME role wal_ref plays for WAL files. CITATION BY NAME rides the merged tree at anchored sites: tools/notes2feed.py\'s module docstring ("notes2feed — refs/notes/quilt/receipts -> quilt-overhead feed.v1"), and docs/NOTES2FEED.md naming the quilt-overhead feed.v1 dialect plus the missing push wire documented honestly (notes never auto-fetch/push; the consumption contract is pinned so the production wire can land without dialect drift). HONESTY ON CURRENCY: per the weight law and the git-agent#1 precedent, a merged PR in the FROM repo with the to-repo main-direct does NOT meet the law — the edge books PENDING with provenance quilt-in-git#11; upgrade path = a PR into quilt-overhead citing SuperInstance/quilt-in-git#11 (the wal2feed wiring pair booking, #36, set the same precedent hours earlier for this very to-node). quilt-in-git\'s SECOND outgoing edge (wave4-query → adjudication was the first, VERIFIED); quilt-overhead\'s SECOND PENDING inbound edge — the feed.v1 dialect now has two named producers (backward-holdem WAL ticks, quilt-in-git notes) before it has any merged-PR currency, which is exactly what the graph was built to measure. The 16:40 holdem-pulse directive ("book w3a→qo-feed-v1 edge after #11 merges") is executed here; the merge preceded the booking by ~10h.',
+      weight: 'PENDING',
+      provenance: 'SuperInstance/quilt-in-git#11', // the merged PR whose tool+doc carry the by-name feed.v1 citation
+      falsification_condition: 'notes2feed emitting a feed whose dialect drifts from quilt-overhead feed.v1 ({cells, meta} shape, lattice coords, kind in the five fleet verbs, meta.wal_ref as stream identity), or the SuperInstance/quilt-overhead / feed.v1 citation removed from tools/notes2feed.py / docs/NOTES2FEED.md on quilt-in-git main, or the 11-pin notes2feed suite dropping below green',
     },
   ],
 };
