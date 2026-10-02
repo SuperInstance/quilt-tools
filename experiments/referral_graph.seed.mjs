@@ -323,6 +323,10 @@ export const SEED = {
       summary: 'the e-process witness substrate (src/eproc.mjs): anytime-valid e-processes for "it learned" training claims — Ville bound 1/delta, sigma REQUIRED pre-registered (the tool refuses to run without it), evidence that fires and then decays RETRACTS (repo born 2026-09-30; lineage SuperInstance/witness-validation design + cellgraph E=2.996 forecast witnessing; receipted deviation: built from the standard Waudby-Smith-Ramdas-style construction without reading that code)' },
     { id: 'ds-esign-drift', repo: 'delta-shape', kind: 'integration',
       summary: 'the esign drift-significance layer (delta-shape#1 MERGED 2026-09-30T19:31:08Z, merge 57c07426): witnessDrift() sha256-checks the vendored quilt-ewitness instrument before trusting it, then joins the e-verdict with the change_points/shape_hash of the shape layer; E1-E5 pins seeded-LCG deterministic (V-shape WITNESSED then RETRACTED — the capability zeroTail/flatTail/extinct structurally lack); the pinned "Shape != significance" limit is DRAWN -> SHIPPED' },
+    { id: 'qig-wave4-query', repo: 'quilt-in-git', kind: 'query-layer',
+      summary: 'the wave-4 verification-as-query layer on quilt-in-git: .quilt/bin/quilt-query over the recorded quilt (trusted-but-unaudited / coverage / divergence subcommands + attest), "discharge requires a reason" — the recorded-dispute query grammar, shipped as quilt-in-git#9 (MERGED, merge 43f10b2)' },
+    { id: 'qadj-query-layer', repo: 'quilt-adjudication', kind: 'integration',
+      summary: 'the recorded-dispute adjudication surface (Casey repo, fork of quilt-in-git @ 6a1ae48): the wave4-query divergence/trusted-but-unaudited/attest grammar as the query layer for disputes — "discharge requires a reason" is the adjudication thesis in one line' },
   ],
 
   edges: [
@@ -489,6 +493,14 @@ falsification_condition: 'a MicroMoth-quilt receipt sealing qcells-lab work that
       provenance: 'SuperInstance/fleet-triage#2',
       receipt: 'SuperInstance/quilt-tournament#1',
       falsification_condition: 'the SuperInstance/fleet-triage citation removed from docs/REFERRAL-fleet-triage-resolver.md, or a re-check of the 25 cited referee/ sites where the line-past-EOF reads no longer hold (files re-grown / docs re-pointed) while the edge still reports green',
+    },
+    {
+      from: 'qig-wave4-query', to: 'qadj-query-layer',
+      claim: 'The wave-4 query grammar (quilt-query divergence / trusted-but-unaudited / coverage / attest over a recorded quilt — \"discharge requires a reason\") is the natural query layer for a recorded-dispute adjudication surface: the dispute record and the query record are the same shape. CURRENCY EARNED 2026-10-02: SuperInstance/quilt-adjudication PR #1 (\"docs: referral edge — quilt-in-git wave4-query → quilt-adjudication\", MERGED 2026-10-02T04:57:51Z, merge 28133098) is a merged PR IN THE TO-NODE\'S REPO landing docs/REFERRAL-quilt-in-git-wave4-query.md citing SuperInstance/quilt-in-git BY NAME at anchored sites — the direction line naming quilt-in-git @ 43f10b2 (PR #9, wave-4 query layer, MERGED) as the technique source, and the divergence/trusted-but-unaudited/attest + LEDGER.md doubt grammar consumed as the query layer for recorded disputes — with honest boundaries carried in-doc (committed-tree-only reads; receipted != true; substring coverage advisory; referral-not-dependency). Direction honesty per the substrate\'s receipt-repo rule: the merge is in quilt-adjudication, so the edge books qig-wave4-query -> qadj-query-layer — currency flows INTO the citing repo. Never self-upgraded: the 12:10 pulse filed the edge CANDIDATE with this exact upgrade path (both surfaces exist → referral PR in the adjudication repo); Casey\'s 12:57 CST merge earned it. quilt-adjudication\'s FIRST inbound edge (newest repo joins the mesh); quilt-in-git\'s first OUTGOING edge — and both repos descend from the same quilt-in-git 6a1ae48 fork point, so the graph\'s first parent→fork edge pair is the query grammar itself.',
+      weight: 'VERIFIED',
+      provenance: 'SuperInstance/quilt-in-git#9',
+      receipt: 'SuperInstance/quilt-adjudication#1',
+      falsification_condition: 'the SuperInstance/quilt-in-git citation removed from docs/REFERRAL-quilt-in-git-wave4-query.md, or the doc re-pointing the query grammar at a surface that no longer reads the recorded quilt (uncommitted-state queries) while the edge still reports green',
     },
   ],
 };

@@ -485,5 +485,7 @@ repo reduces exactly to the blind view (pinned).
    run. Branch pins: 129/129 offline, 130/130 --live (25→27 receipts
    audited) green; the branch's updated count pins trip on main tip
    (FAIL-first). The view now: **fleet-murmur** (solo triple lead) ·
-   pong-quilt · quilt-show · quilt-tools · ten single-VERIFIED repos
-   (delta-shape → quilt-tournament by name) · quilt-arcade closes.
+   pong-quilt · quilt-show · quilt-tools · eleven single-VERIFIED repos
+   (delta-shape → quilt-tournament by name — quilt-adjudication enters
+   2026-10-02 on the wave4-query edge, the mesh's first parent→fork pair
+   from the same quilt-in-git fork point) · quilt-arcade closes.
