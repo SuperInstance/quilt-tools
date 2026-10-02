@@ -487,3 +487,30 @@ repo reduces exactly to the blind view (pinned).
    (FAIL-first). The view now: **fleet-murmur** (solo triple lead) ·
    pong-quilt · quilt-show · quilt-tools · ten single-VERIFIED repos
    (delta-shape → quilt-tournament by name) · quilt-arcade closes.
+- **Eighteenth edge VERIFIED 2026-10-02 (13:26 snowball pulse) — the
+   adjudication query lane; the merge outran the booking.** The 12:25 pulse
+   declared quilt-adjudication PR #1 the top open queue item; Casey merged
+   it 2026-10-02T04:57:51Z (merge `281330985e55bcf60a9b9a7f5f2eae2ebd465b56`)
+   before the booking landed — same pattern as the ds-esign-drift edge #14
+   (a98a5c5). The merged `docs/REFERRAL-quilt-in-git-wave4-query.md` cites
+   **SuperInstance/quilt-in-git BY NAME** at the pinned wave4-query merge
+   `43f10b2` (quilt-in-git#9, MERGED 2026-10-02T02:38:47Z), naming the
+   consumed verbs (`quilt-query divergence` — "an adjudication merge is a
+   divergence query whose answer was written down instead of discarded" —
+   `trusted-but-unaudited`, `attest`) and the LEDGER doubt grammar
+   ("Discharge requires a reason"). Honest boundary notes ride verbatim
+   (query layer reads the committed tree only; "trusted" means
+   receipted-in-tree and reachable, never *true*; referral, not dependency
+   — no code calls quilt-query yet). Weight law met in the citing repo's
+   merge: edge `qig-wave4-query → qad-dispute-query` is **VERIFIED=1.0**,
+   receipt `SuperInstance/quilt-adjudication#1`, provenance
+   `SuperInstance/quilt-in-git#9`. Never self-upgraded — the merge in the
+   TARGET repo did the earning, 2h19m after the from-technique landed;
+   quilt-adjudication (fork of quilt-in-git @ `6a1ae48`) takes its first
+   inbound edge and enters the view at full mass; from-node-only
+   quilt-in-git earns no view mass. Branch pins: 136/136 offline, 137/137
+   --live (33 receipts audited) green; the branch's updated count pins trip
+   on main tip (FAIL-first). The view now: **fleet-murmur** (solo triple
+   lead) · pong-quilt · quilt-show · quilt-tools · eleven single-VERIFIED
+   repos (delta-shape → quilt-tournament by name; quilt-adjudication heads
+   the quilt-* tier) · quilt-arcade closes.

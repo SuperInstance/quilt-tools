@@ -20,7 +20,13 @@ import { fnv1a64, canon, makeRow, verifyChain } from './toolkit.mjs';
 
 export const PENDING_WEIGHT = 0.05;
 export const VERIFIED_WEIGHT = 1.0;
-export const RECEIPT_RE = /^[\w.-]+\/[\w.-]+#\d+$/; // owner/repo#N
+export const RECEIPT_RE = /^[\w.-]+\/[\w.-]+#\d+$/; // owner/repo#N — a merged PR (the only currency)
+// Provenance is where the FINDING lives, shape-checked, never weight-bearing.
+// A finding can live in a merged PR (owner/repo#N) OR, on a main-direct
+// culture with no PR, in a pinned tree/commit (owner/repo@ref, the fleet's
+// pinned-ref idiom — e.g. backward-holdem@ee18090). Receipts stay strict
+// (a PR in the target repo); only the provenance home admits the pinned ref.
+export const PROVENANCE_RE = /^[\w.-]+\/[\w.-]+(?:#\d+|@[0-9a-zA-Z._-]+)$/; // owner/repo#N or owner/repo@ref
 
 export class ReferralGraph {
   constructor({ name, repos = [] } = {}) {
@@ -58,8 +64,8 @@ export class ReferralGraph {
     if (!this.nodes.has(edge.from)) refuse(`unknown from-node '${edge.from}'`);
     if (!this.nodes.has(edge.to)) refuse(`unknown to-node '${edge.to}'`);
     if (edge.from === edge.to) refuse('self-referral is not a referral');
-    if (edge.provenance !== undefined && edge.provenance !== null && !RECEIPT_RE.test(edge.provenance)) {
-      refuse(`provenance '${edge.provenance}' is not owner/repo#N`);
+    if (edge.provenance !== undefined && edge.provenance !== null && !PROVENANCE_RE.test(edge.provenance)) {
+      refuse(`provenance '${edge.provenance}' is not owner/repo#N or owner/repo@ref`);
     }
     if (edge.weight === 'VERIFIED') {
       if (!edge.receipt) refuse('VERIFIED without receipt — cross-use is the only currency');
