@@ -250,7 +250,7 @@
 export const SEED = {
   name: 'referral-graph-v1',
   repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'git-agent', 'AI-Writings'],
-  repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt', 'jev-quilt', 'quilt-cowboy', 'fleet-murmur', 'moth-waveform', 'quality-gate-stream', 'quilt-stone', 'MicroMoth-quilt', 'micrograd-quilt', 'quilt-ewitness', 'delta-shape', 'backward-holdem', 'quilt-overhead'],
+  repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt', 'jev-quilt', 'quilt-cowboy', 'fleet-murmur', 'moth-waveform', 'quality-gate-stream', 'quilt-stone', 'MicroMoth-quilt', 'micrograd-quilt', 'quilt-ewitness', 'delta-shape', 'backward-holdem', 'quilt-overhead', 'quilt-in-git', 'quilt-adjudication'],
 
   nodes: [
     { id: 'qt-api-lab', repo: 'quilt-tools', kind: 'lab',
@@ -297,6 +297,10 @@ export const SEED = {
       summary: 'the canon cluster\'s 222 FILE_MISSING doc citations — the quilt family\'s largest single doc→file drift surface; the merged referral doc adopts the resolver as a consume-don\'t-rival scan gate over projects/research/sprints with honest boundary notes (shallow-HEAD index; PATH_PRECISE_ONLY advisory-only) (quilt-research-canons#5, merged 2026-10-01T20:07:58Z)' },
     { id: 'qt-lineoor-surface', repo: 'quilt-tournament', kind: 'integration',
       summary: 'ALL 25 LINE_OOR citations in the entire 244-repo quilt family live here (referee/ docs, line-past-EOF vs quilt-canvas-tui core.c, quilt-verilog quf.rs, quilt-fleet-tools seal.py) — one sweep fixes the family\'s entire line-past-EOF class (quilt-tournament#1, merged 2026-10-01T20:07:46Z)' },
+    { id: 'qig-wave4-query', repo: 'quilt-in-git', kind: 'instrument',
+      summary: 'the wave4-query verifiable-coverage query layer: .quilt/bin/quilt-query CLI (divergence / trusted-but-unaudited / attest) + the LEDGER.md doubt grammar (stopped / covered_by / revisit / status) — "Discharge requires a reason" (quilt-in-git#9, merged 2026-10-02T02:38:47Z, merge 43f10b2b77c67809e7afe865179b6e9c7dbf4081)' },
+    { id: 'qad-dispute-query', repo: 'quilt-adjudication', kind: 'integration',
+      summary: 'the adjudication query layer: a fork of quilt-in-git @ 6a1ae48 that records what merges usually erase (disputes) and consumes the wave-4 query verbs as its pre-merge instrument — consume-don\'t-rival (quilt-adjudication#1, merged 2026-10-02T04:57:51Z, merge 281330985e55bcf60a9b9a7f5f2eae2ebd465b56)' },
     { id: 'jq-commons-g11', repo: 'jev-quilt', kind: 'commons',
       summary: 'the G11 trust-weighted commons: jev_quilt/commons.py trust_weighted() / provenance_merge() — cross-fleet gluing re-scaled by earned per-source trust, default 0 for unseen sources (jev-quilt#37, merged 2026-09-27T00:06:03Z)' },
     { id: 'qt-trust-lever', repo: 'quilt-tools', kind: 'experiment',
@@ -519,6 +523,14 @@ falsification_condition: 'a MicroMoth-quilt receipt sealing qcells-lab work that
       weight: 'PENDING',
       provenance: 'SuperInstance/quilt-overhead@dd87e7c', // the main commit whose docs/WIRING.md names backward-holdem at 65df4fd
       falsification_condition: 'either conformance pin failing (producer W1-W9 or consumer pin_snapshot), or feeds/real-wal-feed.json\'s wal_ref diverging from the source WAL\'s wal_ref, or the SuperInstance/backward-holdem citation removed from docs/WIRING.md',
+    },
+    {
+      op: 'LINK', from: 'qig-wave4-query', to: 'qad-dispute-query',
+      weight: 'VERIFIED',
+      provenance: 'SuperInstance/quilt-in-git#9',
+      receipt: 'SuperInstance/quilt-adjudication#1',
+      claim: 'EIGHTEENTH edge VERIFIED 2026-10-02 (13:26 snowball pulse): the adjudication query lane. The 12:25 pulse declared quilt-adjudication#1 the top open queue item; the merge outran the booking — same pattern as edge #14 (delta-shape#1, a98a5c5). quilt-adjudication#1 ("docs: referral edge — quilt-in-git wave4-query → adjudication query layer", MERGED 2026-10-02T04:57:51Z, merge 281330985e55bcf60a9b9a7f5f2eae2ebd465b56) lands docs/REFERRAL-quilt-in-git-wave4-query.md IN THE TO-NODE\'S REPO citing SuperInstance/quilt-in-git BY NAME at the pinned wave4-query merge 43f10b2 (quilt-in-git#9, MERGED 2026-10-02T02:38:47Z) — the quilt-query divergence / trusted-but-unaudited / attest verbs + LEDGER doubt grammar an adjudicating merge consumes before recording its disputes ("an adjudication merge is a divergence query whose answer was written down instead of discarded"). CURRENCY EARNED 2026-10-02; never self-upgraded — the merge in the TARGET repo did the earning, 2h19m after the from-technique landed. quilt-adjudication\'s FIRST inbound edge; the to-node born with its citing PR.',
+      falsification_condition: 'the SuperInstance/quilt-in-git citation or the pinned 43f10b2 merge reference removed from docs/REFERRAL-quilt-in-git-wave4-query.md on quilt-adjudication main, or the quilt-query divergence / trusted-but-unaudited / attest verbs or the LEDGER doubt convention dropped from quilt-in-git main while the edge still reports green',
     },
   ],
 };
