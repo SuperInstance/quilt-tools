@@ -25,7 +25,7 @@ for (const n of (await import('./referral_graph.seed.mjs')).SEED.nodes) seed.add
 let seedBooked = 0;
 for (const e of (await import('./referral_graph.seed.mjs')).SEED.edges) { seed.book(e); seedBooked++; }
 
-check('seed: all edges booked', seedBooked === 21 && seed.rows.length === 21, `${seedBooked} edges`);
+check('seed: all edges booked', seedBooked === 23 && seed.rows.length === 23, `${seedBooked} edges`);
 
 // Pin 1 — missing required field is a loud REFUSAL, never a silent drop.
 {
@@ -70,7 +70,7 @@ check('seed: all edges booked', seedBooked === 21 && seed.rows.length === 21, `$
 // Removed here; the currency flip below is what this PR is for.)
 {
   const v = seed.view();
-  check('seed: view ranks all fifteen mass-carrying repos', v.length === 15, v.map(x => `${x.repo}=${x.share.toFixed(3)}`).join(' '));  const shares = v.map(x => x.share);
+  check('seed: view ranks all seventeen mass-carrying repos', v.length === 17, v.map(x => `${x.repo}=${x.share.toFixed(3)}`).join(' '));  const shares = v.map(x => x.share);
   check('seed: view shares sum to 1', Math.abs(shares.reduce((a, b) => a + b, 0) - 1) < 1e-9, `Σ=${shares.reduce((a, b) => a + b, 0)}`);
   const byRepo = Object.fromEntries(v.map(x => [x.repo, x.weight]));
   check('seed: view mass — fm = 3×VERIFIED (first triple-inbound), pq = 2×VERIFIED, qs/qt = VERIFIED + PENDING, ga/jq/mgq/mm/mw/qb/qc-arcade… qc-canons/qt-tournament = VERIFIED (the mm⇄mgq pair both VERIFIED), qa = 2×PENDING (from-node-only repos: no view mass)',
@@ -89,6 +89,8 @@ check('seed: all edges booked', seedBooked === 21 && seed.rows.length === 21, `$
     !('quality-gate-stream' in byRepo) &&
     !('quilt-ewitness' in byRepo) &&
     Math.abs(byRepo['quilt-arcade'] - 2 * PENDING_WEIGHT) < 1e-9 &&
+    Math.abs(byRepo['backward-holdem'] - PENDING_WEIGHT) < 1e-9 &&
+    Math.abs(byRepo['quilt-overhead'] - PENDING_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['delta-shape'] - VERIFIED_WEIGHT) < 1e-9 &&
     Math.abs(byRepo['quilt-tools'] - (VERIFIED_WEIGHT + PENDING_WEIGHT)) < 1e-9,
     JSON.stringify(byRepo));
@@ -109,7 +111,9 @@ check('seed: all edges booked', seedBooked === 21 && seed.rows.length === 21, `$
     v[11].repo === 'quilt-research-canons' && v[11].weight === VERIFIED_WEIGHT &&
     v[12].repo === 'quilt-stone' && v[12].weight === VERIFIED_WEIGHT &&
     v[13].repo === 'quilt-tournament' && v[13].weight === VERIFIED_WEIGHT &&
-    v[14].repo === 'quilt-arcade' && v[14].weight === 2 * PENDING_WEIGHT,
+    v[14].repo === 'quilt-arcade' && v[14].weight === 2 * PENDING_WEIGHT &&
+    v[15].repo === 'backward-holdem' && v[15].weight === PENDING_WEIGHT &&
+    v[16].repo === 'quilt-overhead' && v[16].weight === PENDING_WEIGHT,
     `${v[0].repo} ${(v[0].share * 100).toFixed(1)}% · ${v[1].repo} ${(v[1].share * 100).toFixed(1)}% · ${v[2].repo} ${(v[2].share * 100).toFixed(1)}% · ${v[3].repo} ${(v[3].share * 100).toFixed(1)}% · ${v[4].repo} ${(v[4].share * 100).toFixed(1)}% · ${v[5].repo} ${(v[5].share * 100).toFixed(1)}% · ${v[6].repo} ${(v[6].share * 100).toFixed(1)}% · ${v[7].repo} ${(v[7].share * 100).toFixed(1)}% · ${v[8].repo} ${(v[8].share * 100).toFixed(1)}% · ${v[9].repo} ${(v[9].share * 100).toFixed(1)}% · ${v[10].repo} ${(v[10].share * 100).toFixed(1)}% · ${v[11].repo} ${(v[11].share * 100).toFixed(1)}% · ${v[12].repo} ${(v[12].share * 100).toFixed(1)}% · ${v[13].repo} ${(v[13].share * 100).toFixed(1)}% · ${v[14].repo} ${(v[14].share * 100).toFixed(1)}%`);
 }
 
@@ -125,6 +129,29 @@ check('seed: all edges booked', seedBooked === 21 && seed.rows.length === 21, `$
   check('seed: exactly seventeen VERIFIED edges across seventeen distinct to-nodes — monopoly broken, doctrine arc complete; the mm⇄mgq pair VERIFIED in both directions (ledger→lab via micrograd-quilt#7, lab→ledger via MicroMoth-quilt#29), jev-quilt holds its KAT inbound (jev-quilt#47), pong-quilt double INBOUND (coin + sign pilot) and THREE outgoing (wal-honesty, stone-v1 export, named refusals), fleet-murmur TRIPLE inbound (honesty#2 + qgs-adapter#3 + refusal-ledger#8), delta-shape holds the e-witness inbound (delta-shape#1 — the booking the merge outran), quilt-research-canons and quilt-tournament hold their FIRST inbound edges from the fleet-triage resolver census (canons#5 FILE_MISSING surface, tournament#1 LINE_OOR surface) — fleet-triage opens the graph\'s first instrument→surface pair with two outgoing VERIFIED edges from one run',
     verified.length === 17 && new Set(verified.map(r => r.to)).size === 17,
     verified.map(r => `${r.from}->${r.to}`).join(' '));
+}
+
+// Pin 3f — the dance-of-growth wiring pair (2026-10-02, pm). FAIL-first:
+// on main tip neither edge exists. Two repos born the same day book their
+// producer->consumer dialect edge PENDING at birth — citations and double
+// pin suites live on main at both ends, but the weight law wants a merged
+// PR in the to-node's repo and both repos are main-direct cultures (the
+// git-agent#1 precedent), so PENDING with provenance + recorded upgrade
+// path, never self-upgraded.
+{
+  const e1 = seed.rows.find(r => r.op === 'LINK' && r.from === 'ga-quilt-emit' && r.to === 'bh-wal-ticks');
+  check('seed: ga->bh convention-inheritance edge is PENDING at birth with pinned-tree provenance',
+    e1?.weight === 'PENDING' && e1?.provenance === 'SuperInstance/backward-holdem@ee18090' && !e1?.receipt,
+    e1 ? `weight=${e1.weight} provenance=${e1.provenance}` : 'edge not found');
+  const e2 = seed.rows.find(r => r.op === 'LINK' && r.from === 'bh-wal-ticks' && r.to === 'qo-feed-v1');
+  check('seed: bh->qo wired edge is PENDING at birth, wal_ref-locked, double-pinned both ends',
+    e2?.weight === 'PENDING' && e2?.provenance === 'SuperInstance/quilt-overhead@dd87e7c' &&
+    e2?.falsification_condition.includes('0809402a13c37d70') === false &&
+    e2?.claim.includes('0809402a13c37d70') && e2?.falsification_condition.includes('pin_snapshot'),
+    e2 ? `weight=${e2.weight} provenance=${e2.provenance}` : 'edge not found');
+  const verified = seed.rows.filter(r => r.op === 'LINK' && r.weight === 'VERIFIED');
+  check('seed: the two wiring edges did not mint currency — still exactly seventeen VERIFIED',
+    verified.length === 17, `${verified.length} VERIFIED`);
 }
 
 // Pin 3b — the currency event (FAIL-first: on main tip the S2 edge is PENDING
