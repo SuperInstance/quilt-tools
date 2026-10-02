@@ -250,7 +250,7 @@
 export const SEED = {
   name: 'referral-graph-v1',
   repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'git-agent', 'AI-Writings'],
-  repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt', 'jev-quilt', 'quilt-cowboy', 'fleet-murmur', 'moth-waveform', 'quality-gate-stream', 'quilt-stone', 'MicroMoth-quilt', 'micrograd-quilt', 'quilt-ewitness', 'delta-shape'],
+  repos: ['quilt-tools', 'quilt-show', 'quilt-arcade', 'quilt-quant', 'pong-quilt', 'jev-quilt', 'quilt-cowboy', 'fleet-murmur', 'moth-waveform', 'quality-gate-stream', 'quilt-stone', 'MicroMoth-quilt', 'micrograd-quilt', 'quilt-ewitness', 'delta-shape', 'backward-holdem', 'quilt-overhead'],
 
   nodes: [
     { id: 'qt-api-lab', repo: 'quilt-tools', kind: 'lab',
@@ -323,6 +323,15 @@ export const SEED = {
       summary: 'the e-process witness substrate (src/eproc.mjs): anytime-valid e-processes for "it learned" training claims — Ville bound 1/delta, sigma REQUIRED pre-registered (the tool refuses to run without it), evidence that fires and then decays RETRACTS (repo born 2026-09-30; lineage SuperInstance/witness-validation design + cellgraph E=2.996 forecast witnessing; receipted deviation: built from the standard Waudby-Smith-Ramdas-style construction without reading that code)' },
     { id: 'ds-esign-drift', repo: 'delta-shape', kind: 'integration',
       summary: 'the esign drift-significance layer (delta-shape#1 MERGED 2026-09-30T19:31:08Z, merge 57c07426): witnessDrift() sha256-checks the vendored quilt-ewitness instrument before trusting it, then joins the e-verdict with the change_points/shape_hash of the shape layer; E1-E5 pins seeded-LCG deterministic (V-shape WITNESSED then RETRACTED — the capability zeroTail/flatTail/extinct structurally lack); the pinned "Shape != significance" limit is DRAWN -> SHIPPED' },
+    // 2026-10-02 (pm): the dance-of-growth wiring pair — two repos born TODAY
+    // enter the sheet as a producer->consumer dialect edge, both pinned at
+    // both ends before booking (wal2feed W1-W9 RED->GREEN producer pins;
+    // pin_snapshot RED->GREEN consumer pin; wal_ref 0809402a13c37d70 verified
+    // identical across the seam).
+    { id: 'bh-wal-ticks', repo: 'backward-holdem', kind: 'lab',
+      summary: 'the backward-holdem tick-WAL substrate (repo born 2026-10-02): strict type-safe tick schema — the parser rejects unknown kinds, wrong field types, and extra fields — fnv1a-64 hash-chained receipts (the fleet WAL convention, chaining discipline per git-agent quilt_emit), script identity = sha256(file + parameters) so a retuned threshold is a NEW artifact with lineage; the ExoJ game runs fully algorithmic (zero API in the decision path) with adaptation metered per seat through a Budget; sample run seed 20261002 / 120 hands / 1235 ticks / wal_ref 0809402a13c37d70 sealed in-repo (receipts/wal.jsonl); 21 FAIL-first engine pins GREEN' },
+    { id: 'qo-feed-v1', repo: 'quilt-overhead', kind: 'integration',
+      summary: 'the overhead-board feed.v1 dialect (repo born 2026-10-02): {cells:[{id,name,agent,x,y in [0,1],doc,deltas:[{t,kind,size}]}]} with kind in the five fleet verbs; the simulated scene stays a seed-pinned renderer fixture (honestly tagged SIMULATED), and the first REAL feed — feeds/real-wal-feed.json generated from backward-holdem receipts/wal.jsonl by tools/wal2feed.py — is pinned by tools/pin_snapshot.py (RED on empty feeds/, GREEN on the real snapshot: contract + wal_ref + REAL tag + named source)' },
   ],
 
   edges: [
@@ -489,6 +498,27 @@ falsification_condition: 'a MicroMoth-quilt receipt sealing qcells-lab work that
       provenance: 'SuperInstance/fleet-triage#2',
       receipt: 'SuperInstance/quilt-tournament#1',
       falsification_condition: 'the SuperInstance/fleet-triage citation removed from docs/REFERRAL-fleet-triage-resolver.md, or a re-check of the 25 cited referee/ sites where the line-past-EOF reads no longer hold (files re-grown / docs re-pointed) while the edge still reports green',
+    },
+    // 2026-10-02 (pm) — the dance-of-growth wiring. Two PENDING edges booked
+    // at birth for repos that did not exist this morning; never self-upgraded
+    // (both cite by name on main, but the weight law wants a merged PR in the
+    // to-node's repo — quilt-overhead and backward-holdem are main-direct
+    // cultures, so per the git-agent#1 precedent these stay PENDING with the
+    // upgrade path recorded until a PR culture or a Casey-earned merge earns
+    // them).
+    {
+      from: 'ga-quilt-emit', to: 'bh-wal-ticks',
+      claim: 'backward-holdem\'s receipt chain adopts the fleet WAL discipline (fnv1a-64, hash-chained canonical JSONL, wal_ref as run identity) from git-agent\'s quilt_emit — engine/receipts.py names the convention source and LEDGER.md records the lineage; booked PENDING per the aw->ga precedent: a repo-born direct main commit (tree ee18090) is not a merged PR, so the weight law is NOT met even with the citation present. Upgrade path: a PR into backward-holdem citing SuperInstance/git-agent by name and pinned ref.',
+      weight: 'PENDING',
+      provenance: 'SuperInstance/backward-holdem@ee18090', // the repo-born tree whose engine/receipts.py + LEDGER.md carry the convention citation
+      falsification_condition: 'backward-holdem emitting a WAL whose chaining discipline drifts from fnv1a-64 canonical-JSONL (e.g. salted hash(), unseeded entropy in the decision path, or a wal_ref that does not bind seed+hands+script ids), or the git-agent convention citation removed from engine/receipts.py / LEDGER.md',
+    },
+    {
+      from: 'bh-wal-ticks', to: 'qo-feed-v1',
+      claim: 'the first WIRED edge between repos born the same day: backward-holdem\'s tournament receipts (wal_ref 0809402a13c37d70) feed quilt-overhead\'s board through tools/wal2feed.py, with a conformance pin at EACH end (producer W1-W9 RED->GREEN — RED captured on W4 lattice coords; consumer pin_snapshot RED->GREEN) so dialect drift is loud at whichever end it happens — the dance-of-growth compatibility rule. quilt-overhead main commit dd87e7c cites SuperInstance/backward-holdem BY NAME at pinned ref 65df4fd (docs/WIRING.md + commit message). HONESTY: dd87e7c is a direct main commit, not a merged PR — per the weight law and the git-agent#1 precedent the edge books PENDING; the citations and both pin suites are provenance, not currency. Upgrade path: a PR into quilt-overhead (or a Casey-earned merge culture there) citing the edge.',
+      weight: 'PENDING',
+      provenance: 'SuperInstance/quilt-overhead@dd87e7c', // the main commit whose docs/WIRING.md names backward-holdem at 65df4fd
+      falsification_condition: 'either conformance pin failing (producer W1-W9 or consumer pin_snapshot), or feeds/real-wal-feed.json\'s wal_ref diverging from the source WAL\'s wal_ref, or the SuperInstance/backward-holdem citation removed from docs/WIRING.md',
     },
   ],
 };
