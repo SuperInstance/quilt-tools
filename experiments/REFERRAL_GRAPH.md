@@ -548,3 +548,61 @@ repo reduces exactly to the blind view (pinned).
    quilt-tools · eleven single-VERIFIED repos (delta-shape →
    quilt-tournament by name) · quilt-arcade + quilt-overhead (double
    PENDING) · backward-holdem closes.
+- **Twenty-sixth edge VERIFIED 2026-10-03 (01:37 snowball pulse) — the
+   Janus hedge; pong-quilt's guard lineage lands in doubt-ledger with its
+   receipt named.** doubt-ledger#9 ("docs: Janus hedge (arXiv 2609.38266
+   evidence-before-effect sagas) — cite/differentiate ledger", MERGED
+   2026-10-02T15:51:57Z into base branch `poc`, tip `6f202da5`) lands
+   `docs/JANUS-EVIDENCE-BEFORE-EFFECT.md` IN THE TO-NODE'S REPO citing
+   **SuperInstance/pong-quilt BY NAME** at an anchored row: CLAIM row 2
+   ("Gates = pure functions of the log") names pong-quilt's franken-save
+   guard as "exactly a pure function of state+receipts (PR #99 lineage)"
+   and ADOPTS the Janus gloss "gate = pure function of the receipt log" as
+   the fleet's name for guards/pins. The from-technique landed FIRST and is
+   itself merge-receipted: pong-quilt#99 ("Round 77: v1 draw ledger append
+   discipline + draw #13", MERGED 2026-10-02T15:43:23Z) precedes the
+   citation by 8m34s. The same doc cross-cites quilt-overhead's snapshot
+   wal_ref and backward-holdem's LEDGER prereg — those stay PENDING per
+   the dance-of-growth precedent (main-direct to-nodes, no merged PR);
+   only the pong-quilt row, whose source repo is PR-culture and
+   merge-receipted, earns currency here. HONESTY: the doc is a hedge
+   against external arXiv 2609.38266 — the external work is
+   cited/differentiated, never claimed; the edge's from-node is the
+   fleet's own guard, not Janus. Also honest: doubt-ledger's Casey sweep
+   merged into `poc`, not `main` (main sits at `e0dfdd1`, 01:50Z) — the
+   repos' own PR culture puts poc ahead; the citation trees are live and
+   merge-receipted either way, so the weight law is met. Edge
+   `pq-franken-guard → dl-janus-evidence` VERIFIED=1.0, receipt
+   `SuperInstance/doubt-ledger#9`, provenance `SuperInstance/pong-quilt#99`.
+   Never self-upgraded — the merge in the TARGET repo did the earning.
+   pong-quilt's FOURTH outgoing edge; doubt-ledger's FIRST inbound edge.
+- **Twenty-seventh edge VERIFIED 2026-10-03 (same pulse, same booking) —
+   the PAM hedge; tidepool receipts doubt-ledger's shipped answers by name
+   and sweep timestamp.** tidepool#12 ("docs: PAM vocabulary hedge —
+   cite/differentiate arXiv 2605.11032", MERGED 2026-10-02T15:42:43Z) lands
+   `docs/PAM-HEDGE.md` IN THE TO-NODE'S REPO citing
+   **SuperInstance/doubt-ledger BY NAME** at three anchored CLAIM-OURS
+   rows: row 3 (Ed25519 root signing) — "doubt-ledger wave-2 shipped
+   selective-disclosure export + Ed25519 root-signing over the tip root …
+   merged in the 01:49–02:39Z Casey sweep (doubt-ledger #1–#3)" with
+   VERDICT ADOPT-already-adopted-receipted-above; row 4 (capability
+   tokens / selective disclosure) — "doubt-ledger has export-side selective
+   disclosure: filtered slice → standalone JSONL, header binds the live
+   tip, checksums recomputed, verify_export names the exact tampered
+   line", honest limit 5 pinned (integrity OF THE INCLUDED, never
+   completeness), VERDICT ADOPT-WITH-GAP-NAMED. The from-technique is
+   merge-receipted on doubt-ledger's merged tree: wave-2 shipped in the
+   #1–#3 sweep (#3 MERGED 2026-10-02T02:39:02Z), ~13h before the citation
+   merged. Direction per the receipt-repo rule: the merge is in tidepool,
+   so currency flows INTO tidepool. Edge `dl-selective-disclosure →
+   td-pam-hedge` VERIFIED=1.0, receipt `SuperInstance/tidepool#12`,
+   provenance `SuperInstance/doubt-ledger#3`. Never self-upgraded.
+   doubt-ledger's FIRST outgoing edge — opened the same hour as its first
+   inbound; tidepool's FIRST inbound edge — the to-node the 12:25 pulse
+   staged as "repo not yet seeded" now carries VERIFIED mass. Branch pins:
+   159/159 offline green; count pins tripped RED 8× on the seed edit before
+   the pin file was touched (FAIL-first captured). The view now: twenty
+   mass-carrying repos — **fleet-murmur** (solo triple lead) · pong-quilt ·
+   quilt-show · quilt-tools · thirteen single-VERIFIED repos (delta-shape →
+   tidepool by name; doubt-ledger enters on the Janus hedge) ·
+   quilt-arcade + quilt-overhead (double PENDING) · backward-holdem closes.
