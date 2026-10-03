@@ -356,6 +356,16 @@ export const SEED = {
       summary: 'the wave-2 selective-disclosure export + Ed25519 root signing (doubt-ledger#3 MERGED 2026-10-02T02:39:02Z into poc; #2 01:50:54Z; the 01:49–02:39Z Casey sweep #1–#3): filtered slice to standalone JSONL, header binds the live tip, checksums recomputed, verify_export names the exact tampered line; honest limit 5 pinned in-repo: export proves integrity OF THE INCLUDED, never completeness — no capability tokens, the moat-shaped gap named not faked' },
     { id: 'td-pam-hedge', repo: 'tidepool', kind: 'integration',
       summary: "the PAM vocabulary hedge (tidepool#12 MERGED 2026-10-02T15:42:43Z): docs/PAM-HEDGE.md books arXiv 2605.11032's provenance vocabulary before it gets owned — CLAIM-THEIRS/OURS rows for Merkle-DAG provenance, Ed25519 root signing, capability tokens/selective disclosure, each with doubt-ledger's shipped-and-receipted answers named BY NAME (wave-2 export, #1–#3 sweep receipts dated in-doc), ADOPT-WITH-GAP-NAMED where the honest limit is real" },
+    // 2026-10-04 (05:56 pulse): the TWENTY-EIGHTH edge — a cross-language
+    // twin transfer. slackwater-lattice (the Python twin, PyPI 0.1.0)
+    // ships the hex-distance property suite; slackwater-rust#1 translates
+    // it into lattice-core's iff-consistency audit, citing the source repo
+    // AND its commit by name at 4 anchored sites on the merged tree. Both
+    // repos PR-culture; never self-upgraded — the merge did the earning.
+    { id: 'sw-lattice-hexlaw', repo: 'slackwater-lattice', kind: 'lab',
+      summary: 'the hex-distance property suite on the Python twin (slackwater-lattice#1 MERGED 2026-10-02T18:05:53Z): P6 triangle inequality + P7 ring law + iff-probe receipt — the sign-split hex_distance formula characterized against the workspace\'s NEIGHBOR_DIRECTIONS units of Z[omega], with the published-wheel convention trap named (the PyPI 0.1.0 wheel ships the textbook axial formula, correct only for the OTHER axial neighbor set)' },
+    { id: 'swr-iff-consistency', repo: 'slackwater-rust', kind: 'integration',
+      summary: 'the iff-consistency audit on the Rust twin (slackwater-rust#1 MERGED 2026-10-02T21:38:19Z, merge 3b077cfe): crates/lattice-core/tests/iff_consistency.rs translates the Python twin\'s hex_distance <-> neighbors property suite, pinning the published-formula witness against slackwater-lattice commit 5bff9a3 — the crates.io/PyPI twin convention-trap audit (fleet task 69-c), verdict trap ABSENT on this workspace\'s sign-split formula' },
   ],
 
   edges: [
@@ -586,6 +596,21 @@ falsification_condition: 'a MicroMoth-quilt receipt sealing qcells-lab work that
       provenance: 'SuperInstance/doubt-ledger#3', // the wave-2 export merge the hedge doc receipts by name and sweep timestamp
       receipt: 'SuperInstance/tidepool#12',
       falsification_condition: 'the doubt-ledger #1–#3 sweep citations removed from docs/PAM-HEDGE.md on tidepool main, or a tidepool claim of selective-disclosure/Ed25519 capability that the doubt-ledger export lane cannot re-derive while the edge still reports green',
+    },
+    // 2026-10-04 (05:56 pulse) — the TWENTY-EIGHTH edge VERIFIED: the
+    // cross-language twin transfer, found by org review (the queue's
+    // Casey-gated items are all blocked; per the cron's fallback the pulse
+    // reviewed org activity and surfaced this pair). slackwater-rust#1
+    // merged 3h32m AFTER the from-technique it cites (slackwater-lattice#1
+    // 18:05:53Z -> slackwater-rust#1 21:38:19Z) — provenance order the
+    // weight law demands.
+    {
+      from: 'sw-lattice-hexlaw', to: 'swr-iff-consistency',
+      claim: 'TWENTY-EIGHTH edge VERIFIED 2026-10-04 (05:56 snowball pulse): the hex-distance property suite crosses the language-twin seam with its source named. slackwater-rust PR #1 ("test(lattice-core): iff-consistency audit — hex_distance <-> neighbors property suite translated from slackwater-lattice PR #1 (fleet 69-c)", MERGED 2026-10-02T21:38:19Z, merge 3b077cfe562318fd0d177bb43d7955029ce551d9) lands crates/lattice-core/tests/iff_consistency.rs IN THE TO-NODE\'S REPO citing SuperInstance/slackwater-lattice BY NAME at 4 anchored sites on the merged tree: the suite\'s module docstring ("neighbors property suite of `slackwater-lattice` (Python, PR #1, merged as ..."), the lattice-core source doc ("slackwater-lattice commit 5bff9a3 (Published to PyPI + cleanup)"), and two pinned witness strings ("published-formula witness changed — re-pin against slackwater-lattice 5bff9a3"). The citation names the source repo AND its exact commit — the strongest citation shape the mesh has booked. The from-technique is merge-receipted FIRST: slackwater-lattice#1 ("test: complete the hex-distance property suite (P6 triangle + P7 ring law) + iff-probe receipt", MERGED 2026-10-02T18:05:53Z) precedes the translation by 3h32m. HONESTY: the audit\'s subject is a convention trap in the PUBLISHED wheel (the PyPI 0.1.0 axial formula is correct only for the other neighbor set); the edge\'s from-node is the workspace\'s sign-split suite, and the trap verdict rides the merged receipt. Never self-upgraded — the merge in the TARGET repo did the earning 2d03h after it landed. slackwater-lattice\'s FIRST outgoing edge; slackwater-rust\'s FIRST inbound edge — the thirteenth to-node born after seeding, entering the view at full VERIFIED mass (slackwater-lattice is from-node-only, no view mass).',
+      weight: 'VERIFIED',
+      provenance: 'SuperInstance/slackwater-lattice#1', // the merged from-technique PR (18:05:53Z) the translation cites by repo AND commit
+      receipt: 'SuperInstance/slackwater-rust#1',
+      falsification_condition: 'the slackwater-lattice citations (suite module docstring / lattice-core source doc / the two pinned witness strings) removed from crates/lattice-core/tests/iff_consistency.rs on slackwater-rust main, or the pinned witness re-pointed at a different slackwater-lattice commit while the edge still reports green',
     },
   ],
 };
