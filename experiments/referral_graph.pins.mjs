@@ -757,17 +757,39 @@ check('seed: all edges booked', seedBooked === 27 && seed.rows.length === 27, `$
     ghOK = true;
   } catch { ghOK = false; }
   if (LIVE && ghOK) {
+    // Returns null when the ref audits clean, else 'ref=state' (or '=404').
+    // Two provenance dialects (C4-field-singer-02 seam, graph docs):
+    //   'org/repo#N'   — a merged PR is the provenance (weight law)
+    //   'org/repo@sha' — a pinned TREE is the provenance (edges born
+    //     PENDING on a main-direct culture's commit, e.g. ga->bh, bh->qo);
+    //     the audit verifies the COMMIT EXISTS, not a merge state.
+    // Before this fix both @-form refs fell through ref.split('#') with
+    // num=undefined and were reported '=404' — a false positive the
+    // 2026-10-04 05:1x pulse caught live against ga->bh / bh->qo.
+    const auditRef = (ref) => {
+      if (ref.includes('@')) {
+        const [repo, sha] = ref.split('@');
+        try {
+          execFileSync('gh', ['api', `repos/${repo}/commits/${sha}`, '-q', '.sha'], { stdio: 'pipe' });
+          return null;
+        } catch { return `${ref}=404`; }
+      }
+      const [repo, num] = ref.split('#');
+      try {
+        const state = execFileSync('gh', ['pr', 'view', num, '-R', repo, '--json', 'state', '-q', '.state'], { stdio: 'pipe' }).toString().trim();
+        return state === 'MERGED' ? null : `${ref}=${state}`;
+      } catch { return `${ref}=404`; }
+    };
+    check('seed: auditRef — pinned-tree provenance (@sha) verifies by commit existence', auditRef('SuperInstance/backward-holdem@ee180909ba108e7d341cd074b664d0682affdf33') === null, 'the ga->bh pinned tree must resolve');
+    check('seed: auditRef — a vanished pinned tree is flagged, not silent', auditRef('SuperInstance/backward-holdem@0000000000000000000000000000000000000000') !== null, 'all-zero sha must flag');
     for (const row of seed.rows) {
       const prs = [];
       if (row.provenance) prs.push(['provenance', row.provenance]);
       if (row.receipt) prs.push(['receipt', row.receipt]);
-      for (const [kind, pr] of prs) {
+      for (const [kind, ref] of prs) {
         checked++;
-        const [repo, num] = pr.split('#');
-        try {
-          const state = execFileSync('gh', ['pr', 'view', num, '-R', repo, '--json', 'state', '-q', '.state'], { stdio: 'pipe' }).toString().trim();
-          if (state !== 'MERGED') unmerged.push(`${row.from}->${row.to} ${kind} ${pr}=${state}`);
-        } catch { unmerged.push(`${row.from}->${row.to} ${kind} ${pr}=404`); }
+        const bad = auditRef(ref);
+        if (bad) unmerged.push(`${row.from}->${row.to} ${kind} ${bad}`);
       }
     }
     check('seed: live audit — all provenance + receipt PRs merged', unmerged.length === 0, unmerged.join(' ') || `${checked} receipts audited live`);
