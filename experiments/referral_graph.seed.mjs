@@ -366,6 +366,29 @@ export const SEED = {
       summary: 'the hex-distance property suite on the Python twin (slackwater-lattice#1 MERGED 2026-10-02T18:05:53Z): P6 triangle inequality + P7 ring law + iff-probe receipt — the sign-split hex_distance formula characterized against the workspace\'s NEIGHBOR_DIRECTIONS units of Z[omega], with the published-wheel convention trap named (the PyPI 0.1.0 wheel ships the textbook axial formula, correct only for the OTHER axial neighbor set)' },
     { id: 'swr-iff-consistency', repo: 'slackwater-rust', kind: 'integration',
       summary: 'the iff-consistency audit on the Rust twin (slackwater-rust#1 MERGED 2026-10-02T21:38:19Z, merge 3b077cfe): crates/lattice-core/tests/iff_consistency.rs translates the Python twin\'s hex_distance <-> neighbors property suite, pinning the published-formula witness against slackwater-lattice commit 5bff9a3 — the crates.io/PyPI twin convention-trap audit (fleet task 69-c), verdict trap ABSENT on this workspace\'s sign-split formula' },
+    // 2026-10-04 (06:56 pulse): the TWENTY-NINTH edge — the ExoJ →
+    // quilt-pincher field transfer, booked PENDING. quilt-pincher#15 (FB1
+    // binding layer, MERGED 2026-10-03, merge aee6f938) consumes the ExoJ
+    // field model (γ/η/Δ amplitudes, Σ=γ+η≤1 conservation, observe() as
+    // sole local collapse) as an HDC hypervector seam: field-conditioned
+    // pinch amplitudes bound Σ so pinching never exceeds conservation. But
+    // the weight law reads the TO repo\'s citation: pincher names only
+    // "fleet-seeds lode 2026-10-03 (§4)" and "ExoJ canon exoj/" — no
+    // repo-name citation, no 40-char SHA, no exoj#N. Worse, the lode\'s
+    // derivative adds a FOURTH amplitude ι (iota) absent from the exoj
+    // charter (γ, η, Δ + identity-fragment sets; Σ=γ+η≤1): the to-repo
+    // consumes a fleet-seeds derivative, not the exoj repo canon. PENDING
+    // per the git-agent#1 / edge-ga precedent; upgrade path recorded in
+    // the claim — a quilt-pincher follow-up naming SuperInstance/exoj AND
+    // a commit earns VERIFIED, like slackwater-rust#1 did for the twins.
+    { id: 'exoj-field-model', repo: 'exoj', kind: 'lab',
+      summary: 'the ExoJ parallel field (charter in repo first commit, category-theoretic investigation of the inverted field: **Field** = CSPersist re-indexed, observers as functors Field→Set, deformations as natural transformations Id⇒Id with soft convex updates, the first-person causal sequence as a right Kan extension): cells carry γ/η/Δ amplitudes with the global conservation inequality γ̄+η̄≤1; observe() is the sole local collapse; the fleet survey 2026-10-04 (memory/study/exoj-survey-2026-10-04.md) sealed the γ/η/Δ/ι-derivative risk — ι is NOT in the exoj charter canon' },
+    { id: 'qp-exoj-hdc-seam', repo: 'quilt-pincher', kind: 'integration',
+      summary: 'the FB1 ExoJ binding layer — HDC hypervector algebra + field-conditioned pinch seam (SuperInstance/quilt-pincher#15 MERGED 2026-10-03, merge aee6f93856dac10238ee7da2d34764e9d1487504): src/hdc/exoj-field.ts adapts the field amplitudes into hypervector binding, amplitude Σ bound preserved across pinch; the seam cites "fleet-seeds lode 2026-10-03 (§4)" + "ExoJ canon exoj/" at receipt sites (engine.ts, hdc-embedder.ts, hypervector.ts, index.ts, test/hdc.test.ts) but NEVER the SuperInstance/exoj repo by name, no 40-char SHA, no exoj#N — and the lode\'s ι (iota) fourth amplitude is a derivative the exoj charter does not carry' },
+    { id: 'qmr-chain-dialect', repo: 'quilt-mcp-receipts', kind: 'witness-stream',
+      summary: 'the fleet\'s qmr1 receipt-chain dialect (repo born 2026-10-02T02:27Z; DESIGN.md + README.md land in commit 889960a932b8c98ff17f14f8877d332c851ab11c — the qmr1 spec: id = sha256("qmr1:" + seq + ":" + prev + ":" + canonicalJSON(payload)), genesis prev = 64×"0", one dialect across the fleet so any ledger can be read by any reader; threat model + the v2 path in the same commit)' },
+    { id: 'w69-sticky-receipts', repo: 'wave69', kind: 'integration',
+      summary: 'wave69\'s sticky-receipts cell (cells/sticky_receipts.mjs on main @ 5258586088, repo born 2026-10-04T00:19Z during the key-rotation regime): scars survive rewind, chain ids in the fleet qmr1 dialect — the module header names the dialect\'s canonical home BY NAME at a pinned 40-char commit: "CHAIN DIALECT: deliberately the fleet\'s qmr1 (quilt-mcp-receipts @ 889960a9)" — verified live 2026-10-04 against SuperInstance/quilt-mcp-receipts (commit 889960a932b8 exists, message "DESIGN.md + README.md: qmr1 spec, threat model, and the v2 path")' },
   ],
 
   edges: [
@@ -611,6 +634,27 @@ falsification_condition: 'a MicroMoth-quilt receipt sealing qcells-lab work that
       provenance: 'SuperInstance/slackwater-lattice#1', // the merged from-technique PR (18:05:53Z) the translation cites by repo AND commit
       receipt: 'SuperInstance/slackwater-rust#1',
       falsification_condition: 'the slackwater-lattice citations (suite module docstring / lattice-core source doc / the two pinned witness strings) removed from crates/lattice-core/tests/iff_consistency.rs on slackwater-rust main, or the pinned witness re-pointed at a different slackwater-lattice commit while the edge still reports green',
+    },
+    // weight law demands.
+    {
+      from: 'exoj-field-model', to: 'qp-exoj-hdc-seam',
+      claim: 'TWENTY-NINTH edge, booked PENDING 2026-10-04 (06:56 snowball pulse): the ExoJ parallel field crosses into quilt-pincher as an HDC hypervector seam — but the citation stays derivative. SuperInstance/quilt-pincher#15 ("FB1: ExoJ binding layer — HDC hypervector algebra + field-conditioned pinch seam", MERGED 2026-10-03, merge aee6f93856dac10238ee7da2d34764e9d1487504) lands src/hdc/exoj-field.ts IN THE TO-NODE\'S REPO binding field amplitudes (γ, η, Δ) into hypervector pinch so the pinch seam respects the conservation inequality Σ=γ+η≤1. Receipt sites on the merged tree: src/core/engine.ts, src/hdc/exoj-field.ts, src/hdc/hdc-embedder.ts, src/hdc/hypervector.ts, src/index.ts, test/hdc.test.ts. WEIGHT LAW READ: the seam cites "fleet-seeds lode 2026-10-03 (§4)" and the words "ExoJ canon exoj/" — NO repo-name citation (never "SuperInstance/exoj"), NO 40-char commit SHA, NO exoj#N issue reference. Worse, the lode\'s derivative carries a FOURTH amplitude ι (iota); the exoj charter (repo first commit, category-theoretic investigation of the inverted field: **Field** = CSPersist re-indexed, observers as functors, deformations as natural transformations, the causal sequence a right Kan extension) carries exactly THREE amplitudes γ/η/Δ plus identity-fragment sets — ι is a fleet-seeds invention the exoj repo canon does not hold. So the to-repo consumes a DERIVATIVE of the ExoJ model through a fleet lode, not the exoj repo\'s own merge-receipted technique — the exact citation-shape gap that pins this at PENDING (mass 0.05) per the git-agent#1 / edge-ga precedent: merged PR in the to-node\'s repo must NAME the source repo to earn VERIFIED. UPGRADE PATH (recorded, never self-upgraded): a quilt-pincher follow-up (FB2+ or a docs patch) naming SuperInstance/exoj BY NAME plus a pinned commit — e.g. exoj main bfbe4614 (2026-10-03T21:24:56Z) — at receipt sites in the merged tree flips this edge VERIFIED, exactly as slackwater-rust#1\'s 4 named-site citations earned the twin-transfer edge. exoj\'s FIRST outgoing edge (from-node-only, no view mass); quilt-pincher\'s FIRST inbound edge — the fourteenth to-node born after seeding, entering the view at PENDING mass only.',
+      weight: 'PENDING',
+      provenance: 'SuperInstance/quilt-pincher#15', // the merged to-node PR — the only merged artifact; provenance, not currency
+      // no receipt: the to-repo merge does not name SuperInstance/exoj
+      falsification_condition: 'a quilt-pincher merged PR naming SuperInstance/exoj (repo + commit) at any receipt site on main — in which case this edge must be upgraded to VERIFIED by that merge, not left at PENDING; or quilt-pincher main removing the ExoJ-derived seam (src/hdc/exoj-field.ts and its citation sites) while the edge still reports PENDING-green',
+    },
+    // weight law demands (main-direct culture): wave69's initial commit
+    // 5258586088 IS the merged tree, but the weight law wants a merged PR
+    // in the to-node's repo — PENDING with pinned-tree provenance + a
+    // recorded upgrade path, exactly the ga->bh / bh->qo booking shape.
+    {
+      from: 'qmr-chain-dialect', to: 'w69-sticky-receipts',
+      claim: 'THIRTIETH edge, booked PENDING 2026-10-04 (13:09 snowball pulse): the qmr1 receipt-chain dialect crosses into wave69\'s sticky-evolution cell with the STRONGEST citation shape a main-direct culture can produce — a named source repo at a pinned 40-char commit, live-verified. wave69 (born 2026-10-04T00:19Z during the key-rotation regime) ships cells/sticky_receipts.mjs on main @ 5258586088 whose module header declares: "CHAIN DIALECT: deliberately the fleet\'s qmr1 (quilt-mcp-receipts @ 889960a9)" — the from-technique\'s canonical home named BY NAME, the commit verified live against SuperInstance/quilt-mcp-receipts (889960a932b8c98ff17f14f8877d332c851ab11c exists; message "DESIGN.md + README.md: qmr1 spec, threat model, and the v2 path" — the commit that LANDED the dialect spec), with the dialect formula re-derived in-repo (id = sha256("qmr1:" + seq + ":" + prev + ":" + canonicalJSON(payload)); genesis prev = 64×"0") and the chain walked link-by-link in tests. WEIGHT LAW READ: 5258586088 is a direct main commit on a repo born that way (no PR exists — the repo\'s whole history is its initial commit), so per the git-agent#1 precedent and the dance-of-growth booking (ga->bh, bh->qo) the citation is provenance, not currency — PENDING at mass 0.05. The citation quality is nonetheless the slackwater-rust shape (repo name + commit), so the gap is procedural (no merged PR), not substantive (no naming gap like edge #29\'s). UPGRADE PATH (recorded, never self-upgraded): any wave69 merged PR carrying the citation at receipt sites — even a docs/receipts patch naming SuperInstance/quilt-mcp-receipts — flips this edge VERIFIED. Provenance order the weight law demands holds: the dialect spec (quilt-mcp-receipts @ 889960a9, 2026-10-02/03) precedes the citation (wave69 @ 5258586088, 2026-10-04) by ~1-2 days. quilt-mcp-receipts\' FIRST outgoing edge (from-node-only, no view mass); wave69\'s FIRST inbound edge — the fifteenth to-node born after seeding, entering the view at PENDING mass only.',
+      weight: 'PENDING',
+      provenance: 'SuperInstance/wave69@5258586088', // the born-with-it main tree whose sticky_receipts.mjs names quilt-mcp-receipts @ 889960a9
+      // no receipt: wave69 has no merged PR (main-direct culture) — the git-agent#1 precedent
+      falsification_condition: 'a wave69 merged PR naming SuperInstance/quilt-mcp-receipts at any receipt site — in which case this edge must be upgraded to VERIFIED by that merge; or wave69 main dropping the quilt-mcp-receipts citation / the qmr1 formula from cells/sticky_receipts.mjs while the edge still reports PENDING-green; or the pinned commit 889960a932b8 disappearing from SuperInstance/quilt-mcp-receipts',
     },
   ],
 };
