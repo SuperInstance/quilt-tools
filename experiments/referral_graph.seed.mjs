@@ -397,6 +397,21 @@ export const SEED = {
     // citation, per the fleet weight law.
     { id: 'gl-ledgers', repo: 'quilt-gpu-lab', kind: 'lab',
       summary: 'the gpu-lab receipt doctrine over the elephant-vision ledger pair (quilt-gpu-lab#2 MERGED 2026-09-28T03:58:14Z, merge 8b1b44144f5363f6afcec8db37451d2b3c23ba67, branch receipt-doctrine-provenance): README.md\'s Doctrine-provenance block names the canonical source of the five-opcode quilt WAL — SuperInstance/AI-Writings (algebra.md) — and its canonical producer SuperInstance/git-agent (quilt_emit, landed in git-agent#1), with the lab\'s manifest the same doctrine over RESULTS/QUEUE plus experiment code (BIND every artifact to its digest, re-derive to verify; verdicts KEEP/KILL/INCONCLUSIVE/ABORTED all kept); tests/test_receipts.py + tools/receipt_manifest.py carry the receipt-side pins; the README itself declares the referral edge `aw-quint-opcode` → `gl-ledgers` "minted VERIFIED by this citation, per the fleet weight law" — gpu-lab\'s first currency, booked here at VERIFIED=1.0' },
+    // 2026-10-05 (05:56 pulse): the THIRTY-THIRD edge — the R6 live-probe
+    // doctrine crosses into cot-quilt's WIRE oracle. cot-quilt#1 (MERGED
+    // 2026-10-04T21:42:37Z, merge b50dae944f0f91dee8d10705bc526930aeb0387e,
+    // branch jev-doctrine-adoption) lands docs/JEV-DOCTRINE.md IN THE
+    // TO-NODE'S REPO naming SuperInstance/jev-quilt BY NAME at anchored
+    // sites on the merged tree, mapping jev-quilt#24's R6 live-probe
+    // classes onto the typesafe System-One battery. Pre-booked by the
+    // 05:14 queue entry ("on merge, book VERIFIED — receipt cot-quilt#1");
+    // never self-upgraded — Casey's merge did the earning 47 minutes
+    // before this booking, the pre-booked-on-merge pattern of edges
+    // #5/#14.
+    { id: 'jq-r6-probes', repo: 'jev-quilt', kind: 'lab',
+      summary: 'the R6 live JEV distortion-class probes (jev-quilt#24 MERGED 2026-09-25T19:55:23Z, "hard/r6: live JEV distortion-class probes — 8 new cases + calibration findings"): hash-drift / port-lies / rephrased-true / one-lie-among-five live probe classes hardened against the fleet oracle, plus the F1 calibration finding (judged scores cluster at the top of the rubric regardless of step quality — ordinal weights, never calibrated probabilities)' },
+    { id: 'cot-jev-doctrine', repo: 'cot-quilt', kind: 'integration',
+      summary: 'cot-quilt\'s WIRE-oracle JEV doctrine adoption (cot-quilt#1 MERGED 2026-10-04T21:42:37Z, merge b50dae944f0f91dee8d10705bc526930aeb0387e, branch jev-doctrine-adoption): docs/JEV-DOCTRINE.md maps SuperInstance/jev-quilt\'s R6 live-probe classes onto the typesafe System-One battery — a per-class mapping table (hash-drift / port-lies / rephrased-true / one-lie-among-five) with an honest-state column (doctrine adopted vs named-as-limit vs probe-planned), the refusal / jev-unavailable semantics (a dead battery reads as oracle-unavailable, never as zero-confidence evidence), and the F1 calibration caveat inherited as a standing limit — the doc itself declares "the graph ledger lives in SuperInstance/quilt-tools and books edges on merge per the weight law (VERIFIED = merged PR in the target repo cites the technique repo by name — this file is that citation)" — cot-quilt\'s first currency, the seventeenth to-node born after seeding' },
   ],
 
   edges: [
@@ -676,6 +691,20 @@ falsification_condition: 'a MicroMoth-quilt receipt sealing qcells-lab work that
       provenance: null, // the canon lives on AI-Writings main (algebra.md, the five-opcode spine); the receipt is the quilt-gpu-lab#2 merge
       receipt: 'SuperInstance/quilt-gpu-lab#2',
       falsification_condition: 'quilt-gpu-lab main dropping the SuperInstance/AI-Writings (algebra.md) or SuperInstance/git-agent (quilt_emit) citations from README.md\'s Doctrine-provenance block / tests/test_receipts.py / tools/receipt_manifest.py, or the lab minting verdict receipts it cannot re-derive from the bound manifest digests while the edge still reports green',
+    },
+    // 2026-10-05 (05:56 pulse) — the THIRTY-THIRD edge VERIFIED: the R6
+    // live-probe doctrine lands in cot-quilt's WIRE oracle. The 05:14
+    // pulse pre-booked "on merge, book VERIFIED — receipt cot-quilt#1";
+    // cot-quilt#1 merged 21:42:37Z and this booking lands 47 minutes
+    // later — the pre-booked-on-merge pattern of edges #5/#14, never
+    // self-upgraded.
+    {
+      from: 'jq-r6-probes', to: 'cot-jev-doctrine',
+      claim: 'THIRTY-THIRD edge VERIFIED 2026-10-05 (05:56 snowball pulse): the R6 live-probe doctrine lands in the WIRE oracle with its source named. SuperInstance/cot-quilt PR #1 ("docs: JEV doctrine lineage — WIRE oracle under SuperInstance/jev-quilt R6 probe classes", MERGED 2026-10-04T21:42:37Z, merge b50dae944f0f91dee8d10705bc526930aeb0387e, branch jev-doctrine-adoption) lands docs/JEV-DOCTRINE.md IN THE TO-NODE\'S REPO citing SuperInstance/jev-quilt BY NAME at anchored sites on the merged tree: the PR title itself, the doc header ("the probe classes hardened in SuperInstance/jev-quilt (fleet repo, public)"), the R6 mapping table ("R6 live-probe classes (from SuperInstance/jev-quilt PR #24)"), the refusal-semantics section ("jev-quilt\'s standing rule for judged evidence"), and the F1 calibration note ("jev-quilt\'s F1 finding"). The doc is a doctrine citation, not a code dependency — it says so in-file ("cot-quilt does not import jev-quilt code, and this file makes no such claim") — and its honest-state column names what is doctrine-adopted vs named-as-limit vs probe-planned (no live R6 battery run yet; the PR\'s own "Not done in this PR (honest list)" says so). The from-technique is merge-receipted FIRST: jev-quilt#24 ("hard/r6: live JEV distortion-class probes — 8 new cases + calibration findings", MERGED 2026-09-25T19:55:23Z) precedes the citation by 9d01h — provenance order the weight law demands. The doc itself declares the booking rule: "the graph ledger lives in SuperInstance/quilt-tools and books edges on merge per the weight law (VERIFIED = merged PR in the target repo cites the technique repo by name — this file is that citation)". Pre-booked by the 05:14 pulse queue entry, earned by Casey\'s merge 47 minutes before this booking; never self-upgraded. jev-quilt\'s THIRD outgoing VERIFIED edge (commons G11 → quilt-tools#17, substance noul → quilt-cowboy#1, now R6 probes → cot-quilt#1); cot-quilt\'s FIRST inbound edge — the seventeenth to-node born after seeding, entering the view at full VERIFIED mass.',
+      weight: 'VERIFIED',
+      provenance: 'SuperInstance/jev-quilt#24', // the merged from-technique PR (19:55:23Z) whose R6 probe classes the citation names
+      receipt: 'SuperInstance/cot-quilt#1',
+      falsification_condition: 'the SuperInstance/jev-quilt citations removed from docs/JEV-DOCTRINE.md on cot-quilt main, or cot-quilt\'s WIRE battery laundering a dead/unavailable oracle into zero-confidence evidence or averaging a corrupted sample away (a non-200 battery reading as "the model found nothing load-bearing" rather than oracle-unavailable) while the edge still reports green, or the R6 probe battery run against the typesafe endpoint contradicting the doc\'s per-class "doctrine adopted" claims without the doc being amended',
     },
   ],
 };

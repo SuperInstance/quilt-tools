@@ -13,7 +13,7 @@ receipt that proves it or the falsification condition that would kill it.
 - `experiments/referral_graph.seed.mjs` — the real v1 graph: 9 nodes across
   quilt-tools ↔ quilt-show ↔ quilt-arcade + quilt-quant → pong-quilt, 6
   edges, every edge with its kill switch declared.
-- `experiments/referral_graph.pins.mjs` — 110 pins (109 offline-green +
+- `experiments/referral_graph.pins.mjs` — 117 pins (116 offline-green +
   the live PR audit on `--live`). Run:
   `node experiments/referral_graph.pins.mjs --live` (the `--live` pass audits
   every provenance PR against GitHub; offline pins are labeled SKIPPED, never
