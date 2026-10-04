@@ -16,6 +16,7 @@ FW=tools/fleet-witness
 if node --check "$FW/rfc6962.mjs" >/dev/null 2>&1 && \
    node --check "$FW/wal-chain.mjs" >/dev/null 2>&1 && \
    node --check "$FW/checkpoint.mjs" >/dev/null 2>&1 && \
+   node --check "$FW/anchor.mjs" >/dev/null 2>&1 && \
    node --check "$FW/truncate-demo.mjs" >/dev/null 2>&1; then
   ok P1; else bad P1 "syntax check failed"; fi
 
@@ -117,6 +118,40 @@ if (!verifyChain(cut).ok) { console.error('L0 unexpectedly caught truncation'); 
 const tampered = rows.map((r, i) => i === 1 ? { ...r, seq: 999 } : r);
 if (verifyChain(tampered).ok) { console.error('L0 missed an edit — that WOULD be a defect'); process.exit(1); }
 " >/dev/null 2>&1 && ok P7 || bad P7 "canary premise broken"
+
+# ---------- P8: anchor channel end-to-end — truncation AND rollback caught ----------
+node --input-type=module -e "
+import { execFileSync } from 'node:child_process';
+import { mkdtempSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { generateKeyPairSync } from 'node:crypto';
+import { merkleRoot } from './$FW/rfc6962.mjs';
+import { chainRows, verifyChain, canon } from './$FW/wal-chain.mjs';
+import { signCheckpoint } from './$FW/checkpoint.mjs';
+import { anchorCheckpoint, auditAgainstAnchor } from './$FW/anchor.mjs';
+const keys = generateKeyPairSync('ed25519');
+const priv = keys.privateKey.export({type:'pkcs8',format:'pem'});
+const pub = keys.publicKey.export({type:'spki',format:'pem'});
+const repo = mkdtempSync('/tmp/fw-anchor-');
+execFileSync('git', ['init','-q',repo]);
+const g = (args) => execFileSync('git', ['-C', repo, ...args], {stdio:'pipe'});
+g(['add','.']); g(['-c','user.name=t','-c','user.email=t@t','commit','-q','--allow-empty','-m','init']);
+const mk = (n) => chainRows(Array.from({length:n},(_,i)=>({op:'seal',seq:i+1})));
+const rootOf = (rows) => merkleRoot(rows.map(r=>Buffer.from(canon(r),'utf8'))).toString('hex');
+const note = (n) => signCheckpoint(n, rootOf(mk(n)), priv, 'pin-key');
+anchorCheckpoint(repo, 'demo', note(5));
+anchorCheckpoint(repo, 'demo', note(7));
+const audit7 = auditAgainstAnchor(repo, 'demo', 7, rootOf(mk(7)), pub);
+if (!audit7.ok) throw new Error('fresh anchor should verify: ' + audit7.reason);
+// attack 1: truncation to 3
+if (auditAgainstAnchor(repo, 'demo', 3, rootOf(mk(3)), pub).ok) throw new Error('truncation NOT caught');
+// attack 2: ROLLBACK — old valid 5-row state (chains fine at L0, anchor must reject)
+if (!verifyChain(mk(5)).ok) throw new Error('rollback premise broken');
+if (auditAgainstAnchor(repo, 'demo', 5, rootOf(mk(5)), pub).ok) throw new Error('rollback NOT caught');
+// attack 3: forged LATEST (signature broken)
+writeFileSync(join(repo,'checkpoints','demo','LATEST'), note(7).replace(/—.*/s, '—AAAA'));
+if (auditAgainstAnchor(repo, 'demo', 7, rootOf(mk(7)), pub).ok) throw new Error('forged anchor accepted');
+" >/dev/null 2>&1 && ok P8 || bad P8 "anchor channel missed an attack class"
 
 echo "fleet-witness pins: $PASS passed, $FAIL failed"
 [ "$FAIL" -eq 0 ]
