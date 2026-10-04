@@ -389,6 +389,14 @@ export const SEED = {
       summary: 'the fleet\'s qmr1 receipt-chain dialect (repo born 2026-10-02T02:27Z; DESIGN.md + README.md land in commit 889960a932b8c98ff17f14f8877d332c851ab11c — the qmr1 spec: id = sha256("qmr1:" + seq + ":" + prev + ":" + canonicalJSON(payload)), genesis prev = 64×"0", one dialect across the fleet so any ledger can be read by any reader; threat model + the v2 path in the same commit)' },
     { id: 'w69-sticky-receipts', repo: 'wave69', kind: 'integration',
       summary: 'wave69\'s sticky-receipts cell (cells/sticky_receipts.mjs on main @ 5258586088, repo born 2026-10-04T00:19Z during the key-rotation regime): scars survive rewind, chain ids in the fleet qmr1 dialect — the module header names the dialect\'s canonical home BY NAME at a pinned 40-char commit: "CHAIN DIALECT: deliberately the fleet\'s qmr1 (quilt-mcp-receipts @ 889960a9)" — verified live 2026-10-04 against SuperInstance/quilt-mcp-receipts (commit 889960a932b8 exists, message "DESIGN.md + README.md: qmr1 spec, threat model, and the v2 path")' },
+    // 2026-10-05 (01:56 pulse): gpu-lab's receipt-doctrine provenance enters
+    // the sheet — the README Doctrine-provenance block at quilt-gpu-lab#2's
+    // merge names SuperInstance/AI-Writings (algebra.md) AND
+    // SuperInstance/git-agent (quilt_emit) BY NAME, and declares the
+    // aw-quint-opcode→gl-ledgers referral edge minted VERIFIED by that
+    // citation, per the fleet weight law.
+    { id: 'gl-ledgers', repo: 'quilt-gpu-lab', kind: 'lab',
+      summary: 'the gpu-lab receipt doctrine over the elephant-vision ledger pair (quilt-gpu-lab#2 MERGED 2026-09-28T03:58:14Z, merge 8b1b44144f5363f6afcec8db37451d2b3c23ba67, branch receipt-doctrine-provenance): README.md\'s Doctrine-provenance block names the canonical source of the five-opcode quilt WAL — SuperInstance/AI-Writings (algebra.md) — and its canonical producer SuperInstance/git-agent (quilt_emit, landed in git-agent#1), with the lab\'s manifest the same doctrine over RESULTS/QUEUE plus experiment code (BIND every artifact to its digest, re-derive to verify; verdicts KEEP/KILL/INCONCLUSIVE/ABORTED all kept); tests/test_receipts.py + tools/receipt_manifest.py carry the receipt-side pins; the README itself declares the referral edge `aw-quint-opcode` → `gl-ledgers` "minted VERIFIED by this citation, per the fleet weight law" — gpu-lab\'s first currency, booked here at VERIFIED=1.0' },
   ],
 
   edges: [
@@ -655,6 +663,18 @@ falsification_condition: 'a MicroMoth-quilt receipt sealing qcells-lab work that
       provenance: 'SuperInstance/wave69@5258586088', // the born-with-it main tree whose sticky_receipts.mjs names quilt-mcp-receipts @ 889960a9
       // no receipt: wave69 has no merged PR (main-direct culture) — the git-agent#1 precedent
       falsification_condition: 'a wave69 merged PR naming SuperInstance/quilt-mcp-receipts at any receipt site — in which case this edge must be upgraded to VERIFIED by that merge; or wave69 main dropping the quilt-mcp-receipts citation / the qmr1 formula from cells/sticky_receipts.mjs while the edge still reports PENDING-green; or the pinned commit 889960a932b8 disappearing from SuperInstance/quilt-mcp-receipts',
+    },
+    // 2026-10-05 (01:56 pulse) — the THIRTY-FIRST edge VERIFIED: gpu-lab's
+    // first currency, found by org review (the queue's top items are all
+    // Casey-gated; per the cron's fallback the pulse reviewed org activity
+    // and found quilt-gpu-lab#2's merge predating every open booking).
+    {
+      from: 'aw-quint-opcode', to: 'gl-ledgers',
+      claim: 'THIRTY-FIRST edge VERIFIED 2026-10-05 (01:56 snowball pulse): the five-opcode spine lands in the gpu lab with its canon named. SuperInstance/quilt-gpu-lab PR #2 ("Receipt doctrine: provenance over the elephant-vision ledger pair", MERGED 2026-09-28T03:58:14Z, merge 8b1b44144f5363f6afcec8db37451d2b3c23ba67, branch receipt-doctrine-provenance) lands README.md\'s Doctrine-provenance block IN THE TO-NODE\'S REPO citing SuperInstance/AI-Writings BY NAME at anchored sites on the merged tree: README.md lines 30-39 ("The receipt doctrine dogfooded here is the fleet\'s five-opcode quilt WAL, whose canonical source is `SuperInstance/AI-Writings` (`algebra.md`)"), and the canonical producer named alongside ("the canonical producer of that WAL shape is `SuperInstance/git-agent` (`quilt_emit`, landed in git-agent#1)") — the lab\'s manifest the same doctrine over RESULTS/QUEUE plus experiment code (BIND every artifact to its digest, re-derive to verify; verdicts honest KEEP/KILL/INCONCLUSIVE/ABORTED, the ledger keeps all of them). The README itself declares the booking this edge records: "Referral edge: `aw-quint-opcode` → `gl-ledgers` (minted VERIFIED by this citation, per the fleet weight law)" — the to-node claiming its own edge under the weight law, with the receipt-side pins in tests/test_receipts.py + tools/receipt_manifest.py. Weight law met: the merged PR in the to-node\'s repo names the source repo BY NAME; the from-canon (algebra.md, the five-opcode spine + its laws) is main-direct on AI-Writings, so provenance rides the canon repo, exactly the fm→mw / qgs→fm provenance-null shape. The merge landed 2026-09-28 and outran every pulse\'s booking by a week — the 9/28-9/29 pulses were mid-KAT-flip, and the 10/04 pulses booked #28-#30 from the same org-review fallback without re-scanning gpu-lab; found tonight by the same fallback\'s direct org review. Never self-upgraded — the to-node\'s own merged PR did the earning. aw-quint-opcode\'s SECOND outgoing edge (both VERIFIED — the spine earns its second currency into a born-after-seeding repo); AI-Writings stays from-node-only (no view mass); quilt-gpu-lab\'s FIRST inbound edge — the sixteenth to-node born after seeding, entering the view at full VERIFIED mass.',
+      weight: 'VERIFIED',
+      provenance: null, // the canon lives on AI-Writings main (algebra.md, the five-opcode spine); the receipt is the quilt-gpu-lab#2 merge
+      receipt: 'SuperInstance/quilt-gpu-lab#2',
+      falsification_condition: 'quilt-gpu-lab main dropping the SuperInstance/AI-Writings (algebra.md) or SuperInstance/git-agent (quilt_emit) citations from README.md\'s Doctrine-provenance block / tests/test_receipts.py / tools/receipt_manifest.py, or the lab minting verdict receipts it cannot re-derive from the bound manifest digests while the edge still reports green',
     },
   ],
 };
