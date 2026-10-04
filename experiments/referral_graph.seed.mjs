@@ -489,10 +489,11 @@ export const SEED = {
     },
     {
       from: 'qt-s3-tide', to: 'qa-plugins',
-      claim: 'S3\'s witnessed pre-outcome states (PENDING/ENTANGLED/COLLAPSED) are the receipt shape a quantum coin plugin needs before its verdict drives game state',
-      weight: 'PENDING',
+      claim: 'S3\'s witnessed pre-outcome states (PENDING/ENTANGLED/COLLAPSED) are the receipt shape a quantum coin plugin needs before its verdict drives game state. THIRTY-SECOND edge VERIFIED 2026-10-05 (05:20 snowball pulse): SuperInstance/quilt-arcade PR #5 ("referral edge: manifests cite quilt-tools S3 witness shape", MERGED 2026-10-02T01:49:49Z, merge 876def1de4865a7497b7fc1dd6cd28fcd7c9a3d7, branch referral-edge-s3-witness) lands the citation IN THE TO-NODE\'S REPO: all six games/*/manifest.json gain referrals[] citing SuperInstance/quilt-tools experiments/s3-quantum-tided-budget.mjs by repo + path + URL (WitnessLog fnv1a-chained rows re-derived from GENESIS, custody booked before the outcome exists — PENDING → ENTANGLED → COLLAPSED on appeal), plus receipts.witness_shape declaring the S3 row shape the chained receipt surface follows, with tools/referral-pins.mjs holding 12 FAIL-first pins (RED on the pre-citation tree, exit 1, GREEN after booking) and module exports mirroring the manifest receipts surface byte-for-byte. The merge outran the booking by 2d04h+ — re-surfaced 2026-10-05 by the discovery audit on the #47 branch (a merged PR in the to-node\'s repo matching the S3 citation hints, still PENDING at scan time). Live-verified on quilt-arcade main tonight: all six manifests carry the citation. The PR self-names the edge qt-s3-witness -> qa-receipts-surface — the seed\'s qt-s3-tide -> qa-plugins under the PR\'s in-repo dialect, same edge. Never self-upgraded: the PR body books itself PENDING and names this quilt-tools REFERRAL_GRAPH mint as the follow-up — the fleet weight law kept (a merged PR in the to-node\'s repo is the only mint path). qt-s3-tide\'s FIRST outgoing edge; quilt-arcade\'s FIRST inbound currency — the arcade leaves the double-PENDING tier (qs-ep3 -> qa-plugins PENDING remains, now its only pending inbound).',
+      weight: 'VERIFIED',
       provenance: 'SuperInstance/quilt-tools#4',
-      falsification_condition: 'a plugin event driven by a coin outcome with no pre-outcome witness row',
+      receipt: 'SuperInstance/quilt-arcade#5',
+      falsification_condition: 'quilt-arcade main dropping the SuperInstance/quilt-tools (experiments/s3-quantum-tided-budget.mjs) citation or receipts.witness_shape from any games/*/manifest.json, or tools/referral-pins.mjs losing the citation pins while the edge still reports green',
     },
     {
       from: 'qa-negspace', to: 'qt-api-lab',
