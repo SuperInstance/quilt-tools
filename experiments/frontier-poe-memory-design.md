@@ -65,3 +65,33 @@ doc should be deleted, not patched into something else.
   drop §2 bullet 3.
 - KS4: any of the three starts shipping code that overlaps a fleet lane →
   escalate to edge-watch as a COLLISION note; moat review before any build.
+
+## 6. Live verification receipt (2026-10-05 ~15:50 CST snowball pulse)
+
+All three external identifiers re-fetched live from arxiv.org/abs/ this pulse.
+Kill switches resolved:
+
+- **KS1 PASS.** 2608.16032 resolves; abstract claims an HMAC-chained,
+  tamper-evident ledger "of the safety steps that actually executed, writable
+  only by the trusted action layer," allowing a skip only on confirmed real
+  execution — exactly the recorded "verify what actually executed, not what an
+  agent says it executed" claim (FARMA/SENTINEL/PoEM, v1 2026-08-17,
+  v2 2026-08-29). §2 bullet 1 and §4 items 1/3 stand.
+- **KS2 PASS.** 2606.04990 is public; it is an evidence-tracing / execution
+  provenance survey with an explicit taxonomy (trace sources, evidence and
+  execution units, provenance relations, granularity, representation forms,
+  trust functions). §4 item 2 stands.
+- **KS3 PASS.** 2605.11032 claims injection-resistant, capability-gated
+  rehydration of agent memory across heterogeneous runtimes — verify-first
+  rehydration as recorded. §2 bullet 3 stands.
+- **KS4 note (watch, not trip).** 2605.11032 ships an Apache-2.0 Python SDK
+  with Merkle-DAG provenance and 54 tests. Lane overlap check: it is a memory
+  *portability* protocol (episodic/semantic/procedural transfer), NOT receipt
+  witnessing or execution verification; tamper-evidence there is provenance
+  linkage, not "did the step actually run." No collision with fleet-witness
+  moat (witness semantics) or MicroMoth cell receipts. Classified:
+  consume-don't-rival watch, same treatment as prior ledger-layer
+  convergence notes (TierMem etc.).
+
+Result: the design receipt stands unmodified; §4 adoption surface items 1-3
+are now citation-verified and may be picked up by any lane as docs-only work.
