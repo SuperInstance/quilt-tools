@@ -606,3 +606,16 @@ repo reduces exactly to the blind view (pinned).
    quilt-show · quilt-tools · thirteen single-VERIFIED repos (delta-shape →
    tidepool by name; doubt-ledger enters on the Janus hedge) ·
    quilt-arcade + quilt-overhead (double PENDING) · backward-holdem closes.
+
+## PRISTINE-AUDIT receipt — 2026-10-05 21:56 CST pulse
+
+RULES adoption (15:05 10/4): every open PR carries a pristine-run receipt.
+PR SuperInstance/quilt-tools#51 (branch `discovery-hint-blindspot-guard`,
+audited head `5e6998d`, depth-1 fresh clone, deps via `npm ci` from lockfile):
+- canonical fresh-audit v0 (`tools/fresh-audit/fresh-audit.mjs SuperInstance/quilt-tools 51`):
+  all discovered runners GREEN in fresh clone (pins_fresh_audit.sh 5/5).
+- full graph pins beyond the v0 runner-discovery convention (honest limit:
+  v0 discovers `tests/pins*.sh` only, so the graph pins were run by hand):
+  `node experiments/referral_graph.pins.mjs` → **200/200 offline green**;
+  `node experiments/referral_graph.pins.mjs --live` → **203/203 --live green**
+  (all merge receipts audited live). No phantom-RED; no SKIPPED-DEPS after install.
