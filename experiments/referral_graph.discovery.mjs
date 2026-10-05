@@ -33,15 +33,19 @@ export const HINTS = {
   // (stale rows qt-s3-tide->qa-plugins [edge renamed qs-ep3], aw-jev-kat->jq-kat-bridge,
   // mgq-qcells-lab->mm-sealed-receipts, qe-eproc-witness->ds-esign-drift removed
   // 2026-10-05 by the Pin 13(b) FAIL-first guard — their edges no longer
-  // exist PENDING in the seed; Pin 13 now makes this class loud at rename time)
+  // exist PENDING in the seed; Pin 13 now makes this class loud at rename time.
+  // exoj-field-model->qp-exoj-hdc-seam removed in the #50/#51 merge-resolution:
+  // edge #29 UPGRADED PENDING-VERIFIED (receipt quilt-pincher#20) - a PENDING
+  // hint row for it would be a stale dangler Pin 13(b) trips on)
   // Hints for the previously unhinted PENDING edges — live discovery run
-  // 2026-10-05 found five edges scanning with `0 hints` (silent blind spot:
+  // 2026-10-05 found five edges scanning with 0 hints (four of them still PENDING;
+  // the fifth - exoj-field-model->qp-exoj-hdc-seam - flipped VERIFIED by #50 during
+  // the merge sweep, its hint row removed above - silent blind spot:
   // the watcher watched them but could never find them). Hint words are the
   // citation the recorded upgrade path says the flipping PR would carry.
   'ga-quilt-emit->bh-wal-ticks':          ['quilt_emit', 'five-opcode', 'SuperInstance/git-agent', 'wal_ref'],
   'bh-wal-ticks->qo-feed-v1':             ['wal2feed', 'backward-holdem', 'feed.v1', 'wal_ref'],
   'qig-notes2feed->qo-feed-v1':           ['notes2feed', 'quilt-in-git', 'feed.v1', 'refs/notes/quilt/receipts'],
-  'exoj-field-model->qp-exoj-hdc-seam':   ['SuperInstance/exoj', 'ExoJ field', 'exoj-field', 'bfbe4614'],
   'qmr-chain-dialect->w69-sticky-receipts': ['quilt-mcp-receipts', 'qmr1', 'SuperInstance/quilt-mcp-receipts'],
 };
 
