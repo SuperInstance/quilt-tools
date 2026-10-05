@@ -28,12 +28,25 @@ import { execFileSync } from 'node:child_process';
 // derived from the seed, not restated — a typo here cannot move the target.
 export const HINTS = {
   'qt-api-lab->qs-ep2':      ['receipts flip credit', 'receipts-over-scores', 'E2 receipts'],
-  'qt-s3-tide->qa-plugins':  ['quantum-tided', 'PENDING/ENTANGLED/COLLAPSED', 'S3 witness'],
   'qa-negspace->qt-api-lab': ['NEGATIVE_SPACE', 'declined patch 12', 'declined-patch-12'],
   'qs-ep3->qa-plugins':      ['drag-to-reshape', 'episode-3 watcher', 'episode 3 watcher'],
-  'aw-jev-kat->jq-kat-bridge': ['jev_kat', 'known-answer control', 'AI-Writings'],
-  'mgq-qcells-lab->mm-sealed-receipts': ['micrograd-quilt', 'qcells lab', 'SuperInstance/micrograd-quilt'],
-  'qe-eproc-witness->ds-esign-drift': ['quilt-ewitness', 'e-process', 'esign', 'witnessDrift'],
+  // (stale rows qt-s3-tide->qa-plugins [edge renamed qs-ep3], aw-jev-kat->jq-kat-bridge,
+  // mgq-qcells-lab->mm-sealed-receipts, qe-eproc-witness->ds-esign-drift removed
+  // 2026-10-05 by the Pin 13(b) FAIL-first guard — their edges no longer
+  // exist PENDING in the seed; Pin 13 now makes this class loud at rename time.
+  // exoj-field-model->qp-exoj-hdc-seam removed in the #50/#51 merge-resolution:
+  // edge #29 UPGRADED PENDING-VERIFIED (receipt quilt-pincher#20) - a PENDING
+  // hint row for it would be a stale dangler Pin 13(b) trips on)
+  // Hints for the previously unhinted PENDING edges — live discovery run
+  // 2026-10-05 found five edges scanning with 0 hints (four of them still PENDING;
+  // the fifth - exoj-field-model->qp-exoj-hdc-seam - flipped VERIFIED by #50 during
+  // the merge sweep, its hint row removed above - silent blind spot:
+  // the watcher watched them but could never find them). Hint words are the
+  // citation the recorded upgrade path says the flipping PR would carry.
+  'ga-quilt-emit->bh-wal-ticks':          ['quilt_emit', 'five-opcode', 'SuperInstance/git-agent', 'wal_ref'],
+  'bh-wal-ticks->qo-feed-v1':             ['wal2feed', 'backward-holdem', 'feed.v1', 'wal_ref'],
+  'qig-notes2feed->qo-feed-v1':           ['notes2feed', 'quilt-in-git', 'feed.v1', 'refs/notes/quilt/receipts'],
+  'qmr-chain-dialect->w69-sticky-receipts': ['quilt-mcp-receipts', 'qmr1', 'SuperInstance/quilt-mcp-receipts'],
 };
 
 // Anti-Goodhart guard (first live discovery run, 2026-09-26): the graph's
