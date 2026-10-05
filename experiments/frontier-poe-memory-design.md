@@ -95,3 +95,17 @@ Kill switches resolved:
 
 Result: the design receipt stands unmodified; §4 adoption surface items 1-3
 are now citation-verified and may be picked up by any lane as docs-only work.
+
+## 7. PRISTINE-AUDIT receipt (2026-10-05 ~22:56 CST snowball pulse)
+
+Adopted-rule audit (R85 phantom-RED class): pins re-run in a depth-1 pristine
+clone of the pushed PR head, never the author's tree.
+
+- Head audited: `b5c4389` (fresh clone + `npm ci`).
+- fresh-audit v0 wrapper selftest: 3/3 green.
+- fresh-audit v0 canonical pins (`tests/pins_fresh_audit.sh`): 5/5 PASS.
+- Syntax sweep (`npm run check`): OK.
+- Referral-graph pins: 198/198 offline + 201/201 `--live` (receipts audited merged).
+
+Result: the claims in §1-§6 stand as recorded; docs-only delta from main, no
+code path touched by this PR, pristine pass matches the pulse claims.
