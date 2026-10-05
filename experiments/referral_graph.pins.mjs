@@ -1223,6 +1223,21 @@ function fixture() {
   check('discovery: verify error is verify-unknown, never a silent pass',
     e2u.candidates.length === 1 && e2u.candidates[0].verifyUnknown === true && !e2u.candidates[0].fuzzyRejected,
     JSON.stringify(e2u.candidates));
+
+  // Pin 13 — the blind-spot guard (live discovery run 2026-10-05): five
+  // PENDING edges were being scanned with `0 hints` — the watcher watched
+  // them but could never FIND them, silently. (a) every PENDING edge in the
+  // seed must carry at least one citation hint; (b) no hint row may dangle
+  // (a hint for an edge the seed no longer holds PENDING is stale and must
+  // be renamed or removed — a renamed technique is a one-place edit). Both
+  // directions trip FAIL-first on the main-tip seed, which fails (a).
+  const pendingKeys = SEED.edges.filter(e => e.weight === 'PENDING').map(e => `${e.from}->${e.to}`);
+  const unhinted = pendingKeys.filter(k => !(HINTS[k] && HINTS[k].length > 0));
+  check('discovery: every PENDING edge carries at least one citation hint',
+    unhinted.length === 0, unhinted.length ? `unhinted: ${unhinted.join(', ')}` : `${pendingKeys.length}/${pendingKeys.length} hinted`);
+  const dangling = Object.keys(HINTS).filter(k => !pendingKeys.includes(k));
+  check('discovery: no stale hint rows (every HINTS key is a live PENDING edge)',
+    dangling.length === 0, dangling.length ? `stale: ${dangling.join(', ')}` : `${Object.keys(HINTS).length} hint rows all live`);
 }
 
 // Pin 11 — the G11 TRUST LEVER, ported from SuperInstance/jev-quilt commons.py
